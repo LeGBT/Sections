@@ -8,10 +8,18 @@ public class Quad{
 	protected Vector3f u;
 	protected Vector3f v;
 	protected Vector3f n;
+	protected Vector3f ur;
+	protected Vector3f vr;
+	protected Vector3f nr;
+	protected Vector3f np;
 	private Vector3f topleft;
 	private Vector3f topright;
 	private Vector3f bottomleft;
 	private Vector3f bottomright;
+	private float cote;
+	private float xrot;
+	private float yrot;
+	private float zrot;
 	static Vector3f x = new Vector3f(1,0,0);
 	static Vector3f y = new Vector3f(0,1,0);
 	static Vector3f z = new Vector3f(0,0,1);
@@ -20,6 +28,19 @@ public class Quad{
 		this.u = new Vector3f(u);
 		this.v = new Vector3f(v);
 		this.n = new Vector3f(n);
+		this.ur = new Vector3f(u);
+		this.vr = new Vector3f(v);
+		this.nr = new Vector3f(n);
+		this.np = new Vector3f(n);
+		this.xrot = 0;
+		this.yrot = 0;
+		this.zrot = 0;
+		this.cote = 1;
+	}
+
+	public Quad(float c,Vector3f u, Vector3f v, Vector3f n){
+		this(u,v,n);
+		this.cote = c;
 	}
 
 	static private float radian(float degree){
@@ -27,24 +48,33 @@ public class Quad{
 	}
 
 	private void rotation(Matrix3f matrix){
-		matrix.transform(u);
-		matrix.transform(v);
-		matrix.transform(n);
+		matrix.transform(ur);
+		matrix.transform(vr);
+		matrix.transform(nr);
+	}
+
+	public void resetRotation(){
+		this.ur = new Vector3f(this.u);
+		this.vr = new Vector3f(this.v);
+		this.nr = new Vector3f(this.np);
 	}
 
 	public void xRotation(float degree){
 		Matrix3f matrix = new Matrix3f();
-		matrix.rotX(radian(degree));
+		xrot += radian(degree);
+		matrix.rotX(xrot);
 		rotation(matrix);
 	}
 	public void yRotation(float degree){
 		Matrix3f matrix = new Matrix3f();
-		matrix.rotY(radian(degree));
+		yrot += radian(degree);
+		matrix.rotY(yrot);
 		rotation(matrix);
 	}
 	public void zRotation(float degree){
 		Matrix3f matrix = new Matrix3f();
-		matrix.rotZ(radian(degree));
+		zrot += radian(degree);
+		matrix.rotZ(zrot);
 		rotation(matrix);
 	}
 
@@ -55,6 +85,11 @@ public class Quad{
 		gl.glVertex3f(px,py,pz);
 	}
 
+
+	public float getH(){
+		return this.np.length();
+	}
+
 	/**
 	 * Gets the normal vector for this face.
 	 *
@@ -62,28 +97,32 @@ public class Quad{
 	 */
 	public Vector3f getN()
 	{
-		return this.n;
+		return this.nr;
 	}
 
 	private void defineTopLeft(){
-		topleft = new Vector3f(this.n);
-		topleft.sub(this.u);
-		topleft.add(this.v);
+		topleft = new Vector3f(this.nr);
+		topleft.sub(this.ur);
+		topleft.add(this.vr);
+		topleft.scale(cote);
 	}
 	private void defineTopRight(){
-		topright = new Vector3f(this.n);
-		topright.add(this.u);
-		topright.add(this.v);
+		topright = new Vector3f(this.nr);
+		topright.add(this.ur);
+		topright.add(this.vr);
+		topright.scale(cote);
 	}
 	private void defineBottomLeft(){
-		bottomleft = new Vector3f(this.n);
-		bottomleft.sub(this.u);
-		bottomleft.sub(this.v);
+		bottomleft = new Vector3f(this.nr);
+		bottomleft.sub(this.ur);
+		bottomleft.sub(this.vr);
+		bottomleft.scale(cote);
 	}
 	private void defineBottomRight(){
-		bottomright = new Vector3f(this.n);
-		bottomright.add(this.u);
-		bottomright.sub(this.v);
+		bottomright = new Vector3f(this.nr);
+		bottomright.add(this.ur);
+		bottomright.sub(this.vr);
+		bottomright.scale(cote);
 	}
 	protected void drawTopLeft(GL2 gl){
 		defineTopLeft();
@@ -123,5 +162,4 @@ public class Quad{
 		Vect3ToVertex(gl,topleft);
 		gl.glEnd();
 	}
-
 }

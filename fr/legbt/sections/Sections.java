@@ -10,8 +10,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.media.opengl.GL2;
-import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL2GL3;
+import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
@@ -20,13 +20,15 @@ import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
-	private double theta = 0;
-	private double phi = 0;
-	private float alpha = 0.6f;
+	private double theta = 10;
+	private double phi = -160;
+	private float h = 1.9f;
+	private boolean firstrotation = true;
 	private int x = 0;
 	private int y = 0;
 	private Cube cube;
 	private Plan plan;
+	private Plan section;
 	static GLU glu = new GLU();
 	static GLCanvas canvas = new GLCanvas();
 	static Frame frame = new Frame("test");
@@ -37,11 +39,14 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		Sections sect = new Sections();
 		sect.cube = new Cube();
 		sect.plan = new Plan();
+		sect.section = new Plan(1);
 		canvas.addGLEventListener(sect);
 		canvas.addMouseListener(sect);
 		canvas.addMouseMotionListener(sect);
 		frame.add(canvas);
 		frame.setSize(1240,720);
+		frame.setLocation(100,100);
+		frame.setResizable(false);
 		frame.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
 				exit();	
@@ -67,30 +72,39 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-s-1,s+1);
 		//gl.glRotatef((float)theta/2,0,1,0);
 		//gl.glRotatef((float)phi/2,0,0,1);
-		this.cube.yRotation((float)theta/2);
+		this.cube.resetRotation();
+		this.cube.zRotation((float)theta/2);
 		this.cube.xRotation((float)phi/2);
-	    this.cube.sort();
-		this.plan.tracePlan(gl);
+		this.plan.resetRotation();
+		this.plan.setH(h);
+		this.plan.zRotation((float)theta/2);
+		this.plan.xRotation((float)phi/2);
+		this.section.resetRotation();
+		this.section.setH(h);
+		this.section.zRotation((float)theta/2);
+		this.section.xRotation((float)phi/2);
+		this.cube.sort();
+
+		gl.glEnable(GL.GL_DEPTH_TEST);
 		this.cube.traceCube(gl);
-	}
+		this.plan.tracePlan(gl);
+		gl.glDisable(GL.GL_DEPTH_TEST);
+		if((this.section.getH()<1)&&(this.section.getH()>-1)){
+			this.section.tracePlan(gl);
+		}
 
-	public void drawUnitQuad(GL2 gl,float r, float v, float b){
-		gl.glBegin(GL2.GL_QUADS);
-		gl.glColor4f(r,v,b,alpha);
-		gl.glVertex3f(0,0,0f);
-		gl.glVertex3f(1,0,0);
-
-		//gl.glColor3f(r+v,v+b,b+r);
-
-		gl.glVertex3f(1,1,0f);
-		gl.glVertex3f(0,1,0);
-		gl.glEnd();
+		this.h = 0;
 	}
 
 
 	public void display(GLAutoDrawable drawable) {
 		update();	
 		render(drawable);
+		if(firstrotation){
+			this.theta = 0;
+			this.phi = 0;
+			firstrotation = false;
+		}
 	}
 
 	public static void exit(){
@@ -103,23 +117,18 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 
 	public void init(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2();
-		//gl.glShadeModel(GLLightingFunc.GL_SMOOTH);
 		gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
 		gl.glClearDepth(1.0f);
-	//	gl.glEnable(GL.GL_DEPTH_TEST);
-		//gl.glDepthMask(false);
-		//gl.glEnable(GL.GL_SAMPLE_ALPHA_TO_COVERAGE);
-		//	gl.glEnable(GL.GL_CULL_FACE);
+		//	gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glEnable(GL2ES1.GL_FOG);
 		gl.glEnable(GL.GL_BLEND);
 		gl.glEnable(GL.GL_LINE_SMOOTH);
+		gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
 		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
-		//gl.glBlendFunc(gl.GL_SRC_ALPHA_SATURATE,gl.GL_ONE_MINUS_SRC_ALPHA);
-		gl.glBlendFunc(gl.GL_SRC_ALPHA,gl.GL_ONE_MINUS_SRC_ALPHA);
-		//gl.glAlphaFunc(GL.GL_GREATER,0.1f);
+		gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glDepthFunc(GL.GL_LEQUAL);
-	//	gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
-	//	gl.glHint(GL2GL3.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
+		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
+		gl.glHint(GL2GL3.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
 		((Component) drawable).addKeyListener(this);
 	}
 
@@ -146,8 +155,12 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 			this.x = me.getX();
 			this.y = me.getX();
 		}else{
-			this.theta = me.getX() - this.x;	
-			this.phi = me.getY() - this.y;	
+			if(me.getButton()==3){
+				this.h = -(me.getY() - this.y)/100f;
+			}else{
+				this.theta = me.getX() - this.x;	
+				this.phi = me.getY() - this.y;	
+			}
 		}
 		this.x = me.getX();
 		this.y = me.getY();

@@ -38,6 +38,12 @@ public class Cube {
 		Collections.sort(faces);
 	}
 
+	public void resetRotation(){
+		for(int i=0;i<faces.size();i++){
+			faces.get(i).resetRotation();
+		}
+	}
+
 	public void xRotation(float degree){
 		for(int i=0;i<faces.size();i++){
 			faces.get(i).xRotation(degree);

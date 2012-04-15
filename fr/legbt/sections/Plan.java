@@ -4,53 +4,41 @@ import javax.media.opengl.GL2;
 import javax.vecmath.Vector3f;
 
 public class Plan extends Quad{
-	private float h = 2;
+	private static float h = 0.4f;
+	private boolean border;
 
 	public Plan(){
-		super(x,new Vector3f(0,0,-2),y);
+		super(2,x,y,new Vector3f(0,0,h/2));
+		border = false;
 	}
 
-	public void Vect3ToVertex(GL2 gl, Vector3f b){
-		float px = b.dot(x);
-		float py = b.dot(y);
-		float pz = b.dot(z);
-		gl.glVertex3f(px,py,pz);
+	public Plan(float s){
+		super(s,x,y,new Vector3f(0,0,h/s));
+		border = true;
+	}
+
+	public void setH(float ph){
+	//	if(ph!=0){
+			this.np.scaleAdd(ph,n,this.np);
+	//	}
 	}
 
 	public void tracePlan(GL2 gl){
 		gl.glBegin(GL2.GL_QUADS);
 
-		gl.glColor4f(0f,0.2f,0.7f,0.8f);
-
-		Vector3f topleft = new Vector3f(this.n);
-		topleft.sub(this.u);
-		topleft.add(this.v);
-		Vect3ToVertex(gl,topleft);
-
-		/* *******************
-		 * Sommet bas gauche
-		 * ******************/
-		Vector3f bottomleft = new Vector3f(this.n);
-		bottomleft.sub(this.u);
-		bottomleft.sub(this.v);
-		Vect3ToVertex(gl,bottomleft);
-
-		/* *******************
-		 * Sommet bas droite
-		 * ******************/
-		Vector3f bottomright = new Vector3f(this.n);
-		bottomright.add(this.u);
-		bottomright.sub(this.v);
-		Vect3ToVertex(gl,bottomright);
-
-		/* *******************
-		 * Sommet haut droite
-		 * ******************/
-		Vector3f topright = new Vector3f(this.n);
-		topright.add(this.v);
-		topright.add(this.u);
-		Vect3ToVertex(gl,topright);
-
+		if(border){
+			gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
+		}else{
+			gl.glColor4f(0f,0.2f,0.5f,0.8f);
+		}
+		drawTopLeft(gl);
+		drawBottomLeft(gl);
+		drawBottomRight(gl);
+		drawTopRight(gl);
 		gl.glEnd();
+		if(border){
+			gl.glColor4f(0.9f,0.99f,0.9f,0.9f);
+			drawBorders(gl);
+		}
 	}
 }

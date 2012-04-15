@@ -21,14 +21,14 @@ public class Face extends Quad implements Comparable<Face>{
 		 * ******************/
 		gl.glBegin(GL2.GL_QUADS);
 
-		gl.glColor4f(1f,0.7f,0.1f,0.7f);
+		gl.glColor4f(1f,0.7f,0.1f,0.6f);
 		drawTopLeft(gl);
 
 		gl.glColor4f(0.1f,0.7f,0.1f,0.4f);
 		drawBottomLeft(gl);
 		drawBottomRight(gl);
 
-		gl.glColor4f(0.5f,0.8f,0.1f,0.9f);
+		gl.glColor4f(0.5f,0.8f,0.1f,0.7f);
 		drawTopRight(gl);
 
 		gl.glEnd();
@@ -38,20 +38,5 @@ public class Face extends Quad implements Comparable<Face>{
 		 * ******************/
 		gl.glColor4f(0.99f,0.9f,0.6f,0.9f);
 		drawBorders(gl);
-		//gl.glBegin(GL2.GL_LINES);
-		//gl.glColor4f(0.99f,0.9f,0.6f,0.9f);
-		//Vect3ToVertex(gl,topleft);
-		//Vect3ToVertex(gl,bottomleft);
-		//gl.glEnd();
-		//gl.glBegin(GL2.GL_LINES);
-		//gl.glColor4f(0.99f,0.9f,0.6f,0.9f);
-		//Vect3ToVertex(gl,bottomleft);
-		//Vect3ToVertex(gl,bottomright);
-		//gl.glEnd();
-		//gl.glBegin(GL2.GL_LINES);
-		//gl.glColor4f(0.99f,0.9f,0.6f,0.9f);
-		//Vect3ToVertex(gl,bottomright);
-		//Vect3ToVertex(gl,topright);
-		//gl.glEnd();
 	}
 }
