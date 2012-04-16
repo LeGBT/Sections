@@ -1,4 +1,5 @@
 package fr.legbt.sections;
+
 import java.awt.Frame;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
@@ -18,6 +19,7 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
 	private double theta = 10;
@@ -26,13 +28,17 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private boolean firstrotation = true;
 	private int x = 0;
 	private int y = 0;
+	private int activeview = 1;
 	private Cube cube;
 	private Plan plan;
 	private Plan section;
+	private Button3D b;
 	static GLU glu = new GLU();
+	//static GLCanvas canvas = new GLCanvas();
 	static GLCanvas canvas = new GLCanvas();
-	static Frame frame = new Frame("test");
+	static Frame frame = new Frame("Sections");
 	static FPSAnimator animator = new FPSAnimator(canvas,60);
+	static GLUT glut = new GLUT();
 
 
 	public static void main(String[] args){
@@ -40,8 +46,10 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		sect.cube = new Cube();
 		sect.plan = new Plan();
 		sect.section = new Plan(1);
+		sect.b = new Button3D(sect);
 		canvas.addGLEventListener(sect);
 		canvas.addMouseListener(sect);
+		canvas.addMouseListener(sect.b);
 		canvas.addMouseMotionListener(sect);
 		frame.add(canvas);
 		frame.setSize(1240,720);
@@ -53,6 +61,8 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 			}
 		});
 		frame.setVisible(true);
+
+
 		animator.start();
 		canvas.requestFocus();
 	}
@@ -60,7 +70,6 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	public void update(){
 		//	theta +=1;
 	}
-
 
 
 	public void render(GLAutoDrawable drawable){
@@ -86,12 +95,17 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		this.cube.sort();
 
 		gl.glEnable(GL.GL_DEPTH_TEST);
+		gl.glTranslatef(0.325f,0,0);
+
+
 		this.cube.traceCube(gl);
 		this.plan.tracePlan(gl);
 		gl.glDisable(GL.GL_DEPTH_TEST);
 		if((this.section.getH()<1)&&(this.section.getH()>-1)){
 			this.section.tracePlan(gl);
 		}
+
+		b.drawButton(gl,glut,this.activeview);
 
 		this.h = 0;
 	}
@@ -170,4 +184,44 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	public void mouseEntered(MouseEvent e){}
 	public void mouseExited(MouseEvent e){}
 	public void mousePressed(MouseEvent e){}
+
+	/**
+	 * Gets the h for this instance.
+	 *
+	 * @return The h.
+	 */
+	public float getH()
+	{
+		return this.h;
+	}
+
+	/**
+	 * Sets the h for this instance.
+	 *
+	 * @param h The h.
+	 */
+	public void setH(float h)
+	{
+		this.h = h;
+	}
+
+	/**
+	 * Gets the activeview for this instance.
+	 *
+	 * @return The activeview.
+	 */
+	public int getActiveview()
+	{
+		return this.activeview;
+	}
+
+	/**
+	 * Sets the activeview for this instance.
+	 *
+	 * @param activeview The activeview.
+	 */
+	public void setActiveview(int activeview)
+	{
+		this.activeview = activeview;
+	}
 }
