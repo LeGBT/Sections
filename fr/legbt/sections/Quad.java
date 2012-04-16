@@ -42,6 +42,10 @@ public class Quad{
 		this(u,v,n);
 		this.cote = c;
 	}
+	public Quad(float c,float xscale, float yscale, Vector3f n){
+		this(new Vector3f(xscale,0,0),new Vector3f(0,yscale,0),n);
+		this.cote = c;
+	}
 
 	static private float radian(float degree){
 		return degree*0.017453292519943295769236907684f;

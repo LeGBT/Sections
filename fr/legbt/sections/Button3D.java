@@ -13,7 +13,7 @@ public class Button3D implements MouseListener{
 	private float le = scale*l;
 	private int size = Math.round(1280*scale/16);
 	private int font = GLUT.BITMAP_HELVETICA_18;
-	private String[] textboutons = {"Cube","Cylindre","Pyramide","Pave droit","Sphere"};
+	private String[] textboutons = {"Cube","Pave droit","Cylindre","Pyramide","Sphere"};
 	private Sections instance;
 
 	public  Button3D(Sections instance){

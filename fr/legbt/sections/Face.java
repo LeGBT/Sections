@@ -24,7 +24,7 @@ public class Face extends Quad implements Comparable<Face>{
 		gl.glColor4f(1f,0.7f,0.1f,0.6f);
 		drawTopLeft(gl);
 
-		gl.glColor4f(0.1f,0.7f,0.1f,0.4f);
+		gl.glColor4f(0.1f,0.7f,0.1f,0.5f);
 		drawBottomLeft(gl);
 		drawBottomRight(gl);
 

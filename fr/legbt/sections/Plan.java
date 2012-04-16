@@ -6,14 +6,16 @@ import javax.vecmath.Vector3f;
 public class Plan extends Quad{
 	private static float h = 0.4f;
 	private boolean border;
+	private final static int SECTION_PLAN = 1;
+	private final static int SECTION_PAVE = 2;
 
 	public Plan(){
 		super(2,x,y,new Vector3f(0,0,h/2));
 		border = false;
 	}
 
-	public Plan(float s){
-		super(s,x,y,new Vector3f(0,0,h/s));
+	public Plan(float s, float xscale, float yscale){
+		super(s,xscale,yscale,new Vector3f(0,0,h/s));
 		border = true;
 	}
 

@@ -17,59 +17,57 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
-import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
-	private double theta = 10;
-	private double phi = -160;
-	private float h = 1.9f;
-	private boolean firstrotation = true;
 	private int x = 0;
 	private int y = 0;
-	private int activeview = 1;
-	private Cube cube;
-	private Plan plan;
-	private Plan section;
+	private int activeview = 2;
 	private Button3D b;
-	static GLU glu = new GLU();
-	//static GLCanvas canvas = new GLCanvas();
-	static GLCanvas canvas = new GLCanvas();
-	static Frame frame = new Frame("Sections");
-	static FPSAnimator animator = new FPSAnimator(canvas,60);
-	static GLUT glut = new GLUT();
+	private CubeScene cs;
+	private PaveScene ps;
+	private Scene activescene;
+	private GLCanvas canvas;
+	private Frame frame;
+	private FPSAnimator animator;
+	private GLUT glut;
+
+
+	public Sections(){
+		canvas = new GLCanvas();
+		frame = new Frame("Sections");
+		animator = new FPSAnimator(canvas,60);
+		glut = new GLUT();
+		cs = new CubeScene();
+		ps = new PaveScene();
+		b = new Button3D(this);
+		cs = new CubeScene();
+		activescene = ps;
+		canvas.addGLEventListener(this);
+		canvas.addMouseListener(this);
+		canvas.addMouseListener(b);
+		canvas.addMouseMotionListener(this);
+	}
 
 
 	public static void main(String[] args){
-		Sections sect = new Sections();
-		sect.cube = new Cube();
-		sect.plan = new Plan();
-		sect.section = new Plan(1);
-		sect.b = new Button3D(sect);
-		canvas.addGLEventListener(sect);
-		canvas.addMouseListener(sect);
-		canvas.addMouseListener(sect.b);
-		canvas.addMouseMotionListener(sect);
-		frame.add(canvas);
-		frame.setSize(1240,720);
-		frame.setLocation(100,100);
-		frame.setResizable(false);
-		frame.addWindowListener(new WindowAdapter(){
+		final Sections sect = new Sections();
+		sect.frame.add(sect.canvas);
+		sect.frame.setSize(1240,720);
+		sect.frame.setLocation(100,100);
+		sect.frame.setResizable(false);
+		sect.frame.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
-				exit();	
+				sect.exit();	
 			}
 		});
-		frame.setVisible(true);
-
-
-		animator.start();
-		canvas.requestFocus();
+		sect.frame.setVisible(true);
+		sect.animator.start();
+		sect.canvas.requestFocus();
 	}
 
-	public void update(){
-		//	theta +=1;
-	}
+	public void update(){}
 
 
 	public void render(GLAutoDrawable drawable){
@@ -79,51 +77,21 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glLoadIdentity();
 		int s = 2;
 		gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-s-1,s+1);
-		//gl.glRotatef((float)theta/2,0,1,0);
-		//gl.glRotatef((float)phi/2,0,0,1);
-		this.cube.resetRotation();
-		this.cube.zRotation((float)theta/2);
-		this.cube.xRotation((float)phi/2);
-		this.plan.resetRotation();
-		this.plan.setH(h);
-		this.plan.zRotation((float)theta/2);
-		this.plan.xRotation((float)phi/2);
-		this.section.resetRotation();
-		this.section.setH(h);
-		this.section.zRotation((float)theta/2);
-		this.section.xRotation((float)phi/2);
-		this.cube.sort();
 
-		gl.glEnable(GL.GL_DEPTH_TEST);
-		gl.glTranslatef(0.325f,0,0);
-
-
-		this.cube.traceCube(gl);
-		this.plan.tracePlan(gl);
-		gl.glDisable(GL.GL_DEPTH_TEST);
-		if((this.section.getH()<1)&&(this.section.getH()>-1)){
-			this.section.tracePlan(gl);
-		}
+		this.activescene.render(gl);
 
 		b.drawButton(gl,glut,this.activeview);
-
-		this.h = 0;
 	}
 
 
 	public void display(GLAutoDrawable drawable) {
 		update();	
 		render(drawable);
-		if(firstrotation){
-			this.theta = 0;
-			this.phi = 0;
-			firstrotation = false;
-		}
 	}
 
-	public static void exit(){
-		animator.stop();
-		frame.dispose();
+	public  void exit(){
+		this.animator.stop();
+		this.frame.dispose();
 		System.exit(0);
 	}	
 
@@ -160,8 +128,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	public void mouseReleased(MouseEvent me){
 		this.x = 0;
 		this.y = 0;
-		this.theta = 0;
-		this.phi = 0;
+		activescene.released();
 	}
 
 	public void mouseDragged(MouseEvent me) {
@@ -170,10 +137,9 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 			this.y = me.getX();
 		}else{
 			if(me.getButton()==3){
-				this.h = -(me.getY() - this.y)/100f;
+				activescene.sectionDragged(me.getX()-this.x,me.getY()-this.y);
 			}else{
-				this.theta = me.getX() - this.x;	
-				this.phi = me.getY() - this.y;	
+				activescene.sceneDragged(me.getX()-this.x,me.getY()-this.y);
 			}
 		}
 		this.x = me.getX();
@@ -185,25 +151,6 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	public void mouseExited(MouseEvent e){}
 	public void mousePressed(MouseEvent e){}
 
-	/**
-	 * Gets the h for this instance.
-	 *
-	 * @return The h.
-	 */
-	public float getH()
-	{
-		return this.h;
-	}
-
-	/**
-	 * Sets the h for this instance.
-	 *
-	 * @param h The h.
-	 */
-	public void setH(float h)
-	{
-		this.h = h;
-	}
 
 	/**
 	 * Gets the activeview for this instance.
@@ -223,5 +170,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	public void setActiveview(int activeview)
 	{
 		this.activeview = activeview;
+		if (activeview == 1){this.activescene = cs;
+		}else if(activeview == 2){this.activescene = ps;}
 	}
 }
