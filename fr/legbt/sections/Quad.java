@@ -82,7 +82,7 @@ public class Quad{
 		rotation(matrix);
 	}
 
-	public void Vect3ToVertex(GL2 gl, Vector3f b){
+	public void vect3ToVertex(GL2 gl, Vector3f b){
 		float px = b.dot(x);
 		float py = b.dot(y);
 		float pz = b.dot(z);
@@ -130,19 +130,19 @@ public class Quad{
 	}
 	protected void drawTopLeft(GL2 gl){
 		defineTopLeft();
-		Vect3ToVertex(gl,topleft);
+		vect3ToVertex(gl,topleft);
 	}
 	protected void drawTopRight(GL2 gl){
 		defineTopRight();
-		Vect3ToVertex(gl,topright);
+		vect3ToVertex(gl,topright);
 	}
 	protected void drawBottomLeft(GL2 gl){
 		defineBottomLeft();
-		Vect3ToVertex(gl,bottomleft);
+		vect3ToVertex(gl,bottomleft);
 	}
 	protected void drawBottomRight(GL2 gl){
 		defineBottomRight();
-		Vect3ToVertex(gl,bottomright);
+		vect3ToVertex(gl,bottomright);
 	}
 	protected void drawBorders(GL2 gl){
 		defineTopLeft();
@@ -150,20 +150,20 @@ public class Quad{
 		defineBottomLeft();
 		defineBottomRight();
 		gl.glBegin(GL2.GL_LINES);
-		Vect3ToVertex(gl,topleft);
-		Vect3ToVertex(gl,bottomleft);
+		vect3ToVertex(gl,topleft);
+		vect3ToVertex(gl,bottomleft);
 		gl.glEnd();
 		gl.glBegin(GL2.GL_LINES);
-		Vect3ToVertex(gl,bottomleft);
-		Vect3ToVertex(gl,bottomright);
+		vect3ToVertex(gl,bottomleft);
+		vect3ToVertex(gl,bottomright);
 		gl.glEnd();
 		gl.glBegin(GL2.GL_LINES);
-		Vect3ToVertex(gl,bottomright);
-		Vect3ToVertex(gl,topright);
+		vect3ToVertex(gl,bottomright);
+		vect3ToVertex(gl,topright);
 		gl.glEnd();
 		gl.glBegin(GL2.GL_LINES);
-		Vect3ToVertex(gl,topright);
-		Vect3ToVertex(gl,topleft);
+		vect3ToVertex(gl,topright);
+		vect3ToVertex(gl,topleft);
 		gl.glEnd();
 	}
 }
