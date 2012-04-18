@@ -19,10 +19,11 @@ public class Plan extends Quad{
 		border = true;
 	}
 
+
 	public void setH(float ph){
-	//	if(ph!=0){
-			this.np.scaleAdd(ph,n,this.np);
-	//	}
+		//	if(ph!=0){
+		this.np.scaleAdd(ph,n,this.np);
+		//	}
 	}
 
 	public void tracePlan(GL2 gl){
