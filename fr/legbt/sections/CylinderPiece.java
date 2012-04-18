@@ -5,7 +5,7 @@ import javax.media.opengl.GL2;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Matrix3f;
 
-public class CylinderPiece extends Piece{
+public class CylinderPiece implements Piece{
 	protected Vector3f u;
 	protected Vector3f v;
 	protected Vector3f n;
@@ -42,7 +42,7 @@ public class CylinderPiece extends Piece{
 
 	// main trace
 	public void traceVertexes(GL2 gl){
-		final int res = 128; 
+		final int res = 256; 
 		float radian = 6.28318531f/res;
 		//	float radian = 3.1415926536f/res;
 
@@ -89,21 +89,22 @@ public class CylinderPiece extends Piece{
 
 
 		float para = 3f*(((float)firstposition)/((float)res) - ((float)(firstposition)*(firstposition))/((float)(res*res)));
+		//		float para;
+		//if(firstposition<res/2){para = firstposition/res;}else{para = (1-firstposition/res);}
+		para = firstposition/res;
 		gl.glColor4f(0,0.8f,0.2f,0.4f);
 		vect3ToVertex(gl,top);
 		vect3ToVertex(gl,bottom);
 		int j;
 
 		for(int i=0;i<res;i++){
-			if((fiz*fix*fiy<-0.8f)||(fiz*fix*fiy>0.8f)){
-				j = (fix*fiy*fiz*i+firstposition);
-			}else{j=i;}
+			j = (-fix*fiy*fiz*i+firstposition);
 			if(j>res){j-=res;}
 			if(j<0){j+=res;}
 
-
-			para = 3f*(((float)j+1)/((float)res) - ((float)(j+1)*(j+1))/((float)(res*res)));
-			gl.glColor4f(para,0.8f,0.2f,para/6f+0.6f);
+			if(j<res/2){para = 2*j/(float)res;}else{para = 2*(1-j/(float)res);}
+			//	para = 3f*(((float)j+1)/((float)res) - ((float)(j+1)*(j+1))/((float)(res*res)));
+			gl.glColor4f(para,0.8f,0.2f,para/8f+0.4f);
 
 			vect3ToVertex(gl,top);
 			vect3ToVertex(gl,bottom);

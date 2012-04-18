@@ -5,7 +5,7 @@ import javax.media.opengl.GL;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Matrix3f;
 
-public class Disc extends Piece {
+public class Disc implements Piece {
 	protected Vector3f u;
 	protected Vector3f v;
 	protected Vector3f n;
@@ -20,7 +20,7 @@ public class Disc extends Piece {
 	static final Vector3f x = new Vector3f(1,0,0);
 	static final Vector3f y = new Vector3f(0,1,0);
 	static final Vector3f z = new Vector3f(0,0,1);
-	static final int res = 128;
+	static final int res = 256;
 	static final float radian = 6.28318531f/res;
 
 
@@ -78,7 +78,8 @@ public class Disc extends Piece {
 		for(int i=0;i<res;i++){
 			if(border){
 			}else{
-				para = 3f*(((float)i+1)/((float)res) - ((float)(i+1)*(i+1))/((float)(res*res)));
+				if(i<res/2){para = 2*i/(float)res;}else{para = 2*(1-i/(float)res);}
+				//	para = 3f*(((float)i+1)/((float)res) - ((float)(i+1)*(i+1))/((float)(res*res)));
 				gl.glColor4f(para,0.8f,0.2f,0.7f);
 			}
 
