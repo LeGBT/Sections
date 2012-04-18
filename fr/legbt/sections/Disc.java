@@ -5,7 +5,7 @@ import javax.media.opengl.GL;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Matrix3f;
 
-public class Disc extends Piece {
+public class Disc implements Piece {
 	protected Vector3f u;
 	protected Vector3f v;
 	protected Vector3f n;

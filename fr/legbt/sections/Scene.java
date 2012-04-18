@@ -8,6 +8,7 @@ public abstract class  Scene{
 	protected Plan plan;
 	protected Plan section;
 	protected Disc dsection;
+	protected Thales psection;
 	protected float theta = 10;
 	protected float phi = -160;
 	protected float h; 
@@ -21,10 +22,15 @@ public abstract class  Scene{
 
 	public Scene(String type){
 		plan = new Plan();
-		dsection = new Disc(new Vector3f(1,0,0),new Vector3f(0,1,0),new Vector3f(0,0,0.4f));
-		dsection.setBorder(true);
+		if(type.equals("cyl")){
+			dsection = new Disc(new Vector3f(1,0,0),new Vector3f(0,1,0),new Vector3f(0,0,0.4f));
+			dsection.setBorder(true);
+		}else if(type.equals("pyl")){
+			psection = new Thales(new Vector3f(0.2f,0.1f,0.4f),new Vector3f(1.5f,0,0),new Vector3f(0,1,0),new Vector3f(0.7f,0.35f,0.4f));
+		}
 		firstrotation = true;
 	}
+
 
 	public void released(){
 		this.theta = 0;

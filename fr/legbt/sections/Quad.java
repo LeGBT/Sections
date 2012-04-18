@@ -11,6 +11,8 @@ public class Quad{
 	protected Vector3f ur;
 	protected Vector3f vr;
 	protected Vector3f nr;
+	protected Vector3f up;
+	protected Vector3f vp;
 	protected Vector3f np;
 	private Vector3f topleft;
 	private Vector3f topright;
@@ -31,6 +33,8 @@ public class Quad{
 		this.ur = new Vector3f(u);
 		this.vr = new Vector3f(v);
 		this.nr = new Vector3f(n);
+		this.up = new Vector3f(u);
+		this.vp = new Vector3f(v);
 		this.np = new Vector3f(n);
 		this.xrot = 0;
 		this.yrot = 0;
@@ -58,8 +62,8 @@ public class Quad{
 	}
 
 	public void resetRotation(){
-		this.ur = new Vector3f(this.u);
-		this.vr = new Vector3f(this.v);
+		this.ur = new Vector3f(this.up);
+		this.vr = new Vector3f(this.vp);
 		this.nr = new Vector3f(this.np);
 	}
 
@@ -102,6 +106,26 @@ public class Quad{
 	public Vector3f getN()
 	{
 		return this.nr;
+	}
+
+	/**
+	 * Gets the cote for this instance.
+	 *
+	 * @return The cote.
+	 */
+	public float getCote()
+	{
+		return this.cote;
+	}
+
+	/**
+	 * Sets the cote for this instance.
+	 *
+	 * @param cote The cote.
+	 */
+	public void setCote(float cote)
+	{
+		this.cote = cote;
 	}
 
 	private void defineTopLeft(){
