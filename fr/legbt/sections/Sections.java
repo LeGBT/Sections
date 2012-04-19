@@ -23,12 +23,13 @@ import com.jogamp.opengl.util.gl2.GLUT;
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
 	private int x = 0;
 	private int y = 0;
-	private int activeview = 4;
+	private int activeview = 5;
 	private Button3D b;
 	private CubeScene cs;
 	private PaveScene ps;
 	private CylinderScene cys;
 	private PyramideScene pys;
+	private SphereScene sps;
 	private Scene activescene;
 	private GLCanvas canvas;
 	private Frame frame;
@@ -45,8 +46,9 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		ps = new PaveScene();
 		cys = new CylinderScene();
 		pys = new PyramideScene();
+		sps = new SphereScene();
 		b = new Button3D(this);
-		activescene = pys;
+		activescene = sps;
 		canvas.addGLEventListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseListener(b);
@@ -176,6 +178,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		if (activeview == 1){this.activescene = cs;
 		}else if(activeview == 2){this.activescene = ps;
 		}else if(activeview == 3){this.activescene = cys;
-		}else if(activeview == 4){this.activescene = pys;}
+		}else if(activeview == 4){this.activescene = pys;
+		}else if(activeview == 5){this.activescene = sps;}
 	}
 }

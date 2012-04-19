@@ -12,16 +12,21 @@ public class Disc implements Piece {
 	protected Vector3f ur;
 	protected Vector3f vr;
 	protected Vector3f nr;
+	protected Vector3f up;
+	protected Vector3f vp;
 	protected Vector3f np;
 	private float xrot;
 	private float yrot;
 	private float zrot;
+	private float hr = 1.5f;
 	private boolean border;
+	private boolean sphere;
 	static final Vector3f x = new Vector3f(1,0,0);
 	static final Vector3f y = new Vector3f(0,1,0);
 	static final Vector3f z = new Vector3f(0,0,1);
 	static final int res = 256;
 	static final float radian = 6.28318531f/res;
+	static final float PI = 3.1415926535898f;
 
 
 	public Disc(Vector3f u, Vector3f v, Vector3f n){
@@ -31,11 +36,14 @@ public class Disc implements Piece {
 		this.ur = new Vector3f(u);
 		this.vr = new Vector3f(v);
 		this.nr = new Vector3f(n);
+		this.up = new Vector3f(u);
+		this.vp = new Vector3f(v);
 		this.np = new Vector3f(n);
 		this.xrot = 0;
 		this.yrot = 0;
 		this.zrot = 0;
 		this.border = false;
+		this.sphere = false;
 	}
 
 	public Disc(float c,Vector3f u,Vector3f v,Vector3f n){
@@ -78,8 +86,8 @@ public class Disc implements Piece {
 		for(int i=0;i<res;i++){
 			if(border){
 			}else{
-			if(i<res/2){para = 2*i/(float)res;}else{para = 2*(1-i/(float)res);}
-			//	para = 3f*(((float)i+1)/((float)res) - ((float)(i+1)*(i+1))/((float)(res*res)));
+				if(i<res/2){para = 2*i/(float)res;}else{para = 2*(1-i/(float)res);}
+				//	para = 3f*(((float)i+1)/((float)res) - ((float)(i+1)*(i+1))/((float)(res*res)));
 				gl.glColor4f(para,0.8f,0.2f,0.7f);
 			}
 
@@ -110,8 +118,8 @@ public class Disc implements Piece {
 	}
 
 	public void resetRotation(){
-		this.ur = new Vector3f(this.u);
-		this.vr = new Vector3f(this.v);
+		this.ur = new Vector3f(this.up);
+		this.vr = new Vector3f(this.vp);
 		this.nr = new Vector3f(this.np);
 	}
 
@@ -143,6 +151,15 @@ public class Disc implements Piece {
 
 	public void setH(float ph){
 		this.np.scaleAdd(ph,n,this.np);
+		if(sphere){
+			hr -= ph;
+			Vector3f temp = new Vector3f(u);
+			temp.scale((float)Math.sqrt(1/4f-(hr/5f-1f/2f)*(hr/5f-1f/2f))*2f);	
+			up.set(temp);
+			temp.set(v);
+			temp.scale((float)Math.sqrt(1/4f-(hr/5f-1f/2f)*(hr/5f-1f/2f))*2f);	
+			vp.set(temp);
+		}
 	}
 
 	public float getH(){
@@ -221,5 +238,25 @@ public class Disc implements Piece {
 	public void setBorder(boolean border)
 	{
 		this.border = border;
+	}
+
+	/**
+	 * Determines if this instance is sphere.
+	 *
+	 * @return The sphere.
+	 */
+	public boolean isSphere()
+	{
+		return this.sphere;
+	}
+
+	/**
+	 * Sets whether or not this instance is sphere.
+	 *
+	 * @param sphere The sphere.
+	 */
+	public void setSphere(boolean sphere)
+	{
+		this.sphere = sphere;
 	}
 }
