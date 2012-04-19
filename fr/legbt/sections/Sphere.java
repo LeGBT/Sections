@@ -6,14 +6,12 @@ import java.util.Collections;
 import javax.media.opengl.GL2;
 import javax.vecmath.Vector3f;
 
-public class Cylinder {
-	private Disc top;
-	private Disc bottom;
-	private CylinderPiece cypiece1;
-	//private CylinderPiece cypiece2;
+
+public class Sphere {
+	private SpherePiece sp;
 	private ArrayList<Piece> pieces;
 
-	public Cylinder(){
+	public Sphere(){
 		Vector3f u1 = new Vector3f(1,0,0);
 		Vector3f u2 = new Vector3f(0,1,0);
 		Vector3f u3 = new Vector3f(0,0,1);
@@ -21,16 +19,16 @@ public class Cylinder {
 		Vector3f u5 = new Vector3f(0,-1,0);
 		Vector3f u6 = new Vector3f(0,0,-1);
 		pieces = new ArrayList<Piece>();
-		top = new Disc(u1,u2,u3);
-		bottom = new Disc(u4,u5,u6);
-		cypiece1 = new CylinderPiece(u1,u2,u3);
-		//cypiece2 = new CylinderPiece(u4,u5,u3);
-		pieces.add(top);
-		pieces.add(bottom);
-		pieces.add(cypiece1);
+	//	top = new Disc(u1,u2,u3);
+	//	bottom = new Disc(u4,u5,u6);
+		sp = new SpherePiece(u1,u2,u3);
+		//pieces.add(top);
+		//pieces.add(bottom);
+		pieces.add(sp);
 	//	pieces.add(cypiece2);
 		Collections.sort(pieces);
 	}
+
 
 	public void resetRotation(){
 		for(int i=0;i<pieces.size();i++){
@@ -70,4 +68,5 @@ public class Cylinder {
 			}
 		}
 	}
+
 }
