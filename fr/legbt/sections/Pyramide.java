@@ -1,3 +1,22 @@
+/* 
+ *    This file is part of Sections.
+ *    Copyright © 2012 Alban Avenant
+ *
+ *     Sections is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *     
+ *     Sections is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *     
+ *     You should have received a copy of the GNU General Public License
+ *     along with Sections.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package fr.legbt.sections;
 
 import java.util.ArrayList;
@@ -14,8 +33,6 @@ public class Pyramide {
 	private Triangle left;
 	private Triangle right;
 	private ArrayList<Piece> pieces;
-	private static final float tworoot = 1.4142136f;
-	private static final float roottwo = 0.7071068f;
 
 	public Pyramide(){
 		Vector3f u1 = new Vector3f(1.5f,0,0);
@@ -23,7 +40,6 @@ public class Pyramide {
 		Vector3f u3 = new Vector3f(0,0,-1);
 		Vector3f u4 = new Vector3f(0,0.75f,1f);
 		Vector3f u5 = new Vector3f(0,-0.25f,0);
-		Vector3f u6 = new Vector3f(-1.5f,0,0);
 		Vector3f u7 = new Vector3f(0,-0.25f,1);
 		Vector3f u8 = new Vector3f(0,0.75f,0);
 		Vector3f u9 = new Vector3f(-0.25f,0,1);
