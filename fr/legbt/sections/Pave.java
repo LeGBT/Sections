@@ -1,3 +1,22 @@
+/* 
+ *    This file is part of Sections.
+ *    Copyright © 2012 Alban Avenant
+ *
+ *     Sections is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *     
+ *     Sections is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *     
+ *     You should have received a copy of the GNU General Public License
+ *     along with Sections.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package fr.legbt.sections;
 
 import java.util.ArrayList;
@@ -16,14 +35,10 @@ public class Pave {
 	private ArrayList<Face> faces;
 
 	public Pave(){
-		Vector3f u1 = new Vector3f(1,0,0);
 		Vector3f u11 = new Vector3f(1.5f,0,0);
-		Vector3f u2 = new Vector3f(0,1,0);
 		Vector3f u22 = new Vector3f(0,0.7f,0);
 		Vector3f u3 = new Vector3f(0,0,1);
-		Vector3f u4 = new Vector3f(-1,0,0);
 		Vector3f u41 = new Vector3f(-1.5f,0,0);
-		Vector3f u5 = new Vector3f(0,-1,0);
 		Vector3f u52 = new Vector3f(0,-0.7f,0);
 		Vector3f u6 = new Vector3f(0,0,-1);
 		top = new Face(u11,u6,u22);
