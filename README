@@ -1,0 +1,12 @@
+Sections est un petit programme permettant le tracé de solides simples et d'en afficher des sections simples. Il a été conçu pour la présentation devant une classe.
+
+Utilisez les touches de directions du clavier pour déplacer le plan.
+Il est aussi possible de bouger le plan avec la souris en gardant shift appuyé.
+
+C'est un logiciel libre et peut donc être utilisé, copié et même modifié librement selon les termes de la GNU General Public Licence.
+
+La bibliothèque JOGL doit être installée préalablement pour faire fonctionner Sections, les fichiers nécessaires sont disponibles via http://jogamp.org/deployment/jogamp-current/archive/
+
+Les sources de Sections sont elles disponibles via http://github.com/LeGBT/Sections
+
+La GNU General Public Licence est disponible dans le fichier gpl.

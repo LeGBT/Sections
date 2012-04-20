@@ -1,3 +1,22 @@
+/* 
+ *    This file is part of Sections.
+ *    Copyright © 2012 Alban Avenant
+ *
+ *     Sections is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *     
+ *     Sections is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *     
+ *     You should have received a copy of the GNU General Public License
+ *     along with Sections.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package fr.legbt.sections;
 
 import java.util.ArrayList;
@@ -15,17 +34,9 @@ public class Sphere {
 		Vector3f u1 = new Vector3f(1,0,0);
 		Vector3f u2 = new Vector3f(0,1,0);
 		Vector3f u3 = new Vector3f(0,0,1);
-		Vector3f u4 = new Vector3f(-1,0,0);
-		Vector3f u5 = new Vector3f(0,-1,0);
-		Vector3f u6 = new Vector3f(0,0,-1);
 		pieces = new ArrayList<Piece>();
-	//	top = new Disc(u1,u2,u3);
-	//	bottom = new Disc(u4,u5,u6);
 		sp = new SpherePiece(u1,u2,u3);
-		//pieces.add(top);
-		//pieces.add(bottom);
 		pieces.add(sp);
-	//	pieces.add(cypiece2);
 		Collections.sort(pieces);
 	}
 
