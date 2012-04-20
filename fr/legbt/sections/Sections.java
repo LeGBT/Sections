@@ -42,7 +42,10 @@ import com.jogamp.opengl.util.gl2.GLUT;
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
 	private int x = 0;
 	private int y = 0;
-	private int activeview = 5;
+	private int activeview = 1;
+	private boolean up;
+	private boolean down;
+	private boolean shift;
 	private Button3D b;
 	private CubeScene cs;
 	private PaveScene ps;
@@ -67,11 +70,13 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		pys = new PyramideScene();
 		sps = new SphereScene();
 		b = new Button3D(this);
-		activescene = sps;
+		activescene = cs;
 		canvas.addGLEventListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseListener(b);
 		canvas.addMouseMotionListener(this);
+		up = false;
+		down = false;
 	}
 
 
@@ -91,7 +96,10 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		sect.canvas.requestFocus();
 	}
 
-	public void update(){}
+	public void update(){
+		if(up){activescene.sectionDragged(0,-2);}
+		if(down){activescene.sectionDragged(0,2);}
+	}
 
 
 	public void render(GLAutoDrawable drawable){
@@ -125,7 +133,6 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		GL2 gl = drawable.getGL().getGL2();
 		gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
 		gl.glClearDepth(1.0f);
-		//	gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glEnable(GL2ES1.GL_FOG);
 		gl.glEnable(GL.GL_BLEND);
 		gl.glEnable(GL.GL_LINE_SMOOTH);
@@ -143,10 +150,31 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		if(key.getKeyCode() == KeyEvent.VK_ESCAPE){
 			exit();
 		}	
+		if(key.getKeyCode() == KeyEvent.VK_UP){
+			up = true;
+		}
+		if(key.getKeyCode() == KeyEvent.VK_DOWN){
+			down = true;
+		}
+		if(key.getKeyCode() == KeyEvent.VK_SHIFT){
+			shift = true;
+		}
 	}
+
+	public void keyReleased(KeyEvent key) {
+		if(key.getKeyCode() == KeyEvent.VK_UP){
+			up = false;
+		}
+		if(key.getKeyCode() == KeyEvent.VK_DOWN){
+			down = false;
+		}
+		if(key.getKeyCode() == KeyEvent.VK_SHIFT){
+			shift = false;
+		}
+	}
+
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,int height) {}
-	public void keyReleased(KeyEvent arg0) {}
-	public void keyTyped(KeyEvent arg0){}
+	public void keyTyped(KeyEvent k){}
 	public void mouseMoved(MouseEvent arg0){}
 
 	public void mouseReleased(MouseEvent me){
@@ -160,7 +188,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 			this.x = me.getX();
 			this.y = me.getX();
 		}else{
-			if(me.getButton()==3){
+			if((me.getButton()==3)||(shift)){
 				activescene.sectionDragged(me.getX()-this.x,me.getY()-this.y);
 			}else{
 				activescene.sceneDragged(me.getX()-this.x,me.getY()-this.y);
@@ -170,7 +198,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		this.y = me.getY();
 	}
 
-	public void mouseClicked(MouseEvent e) {}
+	public void mouseClicked(MouseEvent me) {}
 	public void mouseEntered(MouseEvent e){}
 	public void mouseExited(MouseEvent e){}
 	public void mousePressed(MouseEvent e){}
