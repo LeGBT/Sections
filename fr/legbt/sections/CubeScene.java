@@ -25,19 +25,18 @@ import javax.media.opengl.GL2;
 public class CubeScene extends Scene{
 	private Cube cube;
 
-	public CubeScene(){
-		super(1,1);
+	public CubeScene(Sections instance){
+		super(1,1,instance);
 		cube = new Cube();
 	}
 
-
 	public void render(GL2 gl){
-
 		this.cube.resetRotation();
 		this.cube.zRotation((float)theta/2);
 		this.cube.xRotation((float)phi/2);
 		this.plan.resetRotation();
 		this.plan.setH(h);
+		this.plan.setAngle(angle);
 		this.plan.zRotation((float)theta/2);
 		this.plan.xRotation((float)phi/2);
 		this.section.resetRotation();
@@ -48,7 +47,6 @@ public class CubeScene extends Scene{
 
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glTranslatef(0.325f,0,0);
-
 
 		this.cube.traceCube(gl);
 		this.plan.tracePlan(gl);

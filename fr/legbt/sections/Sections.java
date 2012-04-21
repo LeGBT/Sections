@@ -20,6 +20,7 @@
 package fr.legbt.sections;
 
 import java.awt.Frame;
+import java.awt.Font;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -30,23 +31,26 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.media.opengl.GL2;
-import javax.media.opengl.GL2GL3;
-import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
-import com.jogamp.opengl.util.gl2.GLUT;
+//import com.jogamp.opengl.util.gl2.GLUT;
+import com.jogamp.opengl.util.awt.TextRenderer;
+
 
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
 	private int x = 0;
 	private int y = 0;
 	private int activeview = 1;
+	private boolean plantype;
 	private boolean up;
 	private boolean down;
 	private boolean shift;
+	private TextRenderer renderer;
+	private TextRenderer rendererbis;
 	private Button3D b;
 	private CubeScene cs;
 	private PaveScene ps;
@@ -58,7 +62,6 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private GLCanvas canvas;
 	private Frame frame;
 	private FPSAnimator animator;
-	private GLUT glut;
 
 
 	public Sections(){
@@ -66,10 +69,12 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		canvas = new GLCanvas(caps);
 		frame = new Frame("Sections");
 		animator = new FPSAnimator(canvas,60);
-		glut = new GLUT();
-		cs = new CubeScene();
-		ps = new PaveScene();
-		cys = new CylinderScene();
+		plantype = true;
+		up = false;
+		down = false;
+		cs = new CubeScene(this);
+		ps = new PaveScene(this);
+		cys = new CylinderScene(this);
 		pys = new PyramideScene();
 		sps = new SphereScene();
 		b = new Button3D(this);
@@ -78,8 +83,8 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		canvas.addMouseListener(this);
 		canvas.addMouseListener(b);
 		canvas.addMouseMotionListener(this);
-		up = false;
-		down = false;
+		renderer = new TextRenderer(new Font("Times",Font.BOLD,24),true,true);
+		rendererbis = new TextRenderer(new Font("Times",Font.PLAIN,50),true,true);
 	}
 
 
@@ -111,11 +116,10 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
 		int s = 2;
-		gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-s-1,s+1);
+		gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-3,2);
 
 		this.activescene.render(gl);
-
-		b.drawButton(gl,glut,this.activeview);
+		b.drawButton(gl,this.renderer,this.rendererbis,this.activeview);
 	}
 
 
@@ -136,18 +140,18 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		GL2 gl = drawable.getGL().getGL2();
 		gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
 		gl.glClearDepth(1.0f);
-		gl.glEnable(GL2ES1.GL_FOG);
+		gl.glEnable(GL2.GL_FOG);
 		gl.glEnable(GL.GL_BLEND);
 		gl.glEnable(GL.GL_MULTISAMPLE);
 		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
-		gl.glHint(GL2GL3.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
-		gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
+		gl.glHint(GL2.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
+		gl.glEnable(GL2.GL_POLYGON_SMOOTH);
 		gl.glEnable(GL.GL_LINE_SMOOTH);
 		gl.glLineWidth(1.5f);
 		gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
 //		gl.glDepthFunc(GL.GL_LEQUAL);
 		gl.glDepthFunc(GL.GL_LESS);
-		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
+		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
 		((Component) drawable).addKeyListener(this);
 	}
 
@@ -233,5 +237,27 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		}else if(activeview == 3){this.activescene = cys;
 		}else if(activeview == 4){this.activescene = pys;
 		}else if(activeview == 5){this.activescene = sps;}
+	}
+
+
+	/**
+	 * Determines if this instance is plantype.
+	 *
+	 * @return The plantype.
+	 */
+	public boolean isPlantype()
+	{
+		return this.plantype;
+	}
+
+
+	/**
+	 * Sets whether or not this instance is plantype.
+	 *
+	 * @param plantype The plantype.
+	 */
+	public void changePlanType()
+	{
+		this.plantype = !this.plantype;
 	}
 }

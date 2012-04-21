@@ -26,7 +26,7 @@ public class CylinderScene extends Scene{
 	private Cylinder cylinder;
 
 
-	public CylinderScene(){
+	public CylinderScene(Sections instance){
 		super("cyl");
 		cylinder = new Cylinder();
 		this.h = -4.2f;

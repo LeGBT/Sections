@@ -31,12 +31,21 @@ public abstract class  Scene{
 	protected float theta = 10;
 	protected float phi = -160;
 	protected float h; 
+	protected float angle;
 	protected boolean firstrotation;
+	protected Sections instance;
 
-	public Scene(float xscale, float yscale){
-		plan = new Plan();
-		section = new Plan(1,xscale,yscale);
+	public Scene(float xscale, float yscale,Sections instance){
+		if(instance.isPlantype()){
+			angle = 0.5f;
+			plan = new Plan(angle);
+			section = new Plan(angle,1,xscale,yscale);
+		}else{
+			plan = new Plan();
+			section = new Plan(1,xscale,yscale);
+		}
 		firstrotation = true;
+		this.instance = instance;
 	}
 
 	public Scene(String type){

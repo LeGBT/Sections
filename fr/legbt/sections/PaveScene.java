@@ -25,8 +25,8 @@ import javax.media.opengl.GL2;
 public class PaveScene extends Scene{
 	private Pave pave;
 
-	public PaveScene(){
-		super(1.5f,0.7f);
+	public PaveScene(Sections instance){
+		super(1.5f,0.7f,instance);
 		pave = new Pave();
 	}
 
