@@ -34,6 +34,7 @@ import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
@@ -53,6 +54,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private PyramideScene pys;
 	private SphereScene sps;
 	private Scene activescene;
+	private GLCapabilities caps;
 	private GLCanvas canvas;
 	private Frame frame;
 	private FPSAnimator animator;
@@ -60,7 +62,8 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 
 
 	public Sections(){
-		canvas = new GLCanvas();
+		caps = new GLCapabilities(null);
+		canvas = new GLCanvas(caps);
 		frame = new Frame("Sections");
 		animator = new FPSAnimator(canvas,60);
 		glut = new GLUT();
@@ -135,13 +138,16 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glClearDepth(1.0f);
 		gl.glEnable(GL2ES1.GL_FOG);
 		gl.glEnable(GL.GL_BLEND);
-		gl.glEnable(GL.GL_LINE_SMOOTH);
-		gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
+		gl.glEnable(GL.GL_MULTISAMPLE);
 		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
-		gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
-		gl.glDepthFunc(GL.GL_LEQUAL);
-		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
 		gl.glHint(GL2GL3.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
+		gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
+		gl.glEnable(GL.GL_LINE_SMOOTH);
+		gl.glLineWidth(1.5f);
+		gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
+//		gl.glDepthFunc(GL.GL_LEQUAL);
+		gl.glDepthFunc(GL.GL_LESS);
+		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
 		((Component) drawable).addKeyListener(this);
 	}
 
