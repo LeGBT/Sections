@@ -31,6 +31,8 @@ public class PyramideScene extends Scene{
 		this.h = -4f;
 	}
 
+	public void reset(){}
+
 	public void render(GL2 gl) {
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 		gl.glClear(GL.GL_DEPTH_BUFFER_BIT);

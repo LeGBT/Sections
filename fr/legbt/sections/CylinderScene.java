@@ -30,6 +30,7 @@ public class CylinderScene extends Scene{
 		super("cyl");
 		cylinder = new Cylinder();
 		this.h = -4.2f;
+		this.instance = instance;
 	}
 
 	public void render(GL2 gl) {
@@ -43,10 +44,12 @@ public class CylinderScene extends Scene{
 		this.cylinder.xRotation((float)phi/2);
 		this.plan.resetRotation();
 		this.plan.setH(h);
+		this.plan.yRotation(0);
 		this.plan.zRotation((float)theta/2);
 		this.plan.xRotation((float)phi/2);
 		this.dsection.resetRotation();
 		this.dsection.setH(h);
+		this.dsection.yRotation(0);
 		this.dsection.zRotation((float)theta/2);
 		this.dsection.xRotation((float)phi/2);
 		this.cylinder.sort();

@@ -37,7 +37,6 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
-//import com.jogamp.opengl.util.gl2.GLUT;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
 
@@ -48,6 +47,8 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private boolean plantype;
 	private boolean up;
 	private boolean down;
+	private boolean left;
+	private boolean right;
 	private boolean shift;
 	private TextRenderer renderer;
 	private TextRenderer rendererbis;
@@ -72,6 +73,8 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		plantype = true;
 		up = false;
 		down = false;
+		left = false;
+		right = false;
 		cs = new CubeScene(this);
 		ps = new PaveScene(this);
 		cys = new CylinderScene(this);
@@ -87,6 +90,11 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		rendererbis = new TextRenderer(new Font("Times",Font.PLAIN,50),true,true);
 	}
 
+	public void reset(){
+		cs.reset();
+		ps.reset();
+		cys.reset();
+	}
 
 	public static void main(String[] args){
 		final Sections sect = new Sections();
@@ -107,6 +115,8 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	public void update(){
 		if(up){activescene.sectionDragged(0,-2);}
 		if(down){activescene.sectionDragged(0,2);}
+		if(left){activescene.sectionDragged(-2,0);}
+		if(right){activescene.sectionDragged(2,0);}
 	}
 
 
@@ -149,7 +159,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glEnable(GL.GL_LINE_SMOOTH);
 		gl.glLineWidth(1.5f);
 		gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
-//		gl.glDepthFunc(GL.GL_LEQUAL);
+		//		gl.glDepthFunc(GL.GL_LEQUAL);
 		gl.glDepthFunc(GL.GL_LESS);
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
 		((Component) drawable).addKeyListener(this);
@@ -169,6 +179,12 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		if(key.getKeyCode() == KeyEvent.VK_SHIFT){
 			shift = true;
 		}
+		if(key.getKeyCode() == KeyEvent.VK_LEFT){
+			left = true;
+		}
+		if(key.getKeyCode() == KeyEvent.VK_RIGHT){
+			right = true;
+		}
 	}
 
 	public void keyReleased(KeyEvent key) {
@@ -180,6 +196,12 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		}
 		if(key.getKeyCode() == KeyEvent.VK_SHIFT){
 			shift = false;
+		}
+		if(key.getKeyCode() == KeyEvent.VK_LEFT){
+			left = false;
+		}
+		if(key.getKeyCode() == KeyEvent.VK_RIGHT){
+			right = false;
 		}
 	}
 

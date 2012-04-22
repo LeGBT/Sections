@@ -33,6 +33,7 @@ public class Quad{
 	protected Vector3f up;
 	protected Vector3f vp;
 	protected Vector3f np;
+	protected float angle;
 	private Vector3f topleft;
 	private Vector3f topright;
 	private Vector3f bottomleft;
@@ -59,6 +60,7 @@ public class Quad{
 		this.yrot = 0;
 		this.zrot = 0;
 		this.cote = 1;
+		this.angle = 0;
 	}
 
 	public Quad(float c,Vector3f u, Vector3f v, Vector3f n){
@@ -80,6 +82,16 @@ public class Quad{
 		matrix.transform(nr);
 	}
 
+
+	public void reset(){
+		this.angle = 0;
+	}
+
+	public void reset(float angle){
+		this.angle = angle;
+	}
+
+
 	public void resetRotation(){
 		this.ur = new Vector3f(this.up);
 		this.vr = new Vector3f(this.vp);
@@ -95,7 +107,7 @@ public class Quad{
 	public void yRotation(float degree){
 		Matrix3f matrix = new Matrix3f();
 		yrot += radian(degree);
-		matrix.rotY(yrot);
+		matrix.rotY(yrot+radian(angle));
 		rotation(matrix);
 	}
 	public void zRotation(float degree){

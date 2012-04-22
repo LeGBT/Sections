@@ -151,6 +151,7 @@ public class Button3D implements MouseListener{
 		}
 		if((me.getX()>1100)&&(me.getY()>560)){
 			instance.changePlanType();
+			instance.reset();
 		}
 	}
 

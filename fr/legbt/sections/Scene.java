@@ -36,10 +36,12 @@ public abstract class  Scene{
 	protected Sections instance;
 
 	public Scene(float xscale, float yscale,Sections instance){
-		if(instance.isPlantype()){
-			angle = 0.5f;
-			plan = new Plan(angle);
-			section = new Plan(angle,1,xscale,yscale);
+		if(!instance.isPlantype()){
+			angle = 30f;
+			plan = new Plan();
+			plan.angle = angle;
+			section = new Plan(1,xscale,yscale);
+			section.angle = angle;
 		}else{
 			plan = new Plan();
 			section = new Plan(1,xscale,yscale);
@@ -63,9 +65,30 @@ public abstract class  Scene{
 		firstrotation = true;
 	}
 
+
+	public void reset(){
+		firstrotation = true;
+		if(!instance.isPlantype()){
+			this.plan.reset(30);
+			if(this instanceof CylinderScene){
+				this.dsection.reset(30);
+			}else{
+				this.section.reset(30);
+			}
+		}else{
+			this.plan.reset();
+			if(this instanceof CylinderScene){
+				this.dsection.reset();
+			}else{
+				this.section.reset();
+			}
+		}
+	}
+
 	public void released(){
 		this.theta = 0;
 		this.phi = 0;
+		//		this.angle = 0;
 	}
 
 	public void sceneDragged(int xdelta,int ydelta){
@@ -75,6 +98,11 @@ public abstract class  Scene{
 
 	public void sectionDragged(int xdelta,int ydelta){
 		this.h = -ydelta/100f;
+		this.angle = -xdelta/8f;
+		if(!instance.isPlantype()){
+			plan.angle += this.angle;
+			section.angle += this.angle;
+		}
 	}
 
 	public abstract void render(GL2 gl);

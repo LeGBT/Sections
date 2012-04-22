@@ -25,15 +25,10 @@ import javax.vecmath.Vector3f;
 public class Plan extends Quad{
 	private static float h = 0.4f;
 	private boolean border;
-	private float angle;
+
 
 	public Plan(){
 		super(2,x,y,new Vector3f(0,0,h/2));
-		border = false;
-	}
-
-	public Plan(float angle){
-		super(2,x,y,new Vector3f(0,angle,h/2));
 		border = false;
 	}
 
@@ -42,10 +37,11 @@ public class Plan extends Quad{
 		border = true;
 	}
 
-	public Plan(float angle,float s, float xscale, float yscale){
-		super(s,xscale,yscale,new Vector3f(0,angle,h/s));
-		border = true;
+
+	public void reset(){
+		super.reset();
 	}
+
 
 
 	public void setH(float ph){
@@ -62,6 +58,7 @@ public class Plan extends Quad{
 		return this.angle;
 	}
 
+
 	/**
 	 * Sets the angle for this instance.
 	 *
@@ -69,7 +66,8 @@ public class Plan extends Quad{
 	 */
 	public void setAngle(float angle)
 	{
-		this.np.scaleAdd(angle,v,this.np);
+		this.angle = angle;
+
 	}
 
 	public void tracePlan(GL2 gl){

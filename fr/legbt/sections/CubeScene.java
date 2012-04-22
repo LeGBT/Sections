@@ -30,17 +30,19 @@ public class CubeScene extends Scene{
 		cube = new Cube();
 	}
 
+
 	public void render(GL2 gl){
 		this.cube.resetRotation();
 		this.cube.zRotation((float)theta/2);
 		this.cube.xRotation((float)phi/2);
 		this.plan.resetRotation();
 		this.plan.setH(h);
-		this.plan.setAngle(angle);
+		this.plan.yRotation(0);
 		this.plan.zRotation((float)theta/2);
 		this.plan.xRotation((float)phi/2);
 		this.section.resetRotation();
 		this.section.setH(h);
+		this.section.yRotation(0);
 		this.section.zRotation((float)theta/2);
 		this.section.xRotation((float)phi/2);
 		this.cube.sort();
@@ -59,6 +61,7 @@ public class CubeScene extends Scene{
 		if(firstrotation){
 			this.theta = 0;
 			this.phi = 0;
+			this.angle = 0;
 			firstrotation = false;
 		}
 	}
