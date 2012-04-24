@@ -38,7 +38,7 @@ public class RotatingSection extends Plan{
 	@Override
 		public void reset(){
 			super.reset();
-			vp.set(u);
+			up.set(u);
 		}
 
 
@@ -48,13 +48,19 @@ public class RotatingSection extends Plan{
 			if(!instance.isPlantype()){
 				hr -= ph;
 				Vector3f temp = new Vector3f(u);
+				temp.scale(1/xscale);
 				double ang = radian(angle);
 				double len = Math.abs(hr-2.5f)/2.5f;
-				double dx = len/Math.cos(ang)-Math.tan(ang)-1;
-				double dy = len/Math.sin(ang)-1/Math.tan(ang)-1;
-				//				FIXME debug
-				System.out.println("dx="+dx+" dy="+dy);
-				double lon = Math.sqrt(dx*dx+dy*dy)/2f;
+				double ya = 1/2f;
+				double yb = (len/Math.cos(ang)-xscale*Math.tan(ang))/2;
+				double xa = (len/Math.sin(ang)-1/Math.tan(ang))/2;
+				double xb = xscale/2f;
+
+				double dx = xb-xa;
+				double dy = yb-ya;
+				//System.out.println("xa ="+xa+" xb="+xb);
+				//System.out.println("ya ="+ya+" yb="+yb);
+				double lon = Math.sqrt(dx*dx+dy*dy);
 				temp.scale((float)lon);
 				up.set(temp);
 			}
