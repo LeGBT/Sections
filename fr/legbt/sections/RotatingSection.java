@@ -48,7 +48,9 @@ public class RotatingSection extends Plan{
 			if(!instance.isPlantype()){
 				hr -= ph;
 				Vector3f temp = new Vector3f(u);
+				Vector3f temptrans = new Vector3f(u);
 				temp.scale(1/xscale);
+				temptrans.scale(1/xscale);
 				double ang = radian(angle);
 				double len = Math.abs(hr-2.5f)/2.5f;
 				double ya = 1/2f;
@@ -62,7 +64,12 @@ public class RotatingSection extends Plan{
 				//System.out.println("ya ="+ya+" yb="+yb);
 				double lon = Math.sqrt(dx*dx+dy*dy);
 				temp.scale((float)lon);
+
+
+				// à changer FIXME
+				temptrans.scale((float)(xa-len*Math.cos(ang)+u.length()*Math.sin(ang)));
 				up.set(temp);
+				uoff.set(temptrans);
 			}
 		}
 

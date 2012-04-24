@@ -33,6 +33,7 @@ public class Quad{
 	protected Vector3f up;
 	protected Vector3f vp;
 	protected Vector3f np;
+	protected Vector3f uoff;
 	protected float angle;
 	private Vector3f topleft;
 	private Vector3f topright;
@@ -56,6 +57,7 @@ public class Quad{
 		this.up = new Vector3f(u);
 		this.vp = new Vector3f(v);
 		this.np = new Vector3f(n);
+		this.uoff = new Vector3f();
 		this.xrot = 0;
 		this.yrot = 0;
 		this.zrot = 0;
@@ -77,6 +79,7 @@ public class Quad{
 	}
 
 	private void rotation(Matrix3f matrix){
+		matrix.transform(uoff);
 		matrix.transform(ur);
 		matrix.transform(vr);
 		matrix.transform(nr);
@@ -140,6 +143,26 @@ public class Quad{
 	}
 
 	/**
+	 * Gets the uoff for this instance.
+	 *
+	 * @return The uoff.
+	 */
+	public Vector3f getUoff()
+	{
+		return this.uoff;
+	}
+
+	/**
+	 * Sets the uoff for this instance.
+	 *
+	 * @param uoff The uoff.
+	 */
+	public void setUoff(Vector3f uoff)
+	{
+		this.uoff = uoff;
+	}
+
+	/**
 	 * Gets the cote for this instance.
 	 *
 	 * @return The cote.
@@ -162,24 +185,28 @@ public class Quad{
 	private void defineTopLeft(){
 		topleft = new Vector3f(this.nr);
 		topleft.sub(this.ur);
+		topleft.add(this.uoff);
 		topleft.add(this.vr);
 		topleft.scale(cote);
 	}
 	private void defineTopRight(){
 		topright = new Vector3f(this.nr);
 		topright.add(this.ur);
+		topright.add(this.uoff);
 		topright.add(this.vr);
 		topright.scale(cote);
 	}
 	private void defineBottomLeft(){
 		bottomleft = new Vector3f(this.nr);
 		bottomleft.sub(this.ur);
+		bottomleft.add(this.uoff);
 		bottomleft.sub(this.vr);
 		bottomleft.scale(cote);
 	}
 	private void defineBottomRight(){
 		bottomright = new Vector3f(this.nr);
 		bottomright.add(this.ur);
+		bottomright.add(this.uoff);
 		bottomright.sub(this.vr);
 		bottomright.scale(cote);
 	}
