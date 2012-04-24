@@ -25,7 +25,7 @@ import javax.vecmath.Vector3f;
 
 public abstract class  Scene{
 	protected Plan plan;
-	protected Plan section;
+	protected RotatingSection section;
 	protected Disc dsection;
 	protected Thales psection;
 	protected float theta = 10;
@@ -35,16 +35,17 @@ public abstract class  Scene{
 	protected boolean firstrotation;
 	protected Sections instance;
 
+
 	public Scene(float xscale, float yscale,Sections instance){
 		if(!instance.isPlantype()){
 			angle = 30f;
 			plan = new Plan();
 			plan.angle = angle;
-			section = new Plan(1,xscale,yscale);
+			section = new RotatingSection(1,xscale,yscale,instance);
 			section.angle = angle;
 		}else{
 			plan = new Plan();
-			section = new Plan(1,xscale,yscale);
+			section = new RotatingSection(1,xscale,yscale,instance);
 		}
 		firstrotation = true;
 		this.instance = instance;
@@ -99,12 +100,26 @@ public abstract class  Scene{
 	public void sectionDragged(int xdelta,int ydelta){
 		this.h = -ydelta/100f;
 		this.angle = -xdelta/8f;
-		if(!instance.isPlantype()){
-			plan.angle += this.angle;
-			section.angle += this.angle;
+		if(instance!=null){
+			if(!instance.isPlantype()){
+				plan.angle += this.angle;
+				if(!(this instanceof CylinderScene)){
+					section.angle += this.angle;
+				}
+			}
 		}
 	}
 
 	public abstract void render(GL2 gl);
+
+	/**
+	 * Gets the angle for this instance.
+	 *
+	 * @return The angle.
+	 */
+	public float getAngle()
+	{
+		return this.angle;
+	}
 
 }
