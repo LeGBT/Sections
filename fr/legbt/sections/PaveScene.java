@@ -25,8 +25,8 @@ import javax.media.opengl.GL2;
 public class PaveScene extends Scene{
 	private Pave pave;
 
-	public PaveScene(){
-		super(1.5f,0.7f);
+	public PaveScene(Sections instance){
+		super(1.5f,0.7f,instance);
 		pave = new Pave();
 	}
 
@@ -41,10 +41,12 @@ public class PaveScene extends Scene{
 		this.pave.xRotation((float)phi/2);
 		this.plan.resetRotation();
 		this.plan.setH(h);
+		this.plan.yRotation(0);
 		this.plan.zRotation((float)theta/2);
 		this.plan.xRotation((float)phi/2);
 		this.section.resetRotation();
 		this.section.setH(h);
+		this.section.yRotation(0);
 		this.section.zRotation((float)theta/2);
 		this.section.xRotation((float)phi/2);
 		this.pave.sort();
@@ -56,9 +58,9 @@ public class PaveScene extends Scene{
 		this.pave.traceCube(gl);
 		this.plan.tracePlan(gl);
 		gl.glDisable(GL.GL_DEPTH_TEST);
-		if((this.section.getH()<1)&&(this.section.getH()>-1)){
+	//	if((this.section.getH()<1)&&(this.section.getH()>-1)){
 			this.section.tracePlan(gl);
-		}
+	//	}
 		this.h = 0;
 
 		if(firstrotation){
