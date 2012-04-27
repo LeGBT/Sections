@@ -61,7 +61,7 @@ public class Thales extends Quad {
 		/* *******************
 		 * Tracé des arrêtes
 		 * ******************/
-		gl.glColor4f(0.99f,0.9f,0.6f,0.9f);
+		gl.glColor4f(0.9f,0.99f,0.9f,0.9f);
 		drawBorders(gl);
 	}
 }

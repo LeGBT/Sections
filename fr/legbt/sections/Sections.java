@@ -35,10 +35,10 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
+import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.TextRenderer;
-
 
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
 	private int x = 0;
@@ -59,6 +59,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private PyramideScene pys;
 	private SphereScene sps;
 	private Scene activescene;
+	private GLProfile prof;
 	private GLCapabilities caps;
 	private GLCanvas canvas;
 	private Frame frame;
@@ -66,7 +67,19 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 
 
 	public Sections(){
-		caps = new GLCapabilities(null);
+		prof = GLProfile.get(GLProfile.GL2);
+		caps = new GLCapabilities(prof);
+		caps.setDoubleBuffered(true);
+		caps.setHardwareAccelerated(true);
+		caps.setAccumBlueBits(8);
+		caps.setAccumGreenBits(8);
+		caps.setAccumRedBits(8);
+		caps.setAccumAlphaBits(8);
+		caps.setStencilBits(8);
+		caps.setDepthBits(16);
+		caps.setSampleBuffers(true);
+		caps.setNumSamples(8);
+
 		canvas = new GLCanvas(caps);
 		frame = new Frame("Sections");
 		animator = new FPSAnimator(canvas,60);
@@ -152,16 +165,16 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glClearDepth(1.0f);
 		gl.glEnable(GL2.GL_FOG);
 		gl.glEnable(GL.GL_BLEND);
-		gl.glEnable(GL.GL_MULTISAMPLE);
-		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
-		gl.glHint(GL2.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
-		gl.glEnable(GL2.GL_POLYGON_SMOOTH);
-		gl.glEnable(GL.GL_LINE_SMOOTH);
-		gl.glLineWidth(1.5f);
+		//      gl.glEnable(GL.GL_MULTISAMPLE);
+		//		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+		//		gl.glHint(GL2GL3.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
+		//		gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
+		//		gl.glEnable(GL.GL_LINE_SMOOTH);
+		gl.glLineWidth(2f);
 		gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
 		//		gl.glDepthFunc(GL.GL_LEQUAL);
 		gl.glDepthFunc(GL.GL_LESS);
-		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
+		//		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
 		((Component) drawable).addKeyListener(this);
 	}
 
