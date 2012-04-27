@@ -34,11 +34,6 @@ public class PyramideScene extends Scene{
 	public void reset(){}
 
 	public void render(GL2 gl) {
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-		gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
-		gl.glLoadIdentity();
-		int s = 2;
-		gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-s-1,s+1);
 		this.pyramide.resetRotation();
 		this.pyramide.zRotation((float)theta/2);
 		this.pyramide.xRotation((float)phi/2);

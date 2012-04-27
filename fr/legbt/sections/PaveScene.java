@@ -58,9 +58,9 @@ public class PaveScene extends Scene{
 		this.pave.traceCube(gl);
 		this.plan.tracePlan(gl);
 		gl.glDisable(GL.GL_DEPTH_TEST);
-		if((this.section.getH()<1)&&(this.section.getH()>-1)){
+	//	if((this.section.getH()<1)&&(this.section.getH()>-1)){
 			this.section.tracePlan(gl);
-		}
+	//	}
 		this.h = 0;
 
 		if(firstrotation){

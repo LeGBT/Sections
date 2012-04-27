@@ -53,10 +53,10 @@ public class CubeScene extends Scene{
 		this.cube.traceCube(gl);
 		this.plan.tracePlan(gl);
 		gl.glDisable(GL.GL_DEPTH_TEST);
-		//FIXME 
-	//	if((this.section.getH()<1)&&(this.section.getH()>-1)){
-			this.section.tracePlan(gl);
-	//	}
+		//	FIXME 
+		//	if((this.section.getH()<1)&&(this.section.getH()>-1)){
+		this.section.tracePlan(gl);
+		//	}
 		this.h = 0;
 
 		if(firstrotation){

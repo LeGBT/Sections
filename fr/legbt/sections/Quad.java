@@ -27,6 +27,9 @@ public class Quad{
 	protected Vector3f u;
 	protected Vector3f v;
 	protected Vector3f n;
+	protected Vector3f u0;
+	protected Vector3f v0;
+	protected Vector3f n0;
 	protected Vector3f ur;
 	protected Vector3f vr;
 	protected Vector3f nr;
@@ -51,6 +54,9 @@ public class Quad{
 		this.u = new Vector3f(u);
 		this.v = new Vector3f(v);
 		this.n = new Vector3f(n);
+		this.u0 = new Vector3f(u);
+		this.v0 = new Vector3f(v);
+		this.n0 = new Vector3f(n);
 		this.ur = new Vector3f(u);
 		this.vr = new Vector3f(v);
 		this.nr = new Vector3f(n);

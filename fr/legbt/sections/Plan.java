@@ -40,6 +40,7 @@ public class Plan extends Quad{
 
 	public void reset(){
 		super.reset();
+		h = 0.4f;
 	}
 
 
