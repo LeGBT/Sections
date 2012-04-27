@@ -38,6 +38,7 @@ public class Disc implements Piece {
 	private float yrot;
 	private float zrot;
 	private float hr = 1.5f;
+	private float angle;
 	private boolean border;
 	private boolean sphere;
 	static final Vector3f x = new Vector3f(1,0,0);
@@ -63,6 +64,14 @@ public class Disc implements Piece {
 		this.zrot = 0;
 		this.border = false;
 		this.sphere = false;
+	}
+
+	public void reset(){
+		this.angle = 0;
+	}
+
+	public void reset(float angle){
+		this.angle = angle;
 	}
 
 	public Disc(float c,Vector3f u,Vector3f v,Vector3f n){
@@ -151,7 +160,7 @@ public class Disc implements Piece {
 	public void yRotation(float degree){
 		Matrix3f matrix = new Matrix3f();
 		yrot += radian(degree);
-		matrix.rotY(yrot);
+		matrix.rotY(yrot+radian(angle));
 		rotation(matrix);
 	}
 	public void zRotation(float degree){

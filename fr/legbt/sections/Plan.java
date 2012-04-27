@@ -26,6 +26,7 @@ public class Plan extends Quad{
 	private static float h = 0.4f;
 	private boolean border;
 
+
 	public Plan(){
 		super(2,x,y,new Vector3f(0,0,h/2));
 		border = false;
@@ -37,10 +38,37 @@ public class Plan extends Quad{
 	}
 
 
+	public void reset(){
+		super.reset();
+		h = 0.4f;
+	}
+
+
+
 	public void setH(float ph){
-		//	if(ph!=0){
 		this.np.scaleAdd(ph,n,this.np);
-		//	}
+	}
+
+	/**
+	 * Gets the angle for this instance.
+	 *
+	 * @return The angle.
+	 */
+	public float getAngle()
+	{
+		return this.angle;
+	}
+
+
+	/**
+	 * Sets the angle for this instance.
+	 *
+	 * @param angle The angle.
+	 */
+	public void setAngle(float angle)
+	{
+		this.angle = angle;
+
 	}
 
 	public void tracePlan(GL2 gl){
