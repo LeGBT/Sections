@@ -5,7 +5,7 @@
  *     Sections is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     any later version.
  *     
  *     Sections is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,11 +23,10 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 public class CylinderScene extends Scene{
-	private Cylinder cylinder;
-
+	protected Cylinder cylinder;
 
 	public CylinderScene(Sections instance){
-		super("cyl");
+		super("cyl",instance);
 		cylinder = new Cylinder();
 		this.h = -4.2f;
 		this.instance = instance;
@@ -57,11 +56,15 @@ public class CylinderScene extends Scene{
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glTranslatef(0.325f,0,0);
 
-
 		this.cylinder.traceCube(gl);
 		this.plan.tracePlan(gl);
 		gl.glDisable(GL.GL_DEPTH_TEST);
-		if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
+		if(instance.isPlantype()){
+			if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
+				this.dsection.traceVertexes(gl);
+				this.dsection.drawBorders(gl);
+			}
+		}else{
 			this.dsection.traceVertexes(gl);
 			this.dsection.drawBorders(gl);
 		}
@@ -73,5 +76,4 @@ public class CylinderScene extends Scene{
 			firstrotation = false;
 		}
 	}
-
 }

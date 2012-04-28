@@ -5,7 +5,7 @@
  *     Sections is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     any later version.
  *     
  *     Sections is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -24,7 +24,8 @@ import javax.media.opengl.GL;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Matrix3f;
 
-public class Disc implements Piece {
+
+public class Disc implements Piece,Bordered {
 	protected Vector3f u;
 	protected Vector3f v;
 	protected Vector3f n;
@@ -204,7 +205,7 @@ public class Disc implements Piece {
 		return this.nr.dot(z);
 	}
 
-	protected void drawBorders(GL2 gl){
+	public void drawBorders(GL2 gl){
 		gl.glBegin(GL2.GL_LINE_STRIP);
 		gl.glColor4f(0.9f,0.8f,0.9f,0.99f);
 		Vector3f tempx = new Vector3f(ur);
@@ -236,9 +237,6 @@ public class Disc implements Piece {
 			second.add(tempy);
 			second.add(this.nr);
 		}
-		gl.glEnd();
-
-
 		gl.glEnd();
 	}
 
