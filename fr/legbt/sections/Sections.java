@@ -98,9 +98,12 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		canvas.addGLEventListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseListener(b);
+		canvas.addMouseMotionListener(b);
 		canvas.addMouseMotionListener(this);
-		renderer = new TextRenderer(new Font("Times",Font.BOLD,24),true,true);
-		rendererbis = new TextRenderer(new Font("Times",Font.PLAIN,50),true,true);
+		//renderer = new TextRenderer(new Font("Times",Font.BOLD,24),true,true);
+		//rendererbis = new TextRenderer(new Font("Times",Font.PLAIN,50),true,true);
+		renderer = new TextRenderer(new Font("Arial",Font.PLAIN,24),true,true);
+		rendererbis = new TextRenderer(new Font("Arial",Font.PLAIN,50),true,true);
 	}
 
 	public void reset(){
