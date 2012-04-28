@@ -21,20 +21,22 @@ package fr.legbt.sections;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 import javax.media.opengl.GL2;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
 
-public class Button3D implements MouseListener{
+public class Button3D implements MouseListener,MouseMotionListener{
 	private float scale = 1.81f;
 	private float h = scale*0.222f;
 	private float l = 0.125f;
 	private float le = scale*l;
 	private int size = Math.round(1280*scale/16);
 	private int bonus;
-	private String[] textboutons = {"    Cube","Pavé droit","  Cylindre","  Pyramide","    Sphère"};
-	private String[] textboutonscubepave = {"Face","Arrête"};
-	private String[] textboutonscylindre = {"⟂","//"};
+	private String[] textboutons = {"    Cube"," Pavé droit","  Cylindre"," Pyramide","   Sphère"};
+	private String[] textboutonscubepave = {"Face","   Arête"};
+	private String[] textboutonscylindre = {"Base","Axe"};
 	private String[] activebonus;
 	private Sections instance;
 
@@ -94,12 +96,12 @@ public class Button3D implements MouseListener{
 				renderer.draw(activebonus[1],1190,20);
 				renderer.endRendering();
 			}else{
-				rendererbis.beginRendering(1280,720);
-				rendererbis.setColor(1,1,1,0.5f+bonus/2f);
-				rendererbis.draw(activebonus[0],1150,100);
-				rendererbis.setColor(1f,1f,1f,1f-bonus/2f);
-				rendererbis.draw(activebonus[1],1230,20);
-				rendererbis.endRendering();
+				renderer.beginRendering(1280,720);
+				renderer.setColor(1,1,1,0.5f+bonus/2f);
+				renderer.draw(activebonus[0],1150,100);
+				renderer.setColor(1f,1f,1f,1f-bonus/2f);
+				renderer.draw(activebonus[1],1230,20);
+				renderer.endRendering();
 			}
 
 			//			gl.glColor4f(0.9f,0.9f,0.9f,0.9f);
@@ -159,4 +161,14 @@ public class Button3D implements MouseListener{
 	public void mouseExited(MouseEvent arg0){}
 	public void mousePressed(MouseEvent arg0){}
 	public void mouseReleased(MouseEvent arg0){}
+
+	public void mouseDragged(MouseEvent me) {
+		int button = 0;
+		if(me.getX()<size-3){
+			button = me.getY()*5/710+1;
+			this.instance.setActiveview(button);
+		}
+	}
+
+	public void mouseMoved(MouseEvent arg0){}
 }
