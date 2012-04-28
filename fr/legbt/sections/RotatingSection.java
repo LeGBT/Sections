@@ -31,6 +31,9 @@ public class RotatingSection extends Plan{
 	private double ya;
 	private double yb;
 	private double ang;
+	private Vector3f temptrans;
+	private Vector3f temptransold = new Vector3f(u);
+	private Vector3f temp;
 
 	public RotatingSection(float s, float xscale, float yscale, Sections instance){
 		super(s,xscale,yscale);
@@ -44,16 +47,14 @@ public class RotatingSection extends Plan{
 			up.set(u);
 			vp.set(v);
 			uoff = new Vector3f();
-			//	hr = 1.5f;
 		}
-
 
 	@Override
 		public void setH(float ph){
 			this.np.scaleAdd(ph,n,this.np);
 			hr -= ph;
-			Vector3f temp = new Vector3f(u);
-			Vector3f temptrans = new Vector3f(u);
+			temp = new Vector3f(u);
+			temptrans = new Vector3f(u);
 			temp.scale(1/xscale);
 			temptrans.scale(1/xscale);
 			ang = radian(angle);
@@ -82,15 +83,13 @@ public class RotatingSection extends Plan{
 
 			double xb = xscale/2f;
 
-
 			double dx = xb-xa;
 			double dy = yb-ya;
 
 			double xo = len*Math.sin(ang)/2f-dx/2f;
-			double yo = (len*Math.cos(ang)/2f-dy/2f);
+			double yo = (len*Math.cos(ang))/2f-dy/2f;
 
 			double lon = Math.sqrt(dx*dx+dy*dy);
-
 
 			double y2;
 			double x2;
@@ -137,9 +136,6 @@ public class RotatingSection extends Plan{
 				xo = haut*Math.sin(ang)/2f+dx/2f;
 			}
 
-
-
-			// à changer FIXME
 			float test = -1;
 			if(yo>0.5f){
 				test = 1;
@@ -149,18 +145,6 @@ public class RotatingSection extends Plan{
 
 			double dox = (xo-xa);
 			double doy = (yo-ya);
-			float loonl = (float)Math.sqrt(dox*dox+doy*doy);
-			//				FIXME debug
-			//	if(ang==0){
-			//		System.out.println("test="+test);
-			//		System.out.println("lon="+lon);
-			//		System.out.println(hr);
-			//		System.out.println(thr);
-			//		//	System.out.println(ang);
-			//		System.out.println("xo ="+xo+" yo="+yo);
-			//		System.out.println("xa ="+xa+" ya="+ya);
-			//		System.out.println("dox ="+dox+" doy="+doy);
-			//	}
 			if(coins){
 				temptrans.scale(2*(test)*thr*(float)(Math.sqrt(dox*dox+doy*doy)));
 			}else{
@@ -170,8 +154,6 @@ public class RotatingSection extends Plan{
 					temptrans.scale(2f*(float)(-vertical*thr*Math.sqrt(dox*dox+doy*doy)));
 				}
 			}
-
-			//racine de xscale^2+yscale^2
 			if(lon>1.81f){
 				lon = 0;
 			}
@@ -179,17 +161,17 @@ public class RotatingSection extends Plan{
 			temp.scale((float)lon);
 
 			if(!instance.isPlantype()){
-				uoff.set(temptrans);
+				uoff.set(temptransold);
 				up.set(temp);
 			}else if((yb>0.5f)||(yb<-0.5f)){
 				tracer = false;
 			}
+			this.temptransold = new Vector3f(temptrans);
 		}
 
 	static private double radian(double degree){
 		return degree*Math.PI/180;
 	}
-
 
 	public void tracePlan(GL2 gl){
 		if(tracer){

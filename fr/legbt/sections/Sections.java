@@ -165,16 +165,9 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glClearDepth(1.0f);
 		gl.glEnable(GL2.GL_FOG);
 		gl.glEnable(GL.GL_BLEND);
-		//      gl.glEnable(GL.GL_MULTISAMPLE);
-		//		gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
-		//		gl.glHint(GL2GL3.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
-		//		gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
-		//		gl.glEnable(GL.GL_LINE_SMOOTH);
 		gl.glLineWidth(2f);
 		gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
-		//		gl.glDepthFunc(GL.GL_LEQUAL);
 		gl.glDepthFunc(GL.GL_LESS);
-		//		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT,GL.GL_NICEST);
 		((Component) drawable).addKeyListener(this);
 	}
 
