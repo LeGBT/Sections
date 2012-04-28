@@ -5,7 +5,7 @@
  *     Sections is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     any later version.
  *     
  *     Sections is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -25,8 +25,8 @@ import javax.media.opengl.GL2;
 public class PyramideScene extends Scene{
 	private Pyramide pyramide;
 
-	public PyramideScene(){
-		super("pyl");
+	public PyramideScene(Sections instance){
+		super("pyl",instance);
 		pyramide= new Pyramide();
 		this.h = -4f;
 	}

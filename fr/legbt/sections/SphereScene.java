@@ -5,7 +5,7 @@
  *     Sections is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     any later version.
  *     
  *     Sections is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -26,8 +26,8 @@ public class SphereScene extends Scene{
 	private Sphere sphere;
 
 
-	public SphereScene(){
-		super("spl");
+	public SphereScene(Sections instance){
+		super("spl",instance);
 		sphere = new Sphere();
 		this.h = -4.2f;
 	}
@@ -55,7 +55,6 @@ public class SphereScene extends Scene{
 
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glTranslatef(0.325f,0,0);
-
 
 		this.sphere.traceCube(gl);
 		this.plan.tracePlan(gl);

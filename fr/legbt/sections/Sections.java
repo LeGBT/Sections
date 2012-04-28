@@ -5,7 +5,7 @@
  *     Sections is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *     any later version.
  *     
  *     Sections is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -91,8 +91,8 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		cs = new CubeScene(this);
 		ps = new PaveScene(this);
 		cys = new CylinderScene(this);
-		pys = new PyramideScene();
-		sps = new SphereScene();
+		pys = new PyramideScene(this);
+		sps = new SphereScene(this);
 		b = new Button3D(this);
 		activescene = cs;
 		canvas.addGLEventListener(this);
