@@ -76,12 +76,12 @@ public class CylinderScene extends Scene{
 		instance.getTextures().bind(gl,11);
 		if(instance.isPlantype()){
 			if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
-				this.dsection.traceBorders(gl,0.99f);
+				this.dsection.traceBorders(gl,0.99f,0.005f);
 			}
 		}else{
-			this.dsection.traceBorders(gl,0.99f);
+			this.dsection.traceBorders(gl,0.99f,0.005f);
 		}
-		this.cylinder.traceBorders(gl,0.99f);
+		this.cylinder.traceBorders(gl,0.99f,0.005f);
 		instance.getTextures().unbind(gl);
 
 		//tracé de la section
@@ -112,7 +112,7 @@ public class CylinderScene extends Scene{
 			this.dsection.traceBorders(gl,0.99f);
 		}
 		this.edge.traceMe(gl);
-		this.cylinder.traceBorders(gl,0.9f);
+		this.cylinder.traceBorders(gl,0.9f,0.005f);
 		instance.getTextures().unbind(gl);
 	}
 

@@ -37,6 +37,11 @@ public class Face extends Quad implements Piece{
 		return this.getN().getZ();
 	}
 
+	public void traceMe(GL2 gl,float off){
+	//	System.out.println("Warning: no inflate suport for face.java");
+		traceMe(gl);
+	}
+
 	public void traceMe(GL2 gl,float a,float b,float c,float d){
 		System.out.println("Warning: no color suport for face.java");
 		traceMe(gl);

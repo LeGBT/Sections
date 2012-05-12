@@ -40,7 +40,7 @@ public class SphereScene extends Scene{
 		this.plan.tracePlan(gl);
 		gl.glDisable(GL.GL_DEPTH_TEST);
 		if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
-			this.dsection.traceMe(gl);
+			this.dsection.traceMe(gl,0.3f,0.2f,0.4f,0.6f);
 			this.dsection.traceBorders(gl,0.9f);
 		}
 	}

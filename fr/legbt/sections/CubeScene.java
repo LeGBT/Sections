@@ -30,7 +30,7 @@ public class CubeScene extends Scene{
 	}
 
 	private void renderFull(GL2 gl){
-		this.cube.traceBorders(gl,0.55f,0.9f,0.35f,1,0);
+		this.cube.traceBorders(gl,0.99f,0.9f,0.6f,0.9f,0);
 		this.cube.traceMe(gl);
 		this.plan.tracePlan(gl);
 		gl.glDisable(GL2.GL_DEPTH_TEST);

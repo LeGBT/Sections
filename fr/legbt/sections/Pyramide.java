@@ -102,8 +102,12 @@ public class Pyramide {
 	}
 
 	public void traceMe(GL2 gl){
+		traceMe(gl,0);
+	}
+
+	public void traceMe(GL2 gl,float off){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).traceMe(gl);
+			pieces.get(i).traceMe(gl,off);
 		}
 	}
 

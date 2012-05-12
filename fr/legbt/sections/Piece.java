@@ -29,6 +29,7 @@ public interface  Piece extends Comparable<Piece>{
 	public  void yRotation(float degree);
 	public  void zRotation(float degree);
 	public  void traceMe(GL2 gl);
+	public  void traceMe(GL2 gl,float off);
 	public  void traceMe(GL2 gl,float red,float green,float blue,float trans);
 }
 

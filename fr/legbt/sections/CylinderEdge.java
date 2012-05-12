@@ -152,6 +152,11 @@ public class CylinderEdge implements Piece{
 	public void traceMe(GL2 gl) {
 		traceMe(gl,0.9f,0.9f,0.9f,0.9f);
 	}
+
+	public void traceMe(GL2 gl,float off){
+		traceMe(gl,0.9f,0.9f,0.9f,0.9f);
+	}
+
 	public void traceMe(GL2 gl,float red,float green,float blue,float trans) {
 		gl.glBegin(GL2.GL_LINES);
 		gl.glColor4f(red,green,blue,trans);

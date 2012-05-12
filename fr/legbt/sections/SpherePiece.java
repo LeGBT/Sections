@@ -61,6 +61,10 @@ public class SpherePiece implements Piece{
 		System.out.println("Warning: no color support for spherepiece.java");
 	}
 
+	public void traceMe(GL2 gl,float off){
+		System.out.println("Warning: inflate support for spherepiece.java");
+	}
+
 	public void traceMe(GL2 gl){
 		float radian = 6.28318531f/res;
 

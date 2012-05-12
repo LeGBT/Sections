@@ -105,8 +105,6 @@ public class Disc implements Piece,Bordered {
 
 		float para = 0;
 		if(border){
-		//	gl.glColor4f(red,red,red,red);
-		//	gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
 			gl.glColor4f(red,green,blue,trans);
 		}else{
 			gl.glColor4f(para,0.8f,0.2f,0.7f);
@@ -114,7 +112,6 @@ public class Disc implements Piece,Bordered {
 
 		vect3ToVertex(gl,center);
 		vect3ToVertex(gl,first);
-
 
 		for(int i=0;i<res;i++){
 			if(border){

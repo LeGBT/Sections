@@ -79,15 +79,20 @@ public class Cylinder {
 
 	public void traceMe(GL2 gl){
 		for(int i=0;i<pieces.size();i++){
-				pieces.get(i).traceMe(gl);
+			pieces.get(i).traceMe(gl);
 		}
 	}
-	public void traceBorders(GL2 gl, float red){
+
+	public void traceBorders(GL2 gl, float red,float off){
 		for(int i=0;i<pieces.size();i++){
 			if(pieces.get(i) instanceof Disc){
 				Disc d = (Disc) pieces.get(i);
-				d.traceBorders(gl,0.9f,0);
+				d.traceBorders(gl,0.9f,off);
 			}
 		}
+	}
+
+	public void traceBorders(GL2 gl, float red){
+		traceBorders(gl,red,0);
 	}
 }

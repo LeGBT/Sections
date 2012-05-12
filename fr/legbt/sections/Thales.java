@@ -55,6 +55,10 @@ public class Thales extends Quad implements Piece,Bordered {
 		traceMe(gl,0.4f,0.4f,0.4f,0.4f);
 	}
 
+	public void traceMe(GL2 gl,float off){
+		traceMe(gl,0.4f,0.4f,0.4f,0.4f);
+	}
+
 
 	public void traceMe(GL2 gl,float red,float blue,float green,float trans){
 		/* *****************

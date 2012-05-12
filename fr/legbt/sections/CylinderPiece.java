@@ -61,6 +61,11 @@ public class CylinderPiece implements Piece{
 		traceMe(gl);
 	}
 
+	public void traceMe(GL2 gl,float off){
+		System.out.println("Warning: no inflate suport for face.java");
+		traceMe(gl);
+	}
+
 	public void traceMe(GL2 gl){
 		final int res = 256; 
 		float radian = 6.28318531f/res;

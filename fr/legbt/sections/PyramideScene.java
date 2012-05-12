@@ -35,12 +35,12 @@ public class PyramideScene extends Scene{
 	public void reset(){}
 
 	private void renderFull(GL2 gl){
-		this.pyramide.traceBorders(gl,0.55f,0.9f,0.35f,1f,0f);
+		this.pyramide.traceBorders(gl,0.99f,0.9f,0.6f,0.9f,0f);
 		this.pyramide.traceMe(gl);
 		this.plan.tracePlan(gl);
 		gl.glDisable(GL.GL_DEPTH_TEST);
 		if((this.plan.getH()<0.5f)){
-			this.psection.traceMe(gl);
+			this.psection.traceMe(gl,0.3f,0.2f,0.4f,0.6f);
 		//	this.psection.drawBorders(gl,0.9f);
 			this.psection.drawBorders(gl,0);
 		}
@@ -59,10 +59,9 @@ public class PyramideScene extends Scene{
 		gl.glLineWidth(2f);
 		instance.getTextures().bind(gl,11);
 		if((this.plan.getH()<0.5f)){
-			this.psection.traceBorders(gl,0.99f);
+			this.psection.traceBorders(gl,0.99f,0.013f);
 		}
-		//FIXME
-		this.pyramide.traceBorders(gl,0.99f,0.99f,0.99f,0.99f,0.011f);
+		this.pyramide.traceBorders(gl,0.99f,0.99f,0.99f,0.99f,0.009f);
 		instance.getTextures().unbind(gl);
 
 		//tracé de la section
@@ -82,9 +81,9 @@ public class PyramideScene extends Scene{
 
 		//tracé de bords visibles
 		if((this.plan.getH()<0.5f)){
-			this.psection.traceBorders(gl,0.99f);
+			this.psection.traceBorders(gl,0.99f,0.013f);
 		}
-		this.pyramide.traceBorders(gl,0.9f);
+		this.pyramide.traceBorders(gl,0.9f,0.9f,0.9f,0.9f,0.009f);
 		instance.getTextures().unbind(gl);
 	}
 

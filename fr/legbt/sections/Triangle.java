@@ -142,16 +142,16 @@ public class Triangle implements Piece{
 		top.add(this.vr);
 		top.scale(cote+off);
 	}
-	protected void drawLeft(GL2 gl){
-		defineLeft(0);
+	protected void drawLeft(GL2 gl,float off){
+		defineLeft(off);
 		vect3ToVertex(gl,left);
 	}
-	protected void drawRight(GL2 gl){
-		defineRight(0);
+	protected void drawRight(GL2 gl,float off){
+		defineRight(off);
 		vect3ToVertex(gl,right);
 	}
-	protected void drawTop(GL2 gl){
-		defineTop(0);
+	protected void drawTop(GL2 gl,float off){
+		defineTop(off);
 		vect3ToVertex(gl,top);
 	}
 	protected void traceBorders(GL2 gl,float off){
@@ -188,14 +188,18 @@ public class Triangle implements Piece{
 		traceMe(gl);
 	}
 
-	public void traceMe(GL2 gl) {
+	public void traceMe(GL2 gl){
+		traceMe(gl,0f);
+	}
+
+	public void traceMe(GL2 gl,float off) {
 		gl.glBegin(GL2.GL_TRIANGLES);
 		gl.glColor4f(1f,0.7f,0.1f,0.6f);
-		drawLeft(gl);
+		drawLeft(gl,off);
 		gl.glColor4f(0.1f,0.7f,0.1f,0.5f);
-		drawRight(gl);
+		drawRight(gl,off);
 		gl.glColor4f(0.5f,0.8f,0.1f,0.7f);
-		drawTop(gl);
+		drawTop(gl,off);
 		gl.glEnd();
 	}
 }
