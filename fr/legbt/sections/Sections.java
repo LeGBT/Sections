@@ -22,6 +22,7 @@ package fr.legbt.sections;
 import java.awt.Frame;
 import java.awt.Font;
 import java.awt.Component;
+import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -29,6 +30,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -36,8 +38,10 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
+import javax.imageio.ImageIO;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.TextRenderer;
+import com.jogamp.opengl.util.awt.Screenshot;
 
 
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
@@ -45,12 +49,13 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private int y = 0;
 	private int activeview = 1;
 	private boolean plantype;
-	private boolean bonemode = false;
+	private boolean bonemode = true;
 	private boolean up;
 	private boolean down;
 	private boolean left;
 	private boolean right;
 	private boolean shift;
+	private boolean shot = false;
 	private TextRenderer renderer;
 	private TextRenderer rendererbis;
 	private TextureLib textures;
@@ -145,6 +150,16 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-3,3);
 
 		this.activescene.render(gl);
+		if(shot){
+			BufferedImage tScreenshot = Screenshot.readToBufferedImage(150,0, 1050, 700, false); 
+			File tScreenCaptureImageFile = new File("shot.png"); 
+			try{
+				ImageIO.write(tScreenshot, "png", tScreenCaptureImageFile); 
+			}catch(Exception e){
+				System.out.println(e);
+			}
+			shot = false;
+		}
 		b.drawButton(gl,this.renderer,this.rendererbis,this.activeview);
 	}
 
@@ -182,6 +197,9 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 
 
 	public void keyPressed(KeyEvent key) {
+		if(key.getKeyCode() == KeyEvent.VK_S){
+			shot = true;
+		}	
 		if(key.getKeyCode() == KeyEvent.VK_ESCAPE){
 			exit();
 		}	

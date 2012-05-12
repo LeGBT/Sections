@@ -1,10 +1,12 @@
-Sections beta_2.0
+Sections beta_2.1
 
 
 Sections est un petit programme permettant le tracé de solides simples et d'en afficher des sections simples. Il a été conçu pour la présentation devant une classe.
 
 Utilisez les touches de directions du clavier pour déplacer le plan.
 Il est aussi possible de bouger le plan avec la souris en gardant shift appuyé.
+
+La touche "s" permet d'enregistrer la figure affichée sous le nom "shot.png" dans le même dossier que l'application.
 
 C'est un logiciel libre et peut donc être utilisé, copié et même modifié librement selon les termes de la GNU General Public Licence.
 
