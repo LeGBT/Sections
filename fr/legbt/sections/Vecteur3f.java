@@ -19,16 +19,17 @@
 
 package fr.legbt.sections;
 
-import javax.media.opengl.GL2;
+public interface Vecteur3f{
 
-public interface  Piece extends Comparable<Piece>{
+	public float dot(Vecteur3f vect);
+	public float getX();
+	public float getY();
+	public float getZ();
+	public float length();
+	public void add(Vecteur3f vect);
+	public void sub(Vecteur3f vect);
+	public void scale(float k);
+	public void scaleAdd(float k, Vecteur3f v1, Vecteur3f v2);
 
-	public  float getProf();
-	public  void resetRotation();
-	public  void xRotation(float degree);
-	public  void yRotation(float degree);
-	public  void zRotation(float degree);
-	public  void traceMe(GL2 gl);
-	public  void traceMe(GL2 gl,float red,float green,float blue,float trans);
 }
 

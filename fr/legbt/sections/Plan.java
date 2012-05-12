@@ -20,20 +20,18 @@
 package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
 
 public class Plan extends Quad{
 	private static float h = 0.4f;
 	private boolean border;
 
-
 	public Plan(){
-		super(2,x,y,new Vector3f(0,0,h/2));
+		super(2,x,y,new Vecteur(0,0,h/2));
 		border = false;
 	}
 
 	public Plan(float s, float xscale, float yscale){
-		super(s,xscale,yscale,new Vector3f(0,0,h/s));
+		super(s,xscale,yscale,new Vecteur(0,0,h/s));
 		border = true;
 	}
 
@@ -43,32 +41,16 @@ public class Plan extends Quad{
 		h = 0.4f;
 	}
 
-
-
 	public void setH(float ph){
 		this.np.scaleAdd(ph,n,this.np);
 	}
 
-	/**
-	 * Gets the angle for this instance.
-	 *
-	 * @return The angle.
-	 */
-	public float getAngle()
-	{
+	public float getAngle(){
 		return this.angle;
 	}
 
-
-	/**
-	 * Sets the angle for this instance.
-	 *
-	 * @param angle The angle.
-	 */
-	public void setAngle(float angle)
-	{
+	public void setAngle(float angle){
 		this.angle = angle;
-
 	}
 
 	public void tracePlan(GL2 gl){
@@ -79,14 +61,38 @@ public class Plan extends Quad{
 		}else{
 			gl.glColor4f(0f,0.2f,0.5f,0.8f);
 		}
+		gl.glTexCoord2f(0f,0f);
 		drawTopLeft(gl);
+		gl.glTexCoord2f(20f,0f);
 		drawBottomLeft(gl);
+		gl.glTexCoord2f(20f,20f);
 		drawBottomRight(gl);
+		gl.glTexCoord2f(0f,20f);
 		drawTopRight(gl);
 		gl.glEnd();
 		if(border){
 			gl.glColor4f(0.9f,0.99f,0.9f,0.9f);
-			drawBorders(gl);
+			drawBorders(gl,0.005f);
 		}
+	}
+
+	public void tracePlan(GL2 gl,float l){
+		gl.glBegin(GL2.GL_QUADS);
+
+		gl.glColor4f(l,l,l,l);
+		gl.glTexCoord2f(0f,0f);
+		drawTopLeft(gl);
+		gl.glTexCoord2f(20f,0f);
+		drawBottomLeft(gl);
+		gl.glTexCoord2f(20f,20f);
+		drawBottomRight(gl);
+		gl.glTexCoord2f(0f,20f);
+		drawTopRight(gl);
+
+		gl.glEnd();
+	}
+
+	public void traceBorders(GL2 gl){
+		drawBorders(gl,0.005f);
 	}
 }

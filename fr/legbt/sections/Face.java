@@ -20,11 +20,10 @@
 package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
 
 public class Face extends Quad implements Piece{
 
-	public Face(Vector3f u, Vector3f v, Vector3f n){
+	public Face(Vecteur u, Vecteur v, Vecteur n){
 		super(u,v,n);
 	}
 
@@ -35,10 +34,15 @@ public class Face extends Quad implements Piece{
 	}
 
 	public float getProf(){
-		return this.getN().dot(z);
+		return this.getN().getZ();
 	}
 
-	public void traceVertexes(GL2 gl){
+	public void traceMe(GL2 gl,float a,float b,float c,float d){
+		System.out.println("Warning: no color suport for face.java");
+		traceMe(gl);
+	}
+
+	public void traceMe(GL2 gl){
 		/* *****************
 		 * Tracé de la face
 		 * ******************/
@@ -55,11 +59,18 @@ public class Face extends Quad implements Piece{
 		drawTopRight(gl);
 
 		gl.glEnd();
+	}
 
+	public void traceBorders(GL2 gl,float red,float green,float blue,float trans,float off){
 		/* *******************
 		 * Tracé des arrêtes
 		 * ******************/
-		gl.glColor4f(0.99f,0.9f,0.6f,0.9f);
-		drawBorders(gl);
+		//	gl.glColor4f(0.1f,0.1f,0.1f,0.9f);
+		gl.glColor4f(red,green,blue,trans);
+		drawBorders(gl,off);
+
+	}
+	public void traceBorders(GL2 gl,float red){
+		traceBorders(gl,red,red,red,red,0.005f);
 	}
 }

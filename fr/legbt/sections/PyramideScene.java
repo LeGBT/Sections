@@ -22,6 +22,7 @@ package fr.legbt.sections;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
+
 public class PyramideScene extends Scene{
 	private Pyramide pyramide;
 
@@ -32,6 +33,60 @@ public class PyramideScene extends Scene{
 	}
 
 	public void reset(){}
+
+	private void renderFull(GL2 gl){
+		this.pyramide.traceBorders(gl,0.55f,0.9f,0.35f,1f,0f);
+		this.pyramide.traceMe(gl);
+		this.plan.tracePlan(gl);
+		gl.glDisable(GL.GL_DEPTH_TEST);
+		if((this.plan.getH()<0.5f)){
+			this.psection.traceMe(gl);
+		//	this.psection.drawBorders(gl,0.9f);
+			this.psection.drawBorders(gl,0);
+		}
+	}
+
+	private void renderVoid(GL2 gl){
+		// tracé à vide pour les tests
+		gl.glClearColor(1.0f,1.0f,1.0f,1.0f);
+		gl.glDepthFunc(GL.GL_LESS);
+		gl.glColorMask(false,false,false,false);
+		this.pyramide.traceMe(gl);
+		gl.glDepthFunc(GL.GL_GREATER);
+
+		//tracé des pointillés
+		gl.glColorMask(true,true,true,true);
+		gl.glLineWidth(2f);
+		instance.getTextures().bind(gl,11);
+		if((this.plan.getH()<0.5f)){
+			this.psection.traceBorders(gl,0.99f);
+		}
+		//FIXME
+		this.pyramide.traceBorders(gl,0.99f,0.99f,0.99f,0.99f,0.011f);
+		instance.getTextures().unbind(gl);
+
+		//tracé de la section
+		gl.glDepthFunc(GL.GL_LESS);
+		gl.glLineWidth(3f);
+		gl.glDisable(GL2.GL_DEPTH_TEST);
+		instance.getTextures().bind(gl,21);
+		if((this.plan.getH()<0.5f)){
+			this.psection.traceMe(gl);
+		}
+		instance.getTextures().unbind(gl);
+
+		//tracé du plan
+		instance.getTextures().bind(gl,12);
+		this.plan.tracePlan(gl,0.3f);
+		gl.glEnable(GL2.GL_DEPTH_TEST);
+
+		//tracé de bords visibles
+		if((this.plan.getH()<0.5f)){
+			this.psection.traceBorders(gl,0.99f);
+		}
+		this.pyramide.traceBorders(gl,0.9f);
+		instance.getTextures().unbind(gl);
+	}
 
 	public void render(GL2 gl) {
 		this.pyramide.resetRotation();
@@ -50,13 +105,10 @@ public class PyramideScene extends Scene{
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glTranslatef(0.325f,0,0);
 
-
-		this.pyramide.traceCube(gl);
-		this.plan.tracePlan(gl);
-		gl.glDisable(GL.GL_DEPTH_TEST);
-		if((this.plan.getH()<0.5f)){
-			this.psection.traceVertexes(gl);
-			this.psection.drawBorders(gl);
+		if(instance.isBonemode()){
+			renderVoid(gl);
+		}else{
+			renderFull(gl);
 		}
 		this.h = 0;
 

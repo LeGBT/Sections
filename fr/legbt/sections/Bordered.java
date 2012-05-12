@@ -21,7 +21,6 @@ package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
 
-
 public interface Bordered {
 
 	public void setBorder(boolean b);
@@ -34,7 +33,9 @@ public interface Bordered {
 	public void xRotation(float angle);
 	public void yRotation(float angle);
 	public void zRotation(float angle);
-	public void traceVertexes(GL2 gl);
-	public void drawBorders(GL2 gl);
+	public void traceMe(GL2 gl);
+	public void traceMe(GL2 gl,float red,float green,float blue,float trans);
+	public void traceBorders(GL2 gl, float red);
+	public void traceBorders(GL2 gl, float red, float off);
 
 }

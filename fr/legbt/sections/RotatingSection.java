@@ -20,7 +20,6 @@
 package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
 
 public class RotatingSection extends Plan{
 	private float hr = 1.5f;
@@ -31,9 +30,9 @@ public class RotatingSection extends Plan{
 	private double ya;
 	private double yb;
 	private double ang;
-	private Vector3f temptrans;
-	private Vector3f temptransold = new Vector3f(u);
-	private Vector3f temp;
+	private Vecteur temptrans;
+	private Vecteur temptransold = new Vecteur(u);
+	private Vecteur temp;
 
 	public RotatingSection(float s, float xscale, float yscale, Sections instance){
 		super(s,xscale,yscale);
@@ -46,15 +45,15 @@ public class RotatingSection extends Plan{
 			super.reset();
 			up.set(u);
 			vp.set(v);
-			uoff = new Vector3f();
+			uoff = new Vecteur();
 		}
 
 	@Override
 		public void setH(float ph){
 			this.np.scaleAdd(ph,n,this.np);
 			hr -= ph;
-			temp = new Vector3f(u);
-			temptrans = new Vector3f(u);
+			temp = new Vecteur(u);
+			temptrans = new Vecteur(u);
 			temp.scale(1/xscale);
 			temptrans.scale(1/xscale);
 			ang = radian(angle);
@@ -166,7 +165,7 @@ public class RotatingSection extends Plan{
 			}else if((yb>0.5f)||(yb<-0.5f)){
 				tracer = false;
 			}
-			this.temptransold = new Vector3f(temptrans);
+			this.temptransold = new Vecteur(temptrans);
 		}
 
 	static private double radian(double degree){
@@ -179,19 +178,33 @@ public class RotatingSection extends Plan{
 			 * Tracé de la face
 			 * ******************/
 			gl.glBegin(GL2.GL_QUADS);
-			gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
+			if(instance.isBonemode()){
+				gl.glColor4f(0.4f,0.4f,0.4f,0.3f);
+			}else{
+				gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
+			}
+			gl.glTexCoord2f(0f,0f);
 			drawTopLeft(gl);
+			gl.glTexCoord2f(20f,0f);
 			drawBottomLeft(gl);
+			gl.glTexCoord2f(20f,20f);
 			drawBottomRight(gl);
+			gl.glTexCoord2f(0f,20f);
 			drawTopRight(gl);
 			gl.glEnd();
-			gl.glColor4f(0.9f,0.99f,0.9f,0.9f);
-
+			gl.glColor4f(0.1f,0.1f,0.1f,0.999f);
+		}
+	}
+	public void traceBorders(GL2 gl,float red,float green,float blue,float trans,float off){
+		if(tracer){
 			/* *******************
 			 * Tracé des arrêtes
 			 * ******************/
-			gl.glColor4f(0.9f,0.99f,0.9f,0.9f);
-			drawBorders(gl);
+			gl.glColor4f(red,green,blue,trans);
+			drawBorders(gl,off);
 		}
+	}
+	public void traceBorders(GL2 gl,float red){
+		traceBorders(gl,red,red,red,red,0.005f);
 	}
 }

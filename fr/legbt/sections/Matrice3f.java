@@ -19,16 +19,12 @@
 
 package fr.legbt.sections;
 
-import javax.media.opengl.GL2;
+public interface Matrice3f{
 
-public interface  Piece extends Comparable<Piece>{
+	public void rotX(float radian);
+	public void rotY(float radian);
+	public void rotZ(float radian);
+	public void transform(Vecteur3f vect);
 
-	public  float getProf();
-	public  void resetRotation();
-	public  void xRotation(float degree);
-	public  void yRotation(float degree);
-	public  void zRotation(float degree);
-	public  void traceMe(GL2 gl);
-	public  void traceMe(GL2 gl,float red,float green,float blue,float trans);
 }
 

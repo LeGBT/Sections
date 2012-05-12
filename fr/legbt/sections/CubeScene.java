@@ -19,7 +19,6 @@
 
 package fr.legbt.sections;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 public class CubeScene extends Scene{
@@ -30,6 +29,49 @@ public class CubeScene extends Scene{
 		cube = new Cube();
 	}
 
+	private void renderFull(GL2 gl){
+		this.cube.traceBorders(gl,0.55f,0.9f,0.35f,1,0);
+		this.cube.traceMe(gl);
+		this.plan.tracePlan(gl);
+		gl.glDisable(GL2.GL_DEPTH_TEST);
+		this.section.tracePlan(gl);
+		this.section.traceBorders(gl,0.9f,0.99f,0.9f,0.9f,0);
+	}	
+
+	private void renderVoid(GL2 gl){
+		// tracé à vide pour les tests
+		gl.glClearColor(1.0f,1.0f,1.0f,1.0f);
+		gl.glDepthFunc(GL2.GL_LESS);
+		gl.glColorMask(false,false,false,false);
+		this.cube.traceMe(gl);
+		gl.glDepthFunc(GL2.GL_GREATER);
+
+		//tracé des pointillés
+		gl.glColorMask(true,true,true,true);
+		gl.glLineWidth(2f);
+		instance.getTextures().bind(gl,11);
+		this.section.traceBorders(gl,0.99f);
+		this.cube.traceBorders(gl,0.99f);
+		instance.getTextures().unbind(gl);
+
+		//tracé de la section
+		gl.glDepthFunc(GL2.GL_LESS);
+		gl.glLineWidth(3f);
+		gl.glDisable(GL2.GL_DEPTH_TEST);
+		instance.getTextures().bind(gl,21);
+		this.section.tracePlan(gl);
+		instance.getTextures().unbind(gl);
+
+		//tracé du plan
+		instance.getTextures().bind(gl,12);
+		this.plan.tracePlan(gl,0.3f);
+		gl.glEnable(GL2.GL_DEPTH_TEST);
+
+		//tracé de bords visibles
+		this.section.traceBorders(gl,0.99f);
+		this.cube.traceBorders(gl,0.9f);
+		instance.getTextures().unbind(gl);
+	}
 
 	public void render(GL2 gl){
 		this.cube.resetRotation();
@@ -47,13 +89,15 @@ public class CubeScene extends Scene{
 		this.section.xRotation((float)phi/2);
 		this.cube.sort();
 
-		gl.glEnable(GL.GL_DEPTH_TEST);
+		gl.glEnable(GL2.GL_DEPTH_TEST);
 		gl.glTranslatef(0.325f,0,0);
 
-		this.cube.traceCube(gl);
-		this.plan.tracePlan(gl);
-		gl.glDisable(GL.GL_DEPTH_TEST);
-		this.section.tracePlan(gl);
+		if(instance.isBonemode()){
+			renderVoid(gl);
+		}else{
+			renderFull(gl);
+		}
+
 		this.h = 0;
 
 		if(firstrotation){

@@ -20,21 +20,17 @@
 package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
-import javax.media.opengl.GL;
-import javax.vecmath.Vector3f;
-import javax.vecmath.Matrix3f;
-
 
 public class Disc implements Piece,Bordered {
-	protected Vector3f u;
-	protected Vector3f v;
-	protected Vector3f n;
-	protected Vector3f ur;
-	protected Vector3f vr;
-	protected Vector3f nr;
-	protected Vector3f up;
-	protected Vector3f vp;
-	protected Vector3f np;
+	protected Vecteur u;
+	protected Vecteur v;
+	protected Vecteur n;
+	protected Vecteur ur;
+	protected Vecteur vr;
+	protected Vecteur nr;
+	protected Vecteur up;
+	protected Vecteur vp;
+	protected Vecteur np;
 	private float xrot;
 	private float yrot;
 	private float zrot;
@@ -42,24 +38,23 @@ public class Disc implements Piece,Bordered {
 	private float angle;
 	private boolean border;
 	private boolean sphere;
-	static final Vector3f x = new Vector3f(1,0,0);
-	static final Vector3f y = new Vector3f(0,1,0);
-	static final Vector3f z = new Vector3f(0,0,1);
+	static final Vecteur x = new Vecteur(1,0,0);
+	static final Vecteur y = new Vecteur(0,1,0);
+	static final Vecteur z = new Vecteur(0,0,1);
 	static final int res = 256;
 	static final float radian = 6.28318531f/res;
 	static final float PI = 3.1415926535898f;
 
-
-	public Disc(Vector3f u, Vector3f v, Vector3f n){
-		this.u = new Vector3f(u);
-		this.v = new Vector3f(v);
-		this.n = new Vector3f(n);
-		this.ur = new Vector3f(u);
-		this.vr = new Vector3f(v);
-		this.nr = new Vector3f(n);
-		this.up = new Vector3f(u);
-		this.vp = new Vector3f(v);
-		this.np = new Vector3f(n);
+	public Disc(Vecteur u, Vecteur v, Vecteur n){
+		this.u = new Vecteur(u);
+		this.v = new Vecteur(v);
+		this.n = new Vecteur(n);
+		this.ur = new Vecteur(u);
+		this.vr = new Vecteur(v);
+		this.nr = new Vecteur(n);
+		this.up = new Vecteur(u);
+		this.vp = new Vecteur(v);
+		this.np = new Vecteur(n);
 		this.xrot = 0;
 		this.yrot = 0;
 		this.zrot = 0;
@@ -75,35 +70,44 @@ public class Disc implements Piece,Bordered {
 		this.angle = angle;
 	}
 
-	public Disc(float c,Vector3f u,Vector3f v,Vector3f n){
+	public Disc(float c,Vecteur u,Vecteur v,Vecteur n){
 		this(u,v,n);
 	}
-	public Disc(float c,float xscale,float yscale, Vector3f n){
-		this(new Vector3f(xscale,0,0),new Vector3f(0,yscale,0),n);
+	public Disc(float c,float xscale,float yscale, Vecteur n){
+		this(new Vecteur(xscale,0,0),new Vecteur(0,yscale,0),n);
 	}
 
-	// main trace
-	public void traceVertexes(GL2 gl){
-		Vector3f center = new Vector3f(this.nr);
-		Vector3f tempx = new Vector3f(ur);
-		Vector3f tempy = new Vector3f(vr);
-		Vector3f first = new Vector3f(ur);
+	public void traceMe(GL2 gl){
+		traceMe(gl,0.3f);
+	}
+
+	public void traceMe(GL2 gl,float red){
+		traceMe(gl,red,red,red,red);
+	}
+
+	public void traceMe(GL2 gl,float red,float green,float blue,float trans){
+		Vecteur center = new Vecteur(this.nr);
+		Vecteur tempx = new Vecteur(ur);
+		Vecteur tempy = new Vecteur(vr);
+		Vecteur first = new Vecteur(ur);
 		first.add(this.nr);
 
 		tempx.set(ur);
 		tempy.set(vr);
 		tempx.scale((float)Math.cos((double)radian));
 		tempy.scale((float)Math.sin((double)radian));
-		Vector3f second = new Vector3f();
+		Vecteur second = new Vecteur();
 		second.add(tempx);
 		second.add(tempy);
 		second.add(this.nr);
 
-		gl.glBegin(GL.GL_TRIANGLE_FAN);
+		gl.glBegin(GL2.GL_TRIANGLE_FAN);
 
 		float para = 0;
 		if(border){
-			gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
+		//	gl.glColor4f(red,red,red,red);
+		//	gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
+			gl.glColor4f(red,green,blue,trans);
 		}else{
 			gl.glColor4f(para,0.8f,0.2f,0.7f);
 		}
@@ -116,7 +120,6 @@ public class Disc implements Piece,Bordered {
 			if(border){
 			}else{
 				if(i<res/2){para = 2*i/(float)res;}else{para = 2*(1-i/(float)res);}
-				//	para = 3f*(((float)i+1)/((float)res) - ((float)(i+1)*(i+1))/((float)(res*res)));
 				gl.glColor4f(para,0.8f,0.2f,0.7f);
 			}
 
@@ -126,7 +129,7 @@ public class Disc implements Piece,Bordered {
 			tempy.set(vr);
 			tempx.scale((float)Math.cos((double)radian*(i+2)));
 			tempy.scale((float)Math.sin((double)radian*(i+2)));
-			second = new Vector3f();
+			second = new Vecteur();
 			second.add(tempx);
 			second.add(tempy);
 			second.add(this.nr);
@@ -140,41 +143,41 @@ public class Disc implements Piece,Bordered {
 		return degree*0.017453292519943295769236907684f;
 	}
 
-	private void rotation(Matrix3f matrix){
+	private void rotation(Matrice matrix){
 		matrix.transform(ur);
 		matrix.transform(vr);
 		matrix.transform(nr);
 	}
 
 	public void resetRotation(){
-		this.ur = new Vector3f(this.up);
-		this.vr = new Vector3f(this.vp);
-		this.nr = new Vector3f(this.np);
+		this.ur = new Vecteur(this.up);
+		this.vr = new Vecteur(this.vp);
+		this.nr = new Vecteur(this.np);
 	}
 
 	public void xRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		xrot += radian(degree);
 		matrix.rotX(xrot);
 		rotation(matrix);
 	}
 	public void yRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		yrot += radian(degree);
 		matrix.rotY(yrot+radian(angle));
 		rotation(matrix);
 	}
 	public void zRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		zrot += radian(degree);
 		matrix.rotZ(zrot);
 		rotation(matrix);
 	}
 
-	public void vect3ToVertex(GL2 gl, Vector3f b){
-		float px = b.dot(x);
-		float py = b.dot(y);
-		float pz = b.dot(z);
+	public void vect3ToVertex(GL2 gl, Vecteur b){
+		float px = b.getX();
+		float py = b.getY();
+		float pz = b.getZ();
 		gl.glVertex3f(px,py,pz);
 	}
 
@@ -182,7 +185,7 @@ public class Disc implements Piece,Bordered {
 		this.np.scaleAdd(ph,n,this.np);
 		if(sphere){
 			hr -= ph;
-			Vector3f temp = new Vector3f(u);
+			Vecteur temp = new Vecteur(u);
 			temp.scale((float)Math.sqrt(1/4f-(hr/5f-1f/2f)*(hr/5f-1f/2f))*2f);	
 			up.set(temp);
 			temp.set(v);
@@ -195,44 +198,47 @@ public class Disc implements Piece,Bordered {
 		return this.np.length();
 	}
 
-	/**
-	 * Gets the normal vector for this face.
-	 *
-	 * @return The n.
-	 */
-	public float getProf()
-	{
-		return this.nr.dot(z);
+	public float getProf(){
+		return this.nr.getZ();
 	}
 
-	public void drawBorders(GL2 gl){
+	public void traceBorders(GL2 gl,float red){
+		traceBorders(gl,red,0.005f);
+	}
+
+	public void traceBorders(GL2 gl,float red,float off){
 		gl.glBegin(GL2.GL_LINE_STRIP);
-		gl.glColor4f(0.9f,0.8f,0.9f,0.99f);
-		Vector3f tempx = new Vector3f(ur);
-		Vector3f tempy = new Vector3f(vr);
-		Vector3f first = new Vector3f(ur);
+		gl.glColor4f(red,red,red,red);
+		Vecteur tempx = new Vecteur(ur);
+		Vecteur tempy = new Vecteur(vr);
+		Vecteur first = new Vecteur(ur);
 		first.add(this.nr);
+		first.scale(1+off);	
 
 		tempx.set(ur);
 		tempy.set(vr);
 		tempx.scale((float)Math.cos((double)radian));
 		tempy.scale((float)Math.sin((double)radian));
-		Vector3f second = new Vector3f();
+		Vecteur second = new Vecteur();
 		second.add(tempx);
 		second.add(tempy);
 		second.add(this.nr);
 
-
+		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,first);
 
-
 		for(int i=0;i<res;i++){
+			gl.glTexCoord1f(105f*i/res);
+
+			//test inflate
+			second.scale(1+off);	
+
 			vect3ToVertex(gl,second);
 			tempx.set(ur);
 			tempy.set(vr);
 			tempx.scale((float)Math.cos((double)radian*(i+2)));
 			tempy.scale((float)Math.sin((double)radian*(i+2)));
-			second = new Vector3f();
+			second = new Vecteur();
 			second.add(tempx);
 			second.add(tempy);
 			second.add(this.nr);
@@ -246,43 +252,19 @@ public class Disc implements Piece,Bordered {
 		return (int) pc;
 	}
 
-	/**
-	 * Determines if this instance is border.
-	 *
-	 * @return The border.
-	 */
-	public boolean isBorder()
-	{
+	public boolean isBorder(){
 		return this.border;
 	}
 
-	/**
-	 * Sets whether or not this instance is border.
-	 *
-	 * @param border The border.
-	 */
-	public void setBorder(boolean border)
-	{
+	public void setBorder(boolean border){
 		this.border = border;
 	}
 
-	/**
-	 * Determines if this instance is sphere.
-	 *
-	 * @return The sphere.
-	 */
-	public boolean isSphere()
-	{
+	public boolean isSphere(){
 		return this.sphere;
 	}
 
-	/**
-	 * Sets whether or not this instance is sphere.
-	 *
-	 * @param sphere The sphere.
-	 */
-	public void setSphere(boolean sphere)
-	{
+	public void setSphere(boolean sphere){
 		this.sphere = sphere;
 	}
 }

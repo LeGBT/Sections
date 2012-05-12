@@ -20,15 +20,14 @@
 package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
 
 public class Thales extends Quad implements Piece,Bordered {
-	private Vector3f direction;
+	private Vecteur direction;
 	private float hr = 1.5f;
 	private boolean cylinderthales;
 
 
-	public Thales(Vector3f direction, Vector3f u, Vector3f v, Vector3f n){
+	public Thales(Vecteur direction, Vecteur u, Vecteur v, Vecteur n){
 		super(u,v,n);
 		this.direction = direction ;
 		this.cylinderthales = false;
@@ -37,9 +36,8 @@ public class Thales extends Quad implements Piece,Bordered {
 	public void setH(float ph){
 		this.np.scaleAdd(ph,this.direction,this.np);
 		hr -= ph;
-		Vector3f temp = new Vector3f(u);
+		Vecteur temp = new Vecteur(u);
 		if(cylinderthales){
-		//	double dist = Math.abs(0.5f-hr/5f);
 			double dist = 0.5f - hr/5f;
 			float rayon = (float) Math.sqrt(-dist*dist+0.25f);
 			temp.scale(rayon*2f);	
@@ -53,27 +51,40 @@ public class Thales extends Quad implements Piece,Bordered {
 		}	
 	}
 
+	public void traceMe(GL2 gl){
+		traceMe(gl,0.4f,0.4f,0.4f,0.4f);
+	}
 
-	public void traceVertexes(GL2 gl){
+
+	public void traceMe(GL2 gl,float red,float blue,float green,float trans){
 		/* *****************
 		 * Tracé de la face
 		 * ******************/
 		gl.glBegin(GL2.GL_QUADS);
-		gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
+		gl.glColor4f(red,blue,green,trans);
+		gl.glTexCoord2f(0f,0f);
 		drawTopLeft(gl);
+		gl.glTexCoord2f(20f,0f);
 		drawBottomLeft(gl);
+		gl.glTexCoord2f(20f,20f);
 		drawBottomRight(gl);
+		gl.glTexCoord2f(0f,20f);
 		drawTopRight(gl);
 		gl.glEnd();
 		gl.glColor4f(0.9f,0.99f,0.9f,0.9f);
+	}
 
+	public void traceBorders(GL2 gl, float red){
+		traceBorders(gl,red,0.005f);
+	}
+
+	public void traceBorders(GL2 gl, float red, float off){
 		/* *******************
 		 * Tracé des arrêtes
 		 * ******************/
-		gl.glColor4f(0.9f,0.99f,0.9f,0.9f);
-		drawBorders(gl);
+		gl.glColor4f(red,red,red,red);
+		drawBorders(gl,off);
 	}
-
 
 	public int compareTo(Piece arg0) {
 		return 0;
@@ -83,27 +94,14 @@ public class Thales extends Quad implements Piece,Bordered {
 		return 0;
 	}
 
-
 	public void setBorder(boolean b){}
 	public void setSphere(boolean b){}
 
-	/**
-	 * Determines if this instance is cylinderthales.
-	 *
-	 * @return The cylinderthales.
-	 */
-	public boolean isCylinderthales()
-	{
+	public boolean isCylinderthales(){
 		return this.cylinderthales;
 	}
 
-	/**
-	 * Sets whether or not this instance is cylinderthales.
-	 *
-	 * @param cylinderthales The cylinderthales.
-	 */
-	public void setCylinderthales(boolean cylinderthales)
-	{
+	public void setCylinderthales(boolean cylinderthales){
 		this.cylinderthales = cylinderthales;
 	}
 }

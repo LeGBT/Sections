@@ -21,75 +21,43 @@ package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
 
-public class Quad{
+public class SphereEdge implements Piece{
 	protected Vecteur u;
 	protected Vecteur v;
 	protected Vecteur n;
-	protected Vecteur u0;
-	protected Vecteur v0;
-	protected Vecteur n0;
 	protected Vecteur ur;
 	protected Vecteur vr;
 	protected Vecteur nr;
 	protected Vecteur up;
 	protected Vecteur vp;
 	protected Vecteur np;
-	protected Vecteur uoff;
 	protected float angle;
 	private Vecteur topleft;
 	private Vecteur topright;
 	private Vecteur bottomleft;
 	private Vecteur bottomright;
-	private float cote;
 	private float xrot;
 	private float yrot;
 	private float zrot;
-	static Vecteur x = new Vecteur(1,0,0);
-	static Vecteur y = new Vecteur(0,1,0);
-	static Vecteur z = new Vecteur(0,0,1);
+	static final Vecteur x = new Vecteur(1,0,0);
+	static final Vecteur y = new Vecteur(0,1,0);
+	static final Vecteur z = new Vecteur(0,0,1);
+	static final int res = 64; 
 
-	public Quad(Vecteur u, Vecteur v, Vecteur n){
+	public SphereEdge(Vecteur u, Vecteur v, Vecteur n){
 		this.u = new Vecteur(u);
 		this.v = new Vecteur(v);
 		this.n = new Vecteur(n);
-		this.u0 = new Vecteur(u);
-		this.v0 = new Vecteur(v);
-		this.n0 = new Vecteur(n);
 		this.ur = new Vecteur(u);
 		this.vr = new Vecteur(v);
 		this.nr = new Vecteur(n);
 		this.up = new Vecteur(u);
 		this.vp = new Vecteur(v);
 		this.np = new Vecteur(n);
-		this.uoff = new Vecteur();
 		this.xrot = 0;
 		this.yrot = 0;
 		this.zrot = 0;
-		this.cote = 1;
-		this.angle = 0;
 	}
-
-	public Quad(float c,Vecteur u, Vecteur v, Vecteur n){
-		this(u,v,n);
-		this.cote = c;
-	}
-	public Quad(float c,float xscale, float yscale, Vecteur n){
-		this(new Vecteur(xscale,0,0),new Vecteur(0,yscale,0),n);
-		this.cote = c;
-	}
-
-
-	static private float radian(float degree){
-		return degree*0.017453292519943295769236907684f;
-	}
-
-	private void rotation(Matrice matrix){
-		matrix.transform(uoff);
-		matrix.transform(ur);
-		matrix.transform(vr);
-		matrix.transform(nr);
-	}
-
 
 	public void reset(){
 		this.angle = 0;
@@ -99,6 +67,21 @@ public class Quad{
 		this.angle = angle;
 	}
 
+	public float getH(){
+		return this.np.length();
+	}
+
+	static private float radian(float degree){
+		return degree*0.017453292519943295769236907684f;
+	}
+
+	public int compareTo(Piece arg0){
+		return 0;
+	}
+
+	public float getProf() {
+		return 0;
+	}
 
 	public void resetRotation(){
 		this.ur = new Vecteur(this.up);
@@ -106,19 +89,27 @@ public class Quad{
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void xRotation(float degree){
+	public void rotation(Matrice matrix){
+		matrix.transform(ur);
+		matrix.transform(vr);
+		matrix.transform(nr);
+	}
+
+	public void xRotation(float degree) {
 		Matrice matrix = new Matrice();
 		xrot += radian(degree);
 		matrix.rotX(xrot);
 		rotation(matrix);
 	}
-	public void yRotation(float degree){
+
+	public void yRotation(float degree) {
 		Matrice matrix = new Matrice();
 		yrot += radian(degree);
 		matrix.rotY(yrot+radian(angle));
 		rotation(matrix);
 	}
-	public void zRotation(float degree){
+
+	public void zRotation(float degree) {
 		Matrice matrix = new Matrice();
 		zrot += radian(degree);
 		matrix.rotZ(zrot);
@@ -132,82 +123,52 @@ public class Quad{
 		gl.glVertex3f(px,py,pz);
 	}
 
-
-	public float getH(){
-		return this.np.length();
-	}
-
-	public Vecteur getN(){return this.nr;}
-	public Vecteur getUoff(){return this.uoff;}
-	public void setUoff(Vecteur uoff){this.uoff = uoff;}
-	public float getCote(){return this.cote;}
-	public void setCote(float cote){this.cote = cote;}
-
 	private void defineTopLeft(float off){
 		topleft = new Vecteur(this.nr);
 		topleft.sub(this.ur);
-		topleft.add(this.uoff);
 		topleft.add(this.vr);
-		topleft.scale(cote);
 		topleft.scale(1+off);
 	}
+
 	private void defineTopRight(float off){
 		topright = new Vecteur(this.nr);
 		topright.add(this.ur);
-		topright.add(this.uoff);
 		topright.add(this.vr);
-		topright.scale(cote);
 		topright.scale(1+off);
 	}
 	private void defineBottomLeft(float off){
 		bottomleft = new Vecteur(this.nr);
 		bottomleft.sub(this.ur);
-		bottomleft.add(this.uoff);
 		bottomleft.sub(this.vr);
-		bottomleft.scale(cote);
 		bottomleft.scale(1+off);
 	}
 	private void defineBottomRight(float off){
 		bottomright = new Vecteur(this.nr);
 		bottomright.add(this.ur);
-		bottomright.add(this.uoff);
 		bottomright.sub(this.vr);
-		bottomright.scale(cote);
 		bottomright.scale(1+off);
 	}
-	protected void drawTopLeft(GL2 gl){
-		defineTopLeft(0);
-		vect3ToVertex(gl,topleft);
-	}
-	protected void drawTopRight(GL2 gl){
-		defineTopRight(0);
-		vect3ToVertex(gl,topright);
-	}
-	protected void drawBottomLeft(GL2 gl){
-		defineBottomLeft(0);
-		vect3ToVertex(gl,bottomleft);
-	}
-	protected void drawBottomRight(GL2 gl){
-		defineBottomRight(0);
-		vect3ToVertex(gl,bottomright);
+
+	public void traceMe(GL2 gl) {
+		traceMe(gl,0.9f,0.9f,0.9f,0.9f);
 	}
 
-	public void drawBorders(GL2 gl,float off){
-		defineTopLeft(off);
-		defineTopRight(off);
-		defineBottomLeft(off);
-		defineBottomRight(off);
-		gl.glBegin(GL2.GL_LINE_STRIP);
+	public void traceMe(GL2 gl,float red,float green,float blue,float trans){
+		gl.glBegin(GL2.GL_LINES);
+		gl.glColor4f(red,green,blue,trans);
 		gl.glTexCoord1f(0f);
+		defineTopLeft(0.005f);
 		vect3ToVertex(gl,topleft);
 		gl.glTexCoord1f(105f);
+		defineBottomLeft(0.005f);
 		vect3ToVertex(gl,bottomleft);
 		gl.glTexCoord1f(0f);
-		vect3ToVertex(gl,bottomright);
-		gl.glTexCoord1f(105f);
+		defineTopRight(0.005f);
 		vect3ToVertex(gl,topright);
-		gl.glTexCoord1f(0f);
-		vect3ToVertex(gl,topleft);
+		gl.glTexCoord1f(105f);
+		defineBottomRight(0.005f);
+		vect3ToVertex(gl,bottomright);
 		gl.glEnd();
 	}
 }
+

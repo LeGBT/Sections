@@ -20,7 +20,7 @@
 package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
+
 
 public abstract class  Scene{
 	protected Plan plan;
@@ -33,6 +33,10 @@ public abstract class  Scene{
 	protected float angle;
 	protected boolean firstrotation;
 	protected Sections instance;
+	static final Vecteur x = new Vecteur(1,0,0);
+	static final Vecteur y = new Vecteur(0,1,0);
+	static final Vecteur z = new Vecteur(0,0,1);
+	static final Vecteur nul = new Vecteur(0,0,0);
 
 	public Scene(float xscale, float yscale,Sections instance){
 		if(!instance.isPlantype()){
@@ -53,24 +57,27 @@ public abstract class  Scene{
 		this.instance = instance;
 	}
 
+	protected boolean getMode(){
+		return instance.isBonemode();
+	}
+
 
 	public Scene(String type, Sections instance){
 		this.instance = instance;
 		plan = new Plan();
 		if(type.equals("cyl")){
 			if(!instance.isPlantype()){
-				dsection = new Thales(new Vector3f(0,0,1),new Vector3f(1,0,0),new Vector3f(0,1,0),new Vector3f(0,0,0.4f));
-				//		dsection = new Disc(new Vector3f(1,0,0),new Vector3f(0,1,0),new Vector3f(0,0,0.4f));
+				dsection = new Thales(z,x,y,new Vecteur(0,0,0.4f));
 			}else{
-				dsection = new Disc(new Vector3f(1,0,0),new Vector3f(0,1,0),new Vector3f(0,0,0.4f));
+				dsection = new Disc(x,y,new Vecteur(0,0,0.4f));
 			}
 			dsection.setBorder(true);
 		}else if(type.equals("spl")){
-			dsection = new Disc(new Vector3f(1,0,0),new Vector3f(0,1,0),new Vector3f(0,0,0.4f));
+			dsection = new Disc(x,y,new Vecteur(0,0,0.4f));
 			dsection.setBorder(true);
 			dsection.setSphere(true);
 		}else if(type.equals("pyl")){
-			psection = new Thales(new Vector3f(0.2f,0.1f,0.4f),new Vector3f(1.5f,0,0),new Vector3f(0,1,0),new Vector3f(0.7f,0.35f,0.4f));
+			psection = new Thales(new Vecteur(0.2f,0.1f,0.4f),new Vecteur(1.5f,0,0),y,new Vecteur(0.7f,0.35f,0.4f));
 		}
 		firstrotation = true;
 	}
@@ -79,7 +86,7 @@ public abstract class  Scene{
 		firstrotation = true;
 		if(!instance.isPlantype()){
 			if(this instanceof CylinderScene){
-				this.dsection = new Thales(new Vector3f(0.4f,0,0),new Vector3f(0,1,0),new Vector3f(0,0,1),new Vector3f(0.4f,0,0));
+				this.dsection = new Thales(new Vecteur(0.4f,0,0),y,z,new Vecteur(0.4f,0,0));
 				((Thales)this.dsection).setCylinderthales(true);
 				theta = 10;
 				phi = -160;
@@ -87,6 +94,7 @@ public abstract class  Scene{
 				this.plan.reset(90);
 				this.h = -4.2f;
 				((CylinderScene)this).cylinder = new Cylinder();
+				((CylinderScene)this).resetEdges();
 				//	this.dsection.reset(90);
 			}else{
 				this.section.reset(30);
@@ -95,7 +103,7 @@ public abstract class  Scene{
 		}else{
 			this.plan.reset();
 			if(this instanceof CylinderScene){
-				this.dsection = new Disc(new Vector3f(1,0,0),new Vector3f(0,1,0),new Vector3f(0,0,0.4f));
+				this.dsection = new Disc(x,y,new Vecteur(0,0,0.4f));
 				this.dsection.reset();
 				this.dsection.setBorder(true);
 				theta = 10;
@@ -103,6 +111,7 @@ public abstract class  Scene{
 				this.plan = new Plan();
 				this.h = -4.2f;
 				((CylinderScene)this).cylinder = new Cylinder();
+				((CylinderScene)this).resetEdges();
 			}else{
 				this.section.reset();
 			}
@@ -138,13 +147,7 @@ public abstract class  Scene{
 
 	public abstract void render(GL2 gl);
 
-	/**
-	 * Gets the angle for this instance.
-	 *
-	 * @return The angle.
-	 */
-	public float getAngle()
-	{
+	public float getAngle(){
 		return this.angle;
 	}
 }

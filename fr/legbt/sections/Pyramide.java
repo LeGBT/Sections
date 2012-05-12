@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
-
 
 public class Pyramide {
 	private Face base;
@@ -35,17 +33,17 @@ public class Pyramide {
 	private ArrayList<Piece> pieces;
 
 	public Pyramide(){
-		Vector3f u1 = new Vector3f(1.5f,0,0);
-		Vector3f u2 = new Vector3f(0,1,0);
-		Vector3f u3 = new Vector3f(0,0,-1);
-		Vector3f u4 = new Vector3f(0,0.75f,1f);
-		Vector3f u5 = new Vector3f(0,-0.25f,0);
-		Vector3f u7 = new Vector3f(0,-0.25f,1);
-		Vector3f u8 = new Vector3f(0,0.75f,0);
-		Vector3f u9 = new Vector3f(-0.25f,0,1);
-		Vector3f u10 = new Vector3f(1.25f,0,0);
-		Vector3f u11 = new Vector3f(1.25f,0,1);
-		Vector3f u12 = new Vector3f(-0.25f,0,0);
+		Vecteur u1 = new Vecteur(1.5f,0,0);
+		Vecteur u2 = new Vecteur(0,1,0);
+		Vecteur u3 = new Vecteur(0,0,-1);
+		Vecteur u4 = new Vecteur(0,0.75f,1f);
+		Vecteur u5 = new Vecteur(0,-0.25f,0);
+		Vecteur u7 = new Vecteur(0,-0.25f,1);
+		Vecteur u8 = new Vecteur(0,0.75f,0);
+		Vecteur u9 = new Vecteur(-0.25f,0,1);
+		Vecteur u10 = new Vecteur(1.25f,0,0);
+		Vecteur u11 = new Vecteur(1.25f,0,1);
+		Vecteur u12 = new Vecteur(-0.25f,0,0);
 		pieces = new ArrayList<Piece>();
 		base = new Face(u1,u2,u3);
 		front = new Triangle(0.66666667f,u1,u4,u5);
@@ -89,13 +87,23 @@ public class Pyramide {
 		Collections.sort(pieces);
 	}
 
-	public void traceCube(GL2 gl){
+	public void traceBorders(GL2 gl, float red){
+		traceBorders(gl,red,red,red,red,0);
+	}
+
+	public void traceBorders(GL2 gl, float red,float green, float blue,float trans,float off){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).traceVertexes(gl);
-			if(pieces.get(i) instanceof Disc){
-				Disc d = (Disc) pieces.get(i);
-				d.drawBorders(gl);
+			if(pieces.get(i) instanceof Triangle){
+				((Triangle)pieces.get(i)).traceBorders(gl,red,green,blue,trans,off);
+			}else{
+				//	((Face)pieces.get(i)).traceBorders(gl,red);
 			}
+		}
+	}
+
+	public void traceMe(GL2 gl){
+		for(int i=0;i<pieces.size();i++){
+			pieces.get(i).traceMe(gl);
 		}
 	}
 

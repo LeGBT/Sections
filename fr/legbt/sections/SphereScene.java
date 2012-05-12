@@ -22,6 +22,7 @@ package fr.legbt.sections;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
+
 public class SphereScene extends Scene{
 	private Sphere sphere;
 
@@ -33,6 +34,50 @@ public class SphereScene extends Scene{
 	}
 
 	public void reset(){}
+
+	private void renderFull(GL2 gl){
+		this.sphere.traceMe(gl);
+		this.plan.tracePlan(gl);
+		gl.glDisable(GL.GL_DEPTH_TEST);
+		if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
+			this.dsection.traceMe(gl);
+			this.dsection.traceBorders(gl,0.9f);
+		}
+	}
+
+	private void renderVoid(GL2 gl){
+		// tracé à vide pour les tests
+		gl.glClearColor(1.0f,1.0f,1.0f,1.0f);
+		gl.glDepthFunc(GL.GL_LESS);
+		gl.glColorMask(false,false,false,false);
+		this.sphere.traceMe(gl);
+		gl.glDepthFunc(GL.GL_GREATER);
+
+		//tracé des pointillés
+		gl.glColorMask(true,true,true,true);
+		gl.glLineWidth(2f);
+		instance.getTextures().bind(gl,11);
+		this.dsection.traceBorders(gl,0.99f);
+		instance.getTextures().unbind(gl);
+
+		//tracé de la section
+		gl.glDepthFunc(GL.GL_LESS);
+		gl.glLineWidth(3f);
+		gl.glDisable(GL2.GL_DEPTH_TEST);
+		instance.getTextures().bind(gl,21);
+		this.dsection.traceMe(gl);
+		instance.getTextures().unbind(gl);
+
+		//tracé du plan
+		instance.getTextures().bind(gl,12);
+		this.plan.tracePlan(gl,0.3f);
+		gl.glEnable(GL2.GL_DEPTH_TEST);
+
+		//tracé de bords visibles
+		this.dsection.traceBorders(gl,0.99f);
+		this.sphere.traceBorders(gl,0.9f);
+		instance.getTextures().unbind(gl);
+	}
 
 	public void render(GL2 gl) {
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
@@ -56,13 +101,12 @@ public class SphereScene extends Scene{
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glTranslatef(0.325f,0,0);
 
-		this.sphere.traceCube(gl);
-		this.plan.tracePlan(gl);
-		gl.glDisable(GL.GL_DEPTH_TEST);
-		if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
-			this.dsection.traceVertexes(gl);
-			this.dsection.drawBorders(gl);
+		if(instance.isBonemode()){
+			renderVoid(gl);
+		}else{
+			renderFull(gl);
 		}
+
 		this.h = 0;
 
 		if(firstrotation){

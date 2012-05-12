@@ -20,94 +20,78 @@
 package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
-import javax.vecmath.Matrix3f;
 
 public class SpherePiece implements Piece{
-	protected Vector3f u;
-	protected Vector3f v;
-	protected Vector3f n;
-	protected Vector3f ur;
-	protected Vector3f vr;
-	protected Vector3f nr;
-	protected Vector3f np;
+	protected Vecteur u;
+	protected Vecteur v;
+	protected Vecteur n;
+	protected Vecteur ur;
+	protected Vecteur vr;
+	protected Vecteur nr;
+	protected Vecteur np;
 	private float xrot;
 	private float yrot;
 	private float zrot;
-	static final Vector3f x = new Vector3f(1,0,0);
-	static final Vector3f y = new Vector3f(0,1,0);
-	static final Vector3f z = new Vector3f(0,0,1);
-	static	final int res = 64; 
+	static final Vecteur x = new Vecteur(1,0,0);
+	static final Vecteur y = new Vecteur(0,1,0);
+	static final Vecteur z = new Vecteur(0,0,1);
+	static final int res = 64; 
 
-	public SpherePiece(Vector3f u, Vector3f v, Vector3f n){
-		this.u = new Vector3f(u);
-		this.v = new Vector3f(v);
-		this.n = new Vector3f(n);
-		this.ur = new Vector3f(u);
-		this.vr = new Vector3f(v);
-		this.nr = new Vector3f(n);
-		this.np = new Vector3f(n);
+	public SpherePiece(Vecteur u, Vecteur v, Vecteur n){
+		this.u = new Vecteur(u);
+		this.v = new Vecteur(v);
+		this.n = new Vecteur(n);
+		this.ur = new Vecteur(u);
+		this.vr = new Vecteur(v);
+		this.nr = new Vecteur(n);
+		this.np = new Vecteur(n);
 		this.xrot = 0;
 		this.yrot = 0;
 		this.zrot = 0;
 	}
 
-	public SpherePiece(float c,Vector3f u,Vector3f v,Vector3f n){
+	public SpherePiece(float c,Vecteur u,Vecteur v,Vecteur n){
 		this(u,v,n);
 	}
-	public SpherePiece(float c,float xscale,float yscale, Vector3f n){
-		this(new Vector3f(xscale,0,0),new Vector3f(0,yscale,0),n);
+	public SpherePiece(float c,float xscale,float yscale, Vecteur n){
+		this(new Vecteur(xscale,0,0),new Vecteur(0,yscale,0),n);
 	}
 
-	// main trace
-	public void traceVertexes(GL2 gl){
+	public void traceMe(GL2 gl,float a,float b,float c,float d){
+		System.out.println("Warning: no color support for spherepiece.java");
+	}
+
+	public void traceMe(GL2 gl){
 		float radian = 6.28318531f/res;
-		//	float radian = 3.1415926536f/res;
 
+		Vecteur tempx = new Vecteur(ur);
+		Vecteur tempy = new Vecteur(vr);
+		Vecteur tempz = new Vecteur(nr);
 
-		Vector3f tempx = new Vector3f(ur);
-		Vector3f tempy = new Vector3f(vr);
-		Vector3f tempz = new Vector3f(nr);
+		int fix = (int) Math.floor(nr.getY())*2 + 1;
+		int fiy = (int) Math.floor(ur.getY())*2 + 1;
+		int fiz = (int) Math.floor(nr.getZ())*2 + 1;
+		int firstposition = (int) Math.round(Math.acos(-fiz*fiy*ur.getX())/radian);
 
-		int fix = (int) Math.floor(nr.dot(y))*2 + 1;
-		int fiy = (int) Math.floor(ur.dot(y))*2 + 1;
-		int fiz = (int) Math.floor(nr.dot(z))*2 + 1;
-		int firstposition = (int) Math.round(Math.acos(-fiz*fiy*ur.dot(x))/radian);
 		// wtf case !
 		if(fix==3){fix=1;}
-
 
 		tempx.set(ur);
 		tempy.set(vr);
 		tempz.set(nr);
 		tempx.scale((float)Math.sin((double)radian)*(float)Math.cos((double)radian*firstposition));
-		//	tempx.scale(0);
 		tempy.scale((float)Math.sin((double)radian)*(float)Math.sin((double)radian*firstposition));
-		//	tempy.scale(0);
 		tempz.scale((float)Math.cos((double)radian));
-		Vector3f top = new Vector3f();
-		Vector3f bottom = new Vector3f();
+		Vecteur top = new Vecteur();
+		Vecteur bottom = new Vecteur();
 		top.add(tempx);
 		top.add(tempy);
 		top.add(tempz);
-		//	top.add(this.nr);
 		tempz.set(nr);
 		tempz.scale((float)Math.cos((double)radian*2));
 		bottom.add(tempx);
 		bottom.add(tempy);
 		bottom.add(tempz);
-
-		//gl.glColor4f(1,1,0.9f,0.9f);
-		//gl.glBegin(GL2.GL_LINES);
-		//vect3ToVertex(gl,new Vector3f(0,0,0));
-		//vect3ToVertex(gl,ur);
-		//gl.glEnd();
-
-		//gl.glColor4f(0,1,0.9f,0.9f);
-		//gl.glBegin(GL2.GL_LINES);
-		//vect3ToVertex(gl,new Vector3f(0,0,0));
-		//vect3ToVertex(gl,x);
-		//gl.glEnd();
 
 		int k;
 
@@ -119,14 +103,9 @@ public class SpherePiece implements Piece{
 
 
 			float para = 3f*(((float)firstposition)/((float)res) - ((float)(firstposition)*(firstposition))/((float)(res*res)));
-			//		float para;
-			//if(firstposition<res/2){para = firstposition/res;}else{para = (1-firstposition/res);}
 			para = firstposition/res;
 			gl.glColor4f(0,0.8f,0.2f,0.4f);
-			//	vect3ToVertex(gl,top);
-			//	vect3ToVertex(gl,bottom);
 			int j;
-
 
 			gl.glBegin(GL2.GL_QUAD_STRIP);
 
@@ -136,7 +115,6 @@ public class SpherePiece implements Piece{
 				if(j<0){j+=res;}
 
 				if(j<res/2){para = 2*j/(float)res;}else{para = 2*(1-j/(float)res);}
-				//	para = 3f*(((float)j+1)/((float)res) - ((float)(j+1)*(j+1))/((float)(res*res)));
 
 				tempx.set(ur);
 				tempy.set(vr);
@@ -174,41 +152,41 @@ public class SpherePiece implements Piece{
 		return degree*0.017453292519943295769236907684f;
 	}
 
-	private void rotation(Matrix3f matrix){
+	private void rotation(Matrice matrix){
 		matrix.transform(ur);
 		matrix.transform(vr);
 		matrix.transform(nr);
 	}
 
 	public void resetRotation(){
-		this.ur = new Vector3f(this.u);
-		this.vr = new Vector3f(this.v);
-		this.nr = new Vector3f(this.np);
+		this.ur = new Vecteur(this.u);
+		this.vr = new Vecteur(this.v);
+		this.nr = new Vecteur(this.np);
 	}
 
 	public void xRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		xrot += radian(degree);
 		matrix.rotX(xrot);
 		rotation(matrix);
 	}
 	public void yRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		yrot += radian(degree);
 		matrix.rotY(yrot);
 		rotation(matrix);
 	}
 	public void zRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		zrot += radian(degree);
 		matrix.rotZ(zrot);
 		rotation(matrix);
 	}
 
-	public void vect3ToVertex(GL2 gl, Vector3f b){
-		float px = b.dot(x);
-		float py = b.dot(y);
-		float pz = b.dot(z);
+	public void vect3ToVertex(GL2 gl, Vecteur b){
+		float px = b.getX();
+		float py = b.getY();
+		float pz = b.getZ();
 		gl.glVertex3f(px,py,pz);
 	}
 
@@ -217,18 +195,7 @@ public class SpherePiece implements Piece{
 		return this.np.length();
 	}
 
-	/**
-	 * Gets the normal vector for this face.
-	 *
-	 * @return The n.
-	 */
-	public float getProf()
-	{
-		//	Vector3f temp = new Vector3f();
-		//	temp.add(ur);
-		//	temp.add(vr);
-		//	temp.scale(-0.5f);
-		//	return temp.dot(z);
+	public float getProf(){
 		return 2f;
 	}
 

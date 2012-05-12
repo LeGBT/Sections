@@ -20,37 +20,36 @@
 package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
-import javax.vecmath.Matrix3f;
+
 
 public class Triangle implements Piece{
-	protected Vector3f u;
-	protected Vector3f v;
-	protected Vector3f n;
-	protected Vector3f ur;
-	protected Vector3f vr;
-	protected Vector3f nr;
-	protected Vector3f np;
-	private Vector3f left;
-	private Vector3f right;
-	private Vector3f top;
+	protected Vecteur u;
+	protected Vecteur v;
+	protected Vecteur n;
+	protected Vecteur ur;
+	protected Vecteur vr;
+	protected Vecteur nr;
+	protected Vecteur np;
+	private Vecteur left;
+	private Vecteur right;
+	private Vecteur top;
 	private float cote;
 	private float xrot;
 	private float yrot;
 	private float zrot;
 	private float sommet;
-	static Vector3f x = new Vector3f(1,0,0);
-	static Vector3f y = new Vector3f(0,1,0);
-	static Vector3f z = new Vector3f(0,0,1);
+	static Vecteur x = new Vecteur(1,0,0);
+	static Vecteur y = new Vecteur(0,1,0);
+	static Vecteur z = new Vecteur(0,0,1);
 
-	public Triangle(float sommet, Vector3f u, Vector3f v, Vector3f n){
-		this.u = new Vector3f(u);
-		this.v = new Vector3f(v);
-		this.n = new Vector3f(n);
-		this.ur = new Vector3f(u);
-		this.vr = new Vector3f(v);
-		this.nr = new Vector3f(n);
-		this.np = new Vector3f(n);
+	public Triangle(float sommet, Vecteur u, Vecteur v, Vecteur n){
+		this.u = new Vecteur(u);
+		this.v = new Vecteur(v);
+		this.n = new Vecteur(n);
+		this.ur = new Vecteur(u);
+		this.vr = new Vecteur(v);
+		this.nr = new Vecteur(n);
+		this.np = new Vecteur(n);
 		this.xrot = 0;
 		this.yrot = 0;
 		this.zrot = 0;
@@ -58,12 +57,12 @@ public class Triangle implements Piece{
 		this.sommet = sommet;
 	}
 
-	public Triangle(float sommet, float c,Vector3f u, Vector3f v, Vector3f n){
+	public Triangle(float sommet, float c,Vecteur u, Vecteur v, Vecteur n){
 		this(sommet,u,v,n);
 		this.cote = c;
 	}
-	public Triangle(float sommet, float c,float xscale, float yscale, Vector3f n){
-		this(sommet,new Vector3f(xscale,0,0),new Vector3f(0,yscale,0),n);
+	public Triangle(float sommet, float c,float xscale, float yscale, Vecteur n){
+		this(sommet,new Vecteur(xscale,0,0),new Vecteur(0,yscale,0),n);
 		this.cote = c;
 	}
 
@@ -71,41 +70,41 @@ public class Triangle implements Piece{
 		return degree*0.017453292519943295769236907684f;
 	}
 
-	private void rotation(Matrix3f matrix){
+	private void rotation(Matrice matrix){
 		matrix.transform(ur);
 		matrix.transform(vr);
 		matrix.transform(nr);
 	}
 
 	public void resetRotation(){
-		this.ur = new Vector3f(this.u);
-		this.vr = new Vector3f(this.v);
-		this.nr = new Vector3f(this.np);
+		this.ur = new Vecteur(this.u);
+		this.vr = new Vecteur(this.v);
+		this.nr = new Vecteur(this.np);
 	}
 
 	public void xRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		xrot += radian(degree);
 		matrix.rotX(xrot);
 		rotation(matrix);
 	}
 	public void yRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		yrot += radian(degree);
 		matrix.rotY(yrot);
 		rotation(matrix);
 	}
 	public void zRotation(float degree){
-		Matrix3f matrix = new Matrix3f();
+		Matrice matrix = new Matrice();
 		zrot += radian(degree);
 		matrix.rotZ(zrot);
 		rotation(matrix);
 	}
 
-	public void vect3ToVertex(GL2 gl, Vector3f b){
-		float px = b.dot(x);
-		float py = b.dot(y);
-		float pz = b.dot(z);
+	public void vect3ToVertex(GL2 gl, Vecteur b){
+		float px = b.getX();
+		float py = b.getY();
+		float pz = b.getZ();
 		gl.glVertex3f(px,py,pz);
 	}
 
@@ -119,50 +118,54 @@ public class Triangle implements Piece{
 	 *
 	 * @return The n.
 	 */
-	public Vector3f getN()
+	public Vecteur getN()
 	{
 		return this.nr;
 	}
 
-	private void defineLeft(){
-		left = new Vector3f(this.nr);
+	private void defineLeft(float off){
+		left = new Vecteur(this.nr);
 		left.sub(this.ur);
 		left.sub(this.vr);
-		left.scale(cote);
+		left.scale(cote+off);
 	}
-	private void defineRight(){
-		right = new Vector3f(this.nr);
+	private void defineRight(float off){
+		right = new Vecteur(this.nr);
 		right.add(this.ur);
 		right.sub(this.vr);
-		right.scale(cote);
+		right.scale(cote+off);
 	}
-	private void defineTop(){
-		top = new Vector3f(this.ur);
+	private void defineTop(float off){
+		top = new Vecteur(this.ur);
 		top.scale(sommet);
 		top.add(this.nr);
 		top.add(this.vr);
-		top.scale(cote);
+		top.scale(cote+off);
 	}
 	protected void drawLeft(GL2 gl){
-		defineLeft();
+		defineLeft(0);
 		vect3ToVertex(gl,left);
 	}
 	protected void drawRight(GL2 gl){
-		defineRight();
+		defineRight(0);
 		vect3ToVertex(gl,right);
 	}
 	protected void drawTop(GL2 gl){
-		defineTop();
+		defineTop(0);
 		vect3ToVertex(gl,top);
 	}
-	protected void drawBorders(GL2 gl){
-		defineTop();
-		defineLeft();
-		defineRight();
+	protected void traceBorders(GL2 gl,float off){
+		defineTop(off);
+		defineLeft(off);
+		defineRight(off);
 		gl.glBegin(GL2.GL_LINE_STRIP);
+		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,left);
+		gl.glTexCoord1f(105f);
 		vect3ToVertex(gl,right);
+		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,top);
+		gl.glTexCoord1f(105f);
 		vect3ToVertex(gl,left);
 		gl.glEnd();
 	}
@@ -172,10 +175,20 @@ public class Triangle implements Piece{
 	}
 
 	public float getProf() {
-		return this.getN().dot(z);
+		return this.getN().getZ();
 	}
 
-	public void traceVertexes(GL2 gl) {
+	public void traceBorders(GL2 gl, float red,float green,float blue,float trans,float off){
+		gl.glColor4f(red,green,blue,trans);
+		traceBorders(gl,off);
+	}
+
+	public void traceMe(GL2 gl,float a,float b,float c,float d){
+		System.out.println("Warning: no color suport for face.java");
+		traceMe(gl);
+	}
+
+	public void traceMe(GL2 gl) {
 		gl.glBegin(GL2.GL_TRIANGLES);
 		gl.glColor4f(1f,0.7f,0.1f,0.6f);
 		drawLeft(gl);
@@ -184,7 +197,5 @@ public class Triangle implements Piece{
 		gl.glColor4f(0.5f,0.8f,0.1f,0.7f);
 		drawTop(gl);
 		gl.glEnd();
-		gl.glColor4f(0.99f,0.9f,0.6f,0.9f);
-		drawBorders(gl);
 	}
 }

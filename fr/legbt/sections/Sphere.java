@@ -23,46 +23,56 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.media.opengl.GL2;
-import javax.vecmath.Vector3f;
-
 
 public class Sphere {
 	private SpherePiece sp;
+	private Disc border;
 	private ArrayList<Piece> pieces;
 
 	public Sphere(){
-		Vector3f u1 = new Vector3f(1,0,0);
-		Vector3f u2 = new Vector3f(0,1,0);
-		Vector3f u3 = new Vector3f(0,0,1);
+		Vecteur u1 = new Vecteur(1,0,0);
+		Vecteur u2 = new Vecteur(0,1,0);
+		Vecteur u3 = new Vecteur(0,0,1);
+		Vecteur nul = new Vecteur(0,0,0);
 		pieces = new ArrayList<Piece>();
 		sp = new SpherePiece(u1,u2,u3);
+		border = new Disc(u2,u1,nul);
 		pieces.add(sp);
+		pieces.add(border);
 		Collections.sort(pieces);
 	}
 
 
 	public void resetRotation(){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).resetRotation();
+			if (!(pieces.get(i) instanceof Disc)){
+				pieces.get(i).resetRotation();
+			}
 		}
 	}
 
 
 	public void xRotation(float degree){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).xRotation(degree);
+			if (!(pieces.get(i) instanceof Disc)){
+				pieces.get(i).xRotation(degree);
+			}
 		}
 	}
 
 	public void yRotation(float degree){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).yRotation(degree);
+			if (!(pieces.get(i) instanceof Disc)){
+				pieces.get(i).yRotation(degree);
+			}
 		}
 	}
 
 	public void zRotation(float degree){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).zRotation(degree);
+			if (!(pieces.get(i) instanceof Disc)){
+				pieces.get(i).zRotation(degree);
+			}
 		}
 	}
 
@@ -70,13 +80,18 @@ public class Sphere {
 		Collections.sort(pieces);
 	}
 
-	public void traceCube(GL2 gl){
+	public void traceBorders(GL2 gl, float red){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).traceVertexes(gl);
 			if(pieces.get(i) instanceof Disc){
 				Disc d = (Disc) pieces.get(i);
-				d.drawBorders(gl);
+				d.traceBorders(gl,0.7f);
 			}
+		}
+	}
+
+	public void traceMe(GL2 gl){
+		for(int i=0;i<pieces.size();i++){
+			pieces.get(i).traceMe(gl);
 		}
 	}
 

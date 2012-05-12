@@ -77,14 +77,14 @@ public class Button3D implements MouseListener,MouseMotionListener{
 
 		if(activeview<4){
 			gl.glBegin(GL2.GL_QUADS);
-			gl.glColor4f(0.1f+0.5f*bonus,1f-bonus*0.6f,0.2f,0.9f);
+			gl.glColor4f(0.1f+0.6f*bonus,1f-bonus*0.6f,0.2f,0.9f);
 			gl.glVertex3f(1,-1,0);
 
-			gl.glColor4f(0.6f,0.7f,0.4f,0.9f);
+			gl.glColor4f(0.35f,0.7f,0.4f,0.9f);
 			gl.glVertex3f(1-le,-1,0);
-			gl.glColor4f(0.6f-0.5f*bonus,0.4f+bonus*0.6f,0.2f,0.9f);
+			gl.glColor4f(0.6f-0.6f*bonus,0.4f+bonus*0.6f,0.2f,0.9f);
 			gl.glVertex3f(1-le,-1+h,0);
-			gl.glColor4f(0.9f,0.9f,0.9f,0.2f);
+			gl.glColor4f(0.5f,0.9f,0,0.99f);
 			gl.glVertex3f(1,-1f+h,0);
 			gl.glEnd();
 
@@ -104,10 +104,6 @@ public class Button3D implements MouseListener,MouseMotionListener{
 				renderer.endRendering();
 			}
 
-			//			gl.glColor4f(0.9f,0.9f,0.9f,0.9f);
-
-			//			gl.glRasterPos3f(1-le*3/6f,-1+h*1/6f,0f);
-			//			glut.glutBitmapString(font,activebonus[1]);
 		}
 	}
 
@@ -119,8 +115,6 @@ public class Button3D implements MouseListener,MouseMotionListener{
 		if (n==activeview){c = 0.1f;}
 		float pos = n*h;
 
-		//		gl.glColor4f(1f - pos/10f,1f-pos/13f,0.1f+pos/10f,0.8f);
-		//gl.glColor4f(1f/n,c + n*0.2f,pos,0.8f);
 
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(0.6f+4*c,0.6f+c,0.6f-5*c,0.9f-c);
