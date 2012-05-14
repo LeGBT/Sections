@@ -32,16 +32,20 @@ public class Button3D implements MouseListener,MouseMotionListener{
 	private float h = scale*0.222f;
 	private float l = 0.125f;
 	private float le = scale*l;
+	private float m;
 	private int size = Math.round(1280*scale/16);
 	private int bonus;
 	private String[] textboutons = {"    Cube"," Pavé droit","  Cylindre"," Pyramide","   Sphère"};
 	private String[] textboutonscubepave = {"Face","   Arête"};
 	private String[] textboutonscylindre = {"Base","Axe"};
 	private String[] activebonus;
+	private String pref = "    Mode";
 	private Sections instance;
 
 	public  Button3D(Sections instance){
 		this.instance = instance;
+		if(instance.isBonemode()){
+			this.m = 1;}else{this.m = 0;}
 		getTextBonus();
 	}
 
@@ -71,9 +75,7 @@ public class Button3D implements MouseListener,MouseMotionListener{
 	private void traceBonus(GL2 gl,TextRenderer renderer,TextRenderer rendererbis, int activeview){
 		getTextBonus();
 		if (activeview==1){
-
 		}
-
 
 		if(activeview<4){
 			gl.glBegin(GL2.GL_QUADS);
@@ -105,9 +107,29 @@ public class Button3D implements MouseListener,MouseMotionListener{
 			}
 
 		}
+		tracePrefs(gl,renderer);
 	}
 
 
+	private void tracePrefs(GL2 gl,TextRenderer renderer){
+		if(instance.isBonemode()){this.m = 1;}else{this.m=0;}
+
+		gl.glBegin(GL2.GL_QUADS);
+		gl.glColor4f(0.1f+0.3f*m,1f-0.6f*m,0.2f+0.2f*m,0.9f);
+		gl.glVertex3f(0.75f,0.88f,0);
+
+		gl.glColor4f(0.35f+0.25f*m,0.7f-0.1f*m,0.4f+0.2f*m,0.9f);
+		gl.glVertex3f(1f,0.88f,0);
+		gl.glColor4f(0.6f-0.2f*m,0.4f,0.2f+0.2f*m,0.9f);
+		gl.glVertex3f(1f,1f,0);
+		gl.glColor4f(0.5f+0.4f*m,0.9f,0.9f*m,0.99f);
+		gl.glVertex3f(0.75f,1f,0);
+		gl.glEnd();
+		renderer.beginRendering(1280,720);
+		renderer.setColor(0.95f,0.9f,0.95f,1f);
+		renderer.draw(pref,1140,690);
+		renderer.endRendering();
+	}
 
 
 	private void traceMe(GL2 gl,TextRenderer renderer, int n, int activeview){
@@ -148,6 +170,9 @@ public class Button3D implements MouseListener,MouseMotionListener{
 		if((me.getX()>1100)&&(me.getY()>560)){
 			instance.changePlanType();
 			instance.reset();
+		}
+		if((me.getX()>1085)&&(me.getY()<43)){
+			instance.switchBonemode();
 		}
 	}
 

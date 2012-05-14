@@ -46,6 +46,8 @@ public class CylinderScene extends Scene{
 	}
 
 	private void renderFull(GL2 gl){
+		gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
+		gl.glEnable(GL2.GL_FOG);
 		this.cylinder.traceBorders(gl,0.9f);
 		this.cylinder.traceMe(gl);
 		this.plan.tracePlan(gl);
@@ -64,6 +66,7 @@ public class CylinderScene extends Scene{
 	private void renderVoid(GL2 gl){
 		// tracé à vide pour les tests
 		gl.glClearColor(1.0f,1.0f,1.0f,1.0f);
+		gl.glDisable(GL2.GL_FOG);
 		gl.glDepthFunc(GL.GL_LESS);
 		gl.glColorMask(false,false,false,false);
 		this.cylinder.traceMe(gl);
