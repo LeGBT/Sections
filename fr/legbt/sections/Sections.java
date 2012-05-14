@@ -49,7 +49,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private int y = 0;
 	private int activeview = 1;
 	private boolean plantype;
-	private boolean bonemode = true;
+	private boolean bonemode = false;
 	private boolean up;
 	private boolean down;
 	private boolean left;
@@ -287,6 +287,10 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 
 	public boolean isBonemode(){
 		return this.bonemode;
+	}
+
+	public void switchBonemode(){
+		bonemode =  !bonemode;
 	}
 
 	public TextureLib getTextures(){

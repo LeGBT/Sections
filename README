@@ -12,6 +12,8 @@ C'est un logiciel libre et peut donc être utilisé, copié et même modifié li
 
 La bibliothèque JOGL doit être installée préalablement pour faire fonctionner Sections, les fichiers nécessaires sont disponibles via http://jogamp.org/deployment/jogamp-current/archive/
 
-Les sources de Sections sont elles disponibles via http://github.com/LeGBT/Sections
+Sections utilise de plus la bibliothèque "ejml" pour ses calculs matriciels.
+
+Les sources de Sections sont-elles disponibles via http://github.com/LeGBT/Sections
 
 La GNU General Public Licence est disponible dans le fichier gpl.

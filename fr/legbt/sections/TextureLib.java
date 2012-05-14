@@ -19,7 +19,7 @@
 
 package fr.legbt.sections;
 
-import java.io.File;
+import java.io.InputStream;
 
 import javax.media.opengl.GL2;
 
@@ -41,9 +41,12 @@ public class TextureLib {
 
 	public void load(GL2 gl){
 		try{
-			this.tex11 = TextureIO.newTexture(new File("resources/stipple.png"),false);
-			this.tex12 = TextureIO.newTexture(new File("resources/line.png"),false);
-			this.tex21 = TextureIO.newTexture(new File("resources/plan.png"),false);
+		InputStream input = this.getClass().getResourceAsStream("/resources/stipple.png");
+			this.tex11 = TextureIO.newTexture(input,false,"png");
+		input = this.getClass().getResourceAsStream("/resources/line.png");
+			this.tex12 = TextureIO.newTexture(input,false,"png");
+		input = this.getClass().getResourceAsStream("/resources/plan.png");
+			this.tex21 = TextureIO.newTexture(input,false,"png");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

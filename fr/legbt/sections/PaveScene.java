@@ -32,6 +32,8 @@ public class PaveScene extends Scene{
 	}
 
 	private void renderFull(GL2 gl){
+		gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
+		gl.glEnable(GL2.GL_FOG);
 		this.pave.traceBorders(gl,0.99f,0.9f,0.6f,0.9f,0);
 		this.pave.traceMe(gl);
 		this.plan.tracePlan(gl);
@@ -42,6 +44,7 @@ public class PaveScene extends Scene{
 
 	private void renderVoid(GL2 gl){
 		gl.glClearColor(1.0f,1.0f,1.0f,1.0f);
+		gl.glDisable(GL2.GL_FOG);
 		gl.glDepthFunc(GL.GL_LESS);
 		gl.glColorMask(false,false,false,false);
 		this.pave.traceMe(gl);
