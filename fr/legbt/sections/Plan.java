@@ -59,7 +59,8 @@ public class Plan extends Quad{
 		if(border){
 			gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
 		}else{
-			gl.glColor4f(0f,0.2f,0.5f,0.8f);
+			//gl.glColor4f(0f,0.2f,0.5f,0.8f); //bleu
+			gl.glColor4f(0.4f,0.45f,0.45f,0.8f); //plus gris
 		}
 		gl.glTexCoord2f(0f,0f);
 		drawTopLeft(gl);
