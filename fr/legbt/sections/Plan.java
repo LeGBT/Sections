@@ -54,8 +54,10 @@ public class Plan extends Quad{
 	}
 
 	public void tracePlan(GL2 gl){
-		gl.glBegin(GL2.GL_QUADS);
+		//TODO gros refactoring à faire pour virer ça
+		float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
 
+		gl.glBegin(GL2.GL_QUADS);
 		if(border){
 			gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
 		}else{
@@ -64,11 +66,11 @@ public class Plan extends Quad{
 		}
 		gl.glTexCoord2f(0f,0f);
 		drawTopLeft(gl);
-		gl.glTexCoord2f(20f,0f);
+		gl.glTexCoord2f(a,0f);
 		drawBottomLeft(gl);
-		gl.glTexCoord2f(20f,20f);
+		gl.glTexCoord2f(a,a);
 		drawBottomRight(gl);
-		gl.glTexCoord2f(0f,20f);
+		gl.glTexCoord2f(0f,a);
 		drawTopRight(gl);
 		gl.glEnd();
 		if(border){
@@ -78,18 +80,19 @@ public class Plan extends Quad{
 	}
 
 	public void tracePlan(GL2 gl,float l){
-		gl.glBegin(GL2.GL_QUADS);
+		//TODO gros refactoring à faire pour virer ça
+		float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
 
+		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(l,l,l,l);
 		gl.glTexCoord2f(0f,0f);
 		drawTopLeft(gl);
-		gl.glTexCoord2f(20f,0f);
+		gl.glTexCoord2f(a,0f);
 		drawBottomLeft(gl);
-		gl.glTexCoord2f(20f,20f);
+		gl.glTexCoord2f(a,a);
 		drawBottomRight(gl);
-		gl.glTexCoord2f(0f,20f);
+		gl.glTexCoord2f(0f,a);
 		drawTopRight(gl);
-
 		gl.glEnd();
 	}
 

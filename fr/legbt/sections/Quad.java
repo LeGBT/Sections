@@ -193,6 +193,9 @@ public class Quad{
 	}
 
 	public void drawBorders(GL2 gl,float off){
+		//TODO gros refactoring à faire pour virer ça
+		float a = System.getProperty("os.name").equals("Mac OS X") ? 105f:1f;
+
 		defineTopLeft(off);
 		defineTopRight(off);
 		defineBottomLeft(off);
@@ -200,11 +203,11 @@ public class Quad{
 		gl.glBegin(GL2.GL_LINE_STRIP);
 		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,topleft);
-		gl.glTexCoord1f(105f);
+		gl.glTexCoord1f(a);
 		vect3ToVertex(gl,bottomleft);
 		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,bottomright);
-		gl.glTexCoord1f(105f);
+		gl.glTexCoord1f(a);
 		vect3ToVertex(gl,topright);
 		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,topleft);

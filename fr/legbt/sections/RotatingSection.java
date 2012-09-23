@@ -173,6 +173,9 @@ public class RotatingSection extends Plan{
 	}
 
 	public void tracePlan(GL2 gl){
+		//TODO gros refactoring à faire pour virer ça
+		float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
+
 		if(tracer){
 			/* *****************
 			 * Tracé de la face
@@ -185,11 +188,11 @@ public class RotatingSection extends Plan{
 			}
 			gl.glTexCoord2f(0f,0f);
 			drawTopLeft(gl);
-			gl.glTexCoord2f(20f,0f);
+			gl.glTexCoord2f(a,0f);
 			drawBottomLeft(gl);
-			gl.glTexCoord2f(20f,20f);
+			gl.glTexCoord2f(a,a);
 			drawBottomRight(gl);
-			gl.glTexCoord2f(0f,20f);
+			gl.glTexCoord2f(0f,a);
 			drawTopRight(gl);
 			gl.glEnd();
 			gl.glColor4f(0.1f,0.1f,0.1f,0.999f);

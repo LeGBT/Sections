@@ -204,6 +204,9 @@ public class Disc implements Piece,Bordered {
 	}
 
 	public void traceBorders(GL2 gl,float red,float off){
+		//TODO gros refactoring à faire pour virer ça
+		float a = System.getProperty("os.name").equals("Mac OS X") ? 105f:1f;
+
 		gl.glBegin(GL2.GL_LINE_STRIP);
 		gl.glColor4f(red,red,red,red);
 		Vecteur tempx = new Vecteur(ur);
@@ -225,7 +228,7 @@ public class Disc implements Piece,Bordered {
 		vect3ToVertex(gl,first);
 
 		for(int i=0;i<res;i++){
-			gl.glTexCoord1f(105f*i/res);
+			gl.glTexCoord1f(a*i/res);
 
 			//test inflate
 			second.scale(1+off);	
