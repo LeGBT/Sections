@@ -76,7 +76,7 @@ public class CylinderScene extends Scene{
 		//tracé des pointillés
 		gl.glColorMask(true,true,true,true);
 		gl.glLineWidth(2f);
-		instance.getTextures().bind(gl,11);
+		instance.getTextures().bind(gl,101);
 		if(instance.isPlantype()){
 			if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
 				this.dsection.traceBorders(gl,0.99f,0.005f);
@@ -91,7 +91,7 @@ public class CylinderScene extends Scene{
 		gl.glDepthFunc(GL.GL_LESS);
 		gl.glLineWidth(3f);
 		gl.glDisable(GL2.GL_DEPTH_TEST);
-		instance.getTextures().bind(gl,21);
+		instance.getTextures().bind(gl,201);
 		if(instance.isPlantype()){
 			if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
 				this.dsection.traceMe(gl);
@@ -102,7 +102,7 @@ public class CylinderScene extends Scene{
 		instance.getTextures().unbind(gl);
 
 		//tracé du plan
-		instance.getTextures().bind(gl,12);
+		instance.getTextures().bind(gl,102);
 		this.plan.tracePlan(gl,0.3f);
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 

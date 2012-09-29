@@ -43,7 +43,6 @@ import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.awt.Screenshot;
 
-
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
 	private int x = 0;
 	private int y = 0;

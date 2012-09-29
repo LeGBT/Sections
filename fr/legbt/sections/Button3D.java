@@ -32,20 +32,16 @@ public class Button3D implements MouseListener,MouseMotionListener{
 	private float h = scale*0.222f;
 	private float l = 0.125f;
 	private float le = scale*l;
-	private float m;
 	private int size = Math.round(1280*scale/16);
 	private int bonus;
 	private String[] textboutons = {"    Cube"," Pavé droit","  Cylindre"," Pyramide","   Sphère"};
 	private String[] textboutonscubepave = {"Face","   Arête"};
 	private String[] textboutonscylindre = {"Base","Axe"};
 	private String[] activebonus;
-	private String pref = "    Mode";
 	private Sections instance;
 
 	public  Button3D(Sections instance){
 		this.instance = instance;
-		if(instance.isBonemode()){
-			this.m = 1;}else{this.m = 0;}
 		getTextBonus();
 	}
 
@@ -69,94 +65,109 @@ public class Button3D implements MouseListener,MouseMotionListener{
 		traceMe(gl,renderer,3,activeview);
 		traceMe(gl,renderer,4,activeview);
 		traceMe(gl,renderer,5,activeview);
-		traceBonus(gl,renderer,rendererbis,activeview);
+		traceBonus(gl,activeview);
 	}
 
-	private void traceBonus(GL2 gl,TextRenderer renderer,TextRenderer rendererbis, int activeview){
+	private void traceBonus(GL2 gl, int activeview){
 		getTextBonus();
-		if (activeview==1){
-		}
-
+		float a = System.getProperty("os.name").equals("Mac OS X") ? 45f:1f;
+		float b = System.getProperty("os.name").equals("Mac OS X") ? 120f:1f;
 		if(activeview<4){
-			gl.glBegin(GL2.GL_QUADS);
-			gl.glColor4f(0.1f+0.6f*bonus,1f-bonus*0.6f,0.2f,0.9f);
-			gl.glVertex3f(1,-1,0);
-
-			gl.glColor4f(0.35f,0.7f,0.4f,0.9f);
-			gl.glVertex3f(1-le,-1,0);
-			gl.glColor4f(0.6f-0.6f*bonus,0.4f+bonus*0.6f,0.2f,0.9f);
-			gl.glVertex3f(1-le,-1+h,0);
-			gl.glColor4f(0.5f,0.9f,0,0.99f);
-			gl.glVertex3f(1,-1f+h,0);
-			gl.glEnd();
-
-			if(activeview!=3){
-				renderer.beginRendering(1280,720);
-				renderer.setColor(0.9f,0.9f,0.9f,0.45f+bonus/2f);
-				renderer.draw(activebonus[0],1150,110);
-				renderer.setColor(0.9f,0.9f,0.9f,0.95f-bonus/2f);
-				renderer.draw(activebonus[1],1190,20);
-				renderer.endRendering();
+			if(instance.isBonemode()){
+				if(bonus==1){
+					instance.getTextures().bind(gl,204);
+				}else{
+					instance.getTextures().bind(gl,206);
+				}
 			}else{
-				renderer.beginRendering(1280,720);
-				renderer.setColor(1,1,1,0.5f+bonus/2f);
-				renderer.draw(activebonus[0],1150,100);
-				renderer.setColor(1f,1f,1f,1f-bonus/2f);
-				renderer.draw(activebonus[1],1230,20);
-				renderer.endRendering();
+				if(bonus==1){
+					instance.getTextures().bind(gl,205);
+				}else{
+					instance.getTextures().bind(gl,207);
+				}
 			}
-
+			gl.glBegin(GL2.GL_QUADS);
+			gl.glColor4f(1f,1f,1f,1f);
+			gl.glTexCoord2f(0f,a);
+			gl.glVertex3f(0.575f,0.875f,0);
+			gl.glTexCoord2f(b,a);
+			gl.glVertex3f(0.7625f,0.875f,0);
+			gl.glTexCoord2f(b,0f);
+			gl.glVertex3f(0.7625f,1f,0);
+			gl.glTexCoord2f(0f,0f);
+			gl.glVertex3f(0.575f,1f,0);
+			gl.glEnd();
+			instance.getTextures().unbind(gl);
 		}
-		tracePrefs(gl,renderer);
+		tracePrefs(gl);
 	}
 
 
-	private void tracePrefs(GL2 gl,TextRenderer renderer){
-		if(instance.isBonemode()){this.m = 1;}else{this.m=0;}
-
+	private void tracePrefs(GL2 gl){
+		//TODO gros refactoring à faire pour virer ça
+		float a = System.getProperty("os.name").equals("Mac OS X") ? 45f:1f;
+		float b = System.getProperty("os.name").equals("Mac OS X") ? 120f:1f;
+		if(instance.isBonemode()){
+			instance.getTextures().bind(gl,202);
+		}else{
+			instance.getTextures().bind(gl,203);
+		}
 		gl.glBegin(GL2.GL_QUADS);
-		gl.glColor4f(0.1f+0.3f*m,1f-0.6f*m,0.2f+0.2f*m,0.9f);
-		gl.glVertex3f(0.75f,0.88f,0);
-
-		gl.glColor4f(0.35f+0.25f*m,0.7f-0.1f*m,0.4f+0.2f*m,0.9f);
-		gl.glVertex3f(1f,0.88f,0);
-		gl.glColor4f(0.6f-0.2f*m,0.4f,0.2f+0.2f*m,0.9f);
+		gl.glColor4f(1f,1f,1f,1f);
+		gl.glTexCoord2f(0f,a);
+		gl.glVertex3f(0.8125f,0.875f,0);
+		gl.glTexCoord2f(b,a);
+		gl.glVertex3f(1f,0.875f,0);
+		gl.glTexCoord2f(b,0f);
 		gl.glVertex3f(1f,1f,0);
-		gl.glColor4f(0.5f+0.4f*m,0.9f,0.9f*m,0.99f);
-		gl.glVertex3f(0.75f,1f,0);
+		gl.glTexCoord2f(0f,0f);
+		gl.glVertex3f(0.8125f,1f,0);
 		gl.glEnd();
-		renderer.beginRendering(1280,720);
-		renderer.setColor(0.95f,0.9f,0.95f,1f);
-		renderer.draw(pref,1140,690);
-		renderer.endRendering();
+		instance.getTextures().unbind(gl);
 	}
 
 
 	private void traceMe(GL2 gl,TextRenderer renderer, int n, int activeview){
 		float c = 0;
-		if (n==activeview){c = 0.1f;}
 		float pos = n*h;
+		//TODO gros refactoring à faire pour virer ça
+		float a = System.getProperty("os.name").equals("Mac OS X") ? 140f:1f;
+		if(instance.isBonemode()){
+			instance.getTextures().bind(gl,207 + 2*n );
+			c = (n==activeview)?  1f:0.3f;
+		}else{
+			instance.getTextures().bind(gl,206 + 2*n);
+			c = (n==activeview)?  1f:0.5f;
+		}
 
 
 		gl.glBegin(GL2.GL_QUADS);
-		gl.glColor4f(0.6f+4*c,0.6f+c,0.6f-5*c,0.9f-c);
+		gl.glColor4f(1f,1f,1f,c);
+		gl.glTexCoord2f(0f,0f);
 		gl.glVertex3f(-1,1-pos+h,0);
 
 
-		gl.glColor4f(0.9f-c*8,0.9f,0.9f-c*8,0.9f-c);
+		//gl.glColor4f(0.9f-c*8,0.9f,0.9f-c*8,0.9f-c);
+		gl.glColor4f(1f,1f,1f,c);
+		gl.glTexCoord2f(a,0f);
 		gl.glVertex3f(-1+le,1-pos+h,0);
 
-		gl.glColor4f(0.6f-c,0.6f+2*c,0.6f-5*c,0.9f-c);
+		//gl.glColor4f(0.6f-c,0.6f+2*c,0.6f-5*c,0.9f-c);
+		gl.glColor4f(1f,1f,1f,c);
+		gl.glTexCoord2f(a,a);
 		gl.glVertex3f(-1+le,1-pos,0);
 
-		gl.glColor4f(0.4f-3*c,0.4f+3*c,0.4f-3*c,0.9f-c);
+		//gl.glColor4f(0.4f-3*c,0.4f+3*c,0.4f-3*c,0.9f-c);
+		gl.glColor4f(1f,1f,1f,c);
+		gl.glTexCoord2f(0f,a);
 		gl.glVertex3f(-1,1f-pos,0);
 		gl.glEnd();
 
-		renderer.beginRendering(1280,720);
-		renderer.setColor(1f,1f,1f,0.5f+5*c);
-		renderer.draw(textboutons[n-1],15,780-(int)(pos*360));
-		renderer.endRendering();
+		instance.getTextures().unbind(gl);
+		//renderer.beginRendering(1280,720);
+		//renderer.setColor(1f,1f,1f,0.5f+5*c);
+		//renderer.draw(textboutons[n-1],15,780-(int)(pos*360));
+		//renderer.endRendering();
 
 	}
 
@@ -167,11 +178,11 @@ public class Button3D implements MouseListener,MouseMotionListener{
 			button = me.getY()*5/710+1;
 			this.instance.setActiveview(button);
 		}
-		if((me.getX()>1100)&&(me.getY()>560)){
+		if((me.getX()>976)&&(me.getX()<1096)&&(me.getY()<45)){
 			instance.changePlanType();
 			instance.reset();
 		}
-		if((me.getX()>1085)&&(me.getY()<43)){
+		if((me.getX()>1125)&&(me.getY()<45)){
 			instance.switchBonemode();
 		}
 	}

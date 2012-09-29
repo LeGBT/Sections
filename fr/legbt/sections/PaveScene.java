@@ -52,7 +52,7 @@ public class PaveScene extends Scene{
 
 		gl.glColorMask(true,true,true,true);
 		gl.glLineWidth(2f);
-		instance.getTextures().bind(gl,11);
+		instance.getTextures().bind(gl,101);
 		this.section.traceBorders(gl,0.99f);
 		this.pave.traceBorders(gl,0.99f);
 		instance.getTextures().unbind(gl);
@@ -61,11 +61,11 @@ public class PaveScene extends Scene{
 		gl.glLineWidth(3f);
 
 		gl.glDisable(GL2.GL_DEPTH_TEST);
-		instance.getTextures().bind(gl,21);
+		instance.getTextures().bind(gl,201);
 		this.section.tracePlan(gl);
 		instance.getTextures().unbind(gl);
 
-		instance.getTextures().bind(gl,12);
+		instance.getTextures().bind(gl,102);
 		this.plan.tracePlan(gl,0.3f);
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 

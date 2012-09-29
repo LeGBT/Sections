@@ -60,7 +60,7 @@ public class PyramideScene extends Scene{
 		//tracé des pointillés
 		gl.glColorMask(true,true,true,true);
 		gl.glLineWidth(2f);
-		instance.getTextures().bind(gl,11);
+		instance.getTextures().bind(gl,101);
 		if((this.plan.getH()<0.5f)){
 			this.psection.traceBorders(gl,0.99f,0.013f);
 		}
@@ -71,14 +71,14 @@ public class PyramideScene extends Scene{
 		gl.glDepthFunc(GL.GL_LESS);
 		gl.glLineWidth(3f);
 		gl.glDisable(GL2.GL_DEPTH_TEST);
-		instance.getTextures().bind(gl,21);
+		instance.getTextures().bind(gl,201);
 		if((this.plan.getH()<0.5f)){
 			this.psection.traceMe(gl);
 		}
 		instance.getTextures().unbind(gl);
 
 		//tracé du plan
-		instance.getTextures().bind(gl,12);
+		instance.getTextures().bind(gl,102);
 		this.plan.tracePlan(gl,0.3f);
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 
