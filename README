@@ -1,4 +1,4 @@
-Sections beta_2.1
+Sections 3.0
 
 
 Sections est un petit programme permettant le tracé de solides simples et d'en afficher des sections simples. Il a été conçu pour la présentation devant une classe.
@@ -10,7 +10,7 @@ La touche "s" permet d'enregistrer la figure affichée sous le nom "shot.png" da
 
 C'est un logiciel libre et peut donc être utilisé, copié et même modifié librement selon les termes de la GNU General Public Licence.
 
-La bibliothèque JOGL doit être installée préalablement pour faire fonctionner Sections, les fichiers nécessaires sont disponibles via http://jogamp.org/deployment/jogamp-current/archive/
+Pour utiliser les sources, la bibliothèque JOGL doit être installée préalablement, les fichiers nécessaires sont disponibles via http://jogamp.org/deployment/jogamp-current/archive/
 
 Sections utilise de plus la bibliothèque "ejml" pour ses calculs matriciels.
 

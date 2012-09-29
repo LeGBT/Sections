@@ -34,10 +34,6 @@ public class Button3D implements MouseListener,MouseMotionListener{
 	private float le = scale*l;
 	private int size = Math.round(1280*scale/16);
 	private int bonus;
-	private String[] textboutons = {"    Cube"," Pavé droit","  Cylindre"," Pyramide","   Sphère"};
-	private String[] textboutonscubepave = {"Face","   Arête"};
-	private String[] textboutonscylindre = {"Base","Axe"};
-	private String[] activebonus;
 	private Sections instance;
 
 	public  Button3D(Sections instance){
@@ -47,11 +43,6 @@ public class Button3D implements MouseListener,MouseMotionListener{
 
 
 	public void getTextBonus(){
-		if(instance.getActiveview() == 3){
-			activebonus = textboutonscylindre;
-		}else{
-			activebonus = textboutonscubepave;
-		}
 		if(instance.isPlantype()){
 			bonus = 1;
 		}else{bonus = 0;}
