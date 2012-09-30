@@ -55,8 +55,6 @@ public class Button3D implements MouseListener,MouseMotionListener{
 
 	private void traceBonus(GL2 gl, int activeview){
 		getTextBonus();
-		float	a= 0.704125f;
-		float	b= 0.9375f;
 		if(activeview<4){
 			if(instance.isBonemode()){
 				if(bonus==1){
@@ -75,11 +73,11 @@ public class Button3D implements MouseListener,MouseMotionListener{
 			gl.glColor4f(1f,1f,1f,1f);
 			gl.glTexCoord2f(0f,0f);
 			gl.glVertex3f(0.575f,0.875f,0);
-			gl.glTexCoord2f(b,0f);
+			gl.glTexCoord2f(1f,0f);
 			gl.glVertex3f(0.7625f,0.875f,0);
-			gl.glTexCoord2f(b,a);
+			gl.glTexCoord2f(1f,1f);
 			gl.glVertex3f(0.7625f,1f,0);
-			gl.glTexCoord2f(0f,a);
+			gl.glTexCoord2f(0f,1f);
 			gl.glVertex3f(0.575f,1f,0);
 			gl.glEnd();
 			instance.getTextures().unbind(gl);
@@ -89,8 +87,6 @@ public class Button3D implements MouseListener,MouseMotionListener{
 
 
 	private void tracePrefs(GL2 gl){
-		float	a= 0.704125f;
-		float	b= 0.9375f;
 		if(instance.isBonemode()){
 			instance.getTextures().bind(gl,202);
 		}else{
@@ -101,11 +97,11 @@ public class Button3D implements MouseListener,MouseMotionListener{
 		gl.glColor4f(1f,1f,1f,1f);
 		gl.glTexCoord2f(0f,0f);
 		gl.glVertex3f(0.8125f,0.875f,0);
-		gl.glTexCoord2f(b,0f);
+		gl.glTexCoord2f(1f,0f);
 		gl.glVertex3f(1f,0.875f,0);
-		gl.glTexCoord2f(b,a);
+		gl.glTexCoord2f(1f,1f);
 		gl.glVertex3f(1f,1f,0);
-		gl.glTexCoord2f(0f,a);
+		gl.glTexCoord2f(0f,1f);
 		gl.glVertex3f(0.8125f,1f,0);
 		gl.glEnd();
 		instance.getTextures().unbind(gl);
