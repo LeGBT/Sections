@@ -24,8 +24,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.media.opengl.GL2;
-import com.jogamp.opengl.util.awt.TextRenderer;
-
 
 public class Button3D implements MouseListener,MouseMotionListener{
 	private float scale = 1.81f;
@@ -43,19 +41,15 @@ public class Button3D implements MouseListener,MouseMotionListener{
 
 
 	public void getTextBonus(){
-		if(instance.isPlantype()){
-			bonus = 1;
-		}else{bonus = 0;}
+		bonus = (instance.isPlantype())? 1:0;
 	}
 
 
-	public void drawButton(GL2 gl,TextRenderer renderer,TextRenderer rendererbis, int activeview){
+	public void drawButton(GL2 gl, int activeview){
 		gl.glLoadIdentity();
-		traceMe(gl,renderer,1,activeview);
-		traceMe(gl,renderer,2,activeview);
-		traceMe(gl,renderer,3,activeview);
-		traceMe(gl,renderer,4,activeview);
-		traceMe(gl,renderer,5,activeview);
+		for(int i=1;i<6;i++){
+			traceMe(gl,i,activeview);
+		}
 		traceBonus(gl,activeview);
 	}
 
@@ -79,13 +73,13 @@ public class Button3D implements MouseListener,MouseMotionListener{
 			}
 			gl.glBegin(GL2.GL_QUADS);
 			gl.glColor4f(1f,1f,1f,1f);
-			gl.glTexCoord2f(0f,a);
-			gl.glVertex3f(0.575f,0.875f,0);
-			gl.glTexCoord2f(b,a);
-			gl.glVertex3f(0.7625f,0.875f,0);
-			gl.glTexCoord2f(b,0f);
-			gl.glVertex3f(0.7625f,1f,0);
 			gl.glTexCoord2f(0f,0f);
+			gl.glVertex3f(0.575f,0.875f,0);
+			gl.glTexCoord2f(b,0f);
+			gl.glVertex3f(0.7625f,0.875f,0);
+			gl.glTexCoord2f(b,a);
+			gl.glVertex3f(0.7625f,1f,0);
+			gl.glTexCoord2f(0f,a);
 			gl.glVertex3f(0.575f,1f,0);
 			gl.glEnd();
 			instance.getTextures().unbind(gl);
@@ -105,20 +99,20 @@ public class Button3D implements MouseListener,MouseMotionListener{
 		}
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(1f,1f,1f,1f);
-		gl.glTexCoord2f(0f,a);
-		gl.glVertex3f(0.8125f,0.875f,0);
-		gl.glTexCoord2f(b,a);
-		gl.glVertex3f(1f,0.875f,0);
-		gl.glTexCoord2f(b,0f);
-		gl.glVertex3f(1f,1f,0);
 		gl.glTexCoord2f(0f,0f);
+		gl.glVertex3f(0.8125f,0.875f,0);
+		gl.glTexCoord2f(b,0f);
+		gl.glVertex3f(1f,0.875f,0);
+		gl.glTexCoord2f(b,a);
+		gl.glVertex3f(1f,1f,0);
+		gl.glTexCoord2f(0f,a);
 		gl.glVertex3f(0.8125f,1f,0);
 		gl.glEnd();
 		instance.getTextures().unbind(gl);
 	}
 
 
-	private void traceMe(GL2 gl,TextRenderer renderer, int n, int activeview){
+	private void traceMe(GL2 gl,int n, int activeview){
 		float c = 0;
 		float pos = n*h;
 		//TODO gros refactoring à faire pour virer ça
@@ -134,32 +128,27 @@ public class Button3D implements MouseListener,MouseMotionListener{
 
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(1f,1f,1f,c);
-		gl.glTexCoord2f(0f,0f);
+		gl.glTexCoord2f(0f,a);
 		gl.glVertex3f(-1,1-pos+h,0);
 
 
 		//gl.glColor4f(0.9f-c*8,0.9f,0.9f-c*8,0.9f-c);
 		gl.glColor4f(1f,1f,1f,c);
-		gl.glTexCoord2f(a,0f);
+		gl.glTexCoord2f(a,a);
 		gl.glVertex3f(-1+le,1-pos+h,0);
 
 		//gl.glColor4f(0.6f-c,0.6f+2*c,0.6f-5*c,0.9f-c);
 		gl.glColor4f(1f,1f,1f,c);
-		gl.glTexCoord2f(a,a);
+		gl.glTexCoord2f(a,0f);
 		gl.glVertex3f(-1+le,1-pos,0);
 
 		//gl.glColor4f(0.4f-3*c,0.4f+3*c,0.4f-3*c,0.9f-c);
 		gl.glColor4f(1f,1f,1f,c);
-		gl.glTexCoord2f(0f,a);
+		gl.glTexCoord2f(0f,0f);
 		gl.glVertex3f(-1,1f-pos,0);
 		gl.glEnd();
 
 		instance.getTextures().unbind(gl);
-		//renderer.beginRendering(1280,720);
-		//renderer.setColor(1f,1f,1f,0.5f+5*c);
-		//renderer.draw(textboutons[n-1],15,780-(int)(pos*360));
-		//renderer.endRendering();
-
 	}
 
 

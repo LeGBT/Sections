@@ -40,7 +40,6 @@ import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.imageio.ImageIO;
 import com.jogamp.opengl.util.FPSAnimator;
-import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.awt.Screenshot;
 
 public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
@@ -55,8 +54,6 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private boolean right;
 	private boolean shift;
 	private boolean shot = false;
-	private TextRenderer renderer;
-	private TextRenderer rendererbis;
 	private TextureLib textures;
 	private Button3D b;
 	private CubeScene cs;
@@ -105,8 +102,6 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		canvas.addMouseListener(b);
 		canvas.addMouseMotionListener(b);
 		canvas.addMouseMotionListener(this);
-		renderer = new TextRenderer(new Font("Arial",Font.PLAIN,24),true,true);
-		rendererbis = new TextRenderer(new Font("Arial",Font.PLAIN,50),true,true);
 		textures = new TextureLib();
 	}
 
@@ -159,7 +154,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 			}
 			shot = false;
 		}
-		b.drawButton(gl,this.renderer,this.rendererbis,this.activeview);
+		b.drawButton(gl,this.activeview);
 	}
 
 
