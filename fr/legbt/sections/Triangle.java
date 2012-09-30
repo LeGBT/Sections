@@ -161,11 +161,11 @@ public class Triangle implements Piece{
 		gl.glBegin(GL2.GL_LINE_STRIP);
 		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,left);
-		gl.glTexCoord1f(105f);
+		gl.glTexCoord1f(1f);
 		vect3ToVertex(gl,right);
 		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,top);
-		gl.glTexCoord1f(105f);
+		gl.glTexCoord1f(1f);
 		vect3ToVertex(gl,left);
 		gl.glEnd();
 	}

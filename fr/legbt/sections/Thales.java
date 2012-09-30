@@ -68,11 +68,11 @@ public class Thales extends Quad implements Piece,Bordered {
 		gl.glColor4f(red,blue,green,trans);
 		gl.glTexCoord2f(0f,0f);
 		drawTopLeft(gl);
-		gl.glTexCoord2f(20f,0f);
+		gl.glTexCoord2f(1f,0f);
 		drawBottomLeft(gl);
-		gl.glTexCoord2f(20f,20f);
+		gl.glTexCoord2f(1f,1f);
 		drawBottomRight(gl);
-		gl.glTexCoord2f(0f,20f);
+		gl.glTexCoord2f(0f,1f);
 		drawTopRight(gl);
 		gl.glEnd();
 		gl.glColor4f(0.9f,0.99f,0.9f,0.9f);

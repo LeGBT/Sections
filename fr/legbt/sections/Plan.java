@@ -55,7 +55,8 @@ public class Plan extends Quad{
 
 	public void tracePlan(GL2 gl){
 		//TODO gros refactoring à faire pour virer ça
-		float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
+	//	float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
+		float a = 1f;
 
 		gl.glBegin(GL2.GL_QUADS);
 		if(border){
@@ -81,7 +82,8 @@ public class Plan extends Quad{
 
 	public void tracePlan(GL2 gl,float l){
 		//TODO gros refactoring à faire pour virer ça
-		float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
+	//	float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
+	float a = 1f;
 
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(l,l,l,l);

@@ -174,7 +174,8 @@ public class RotatingSection extends Plan{
 
 	public void tracePlan(GL2 gl){
 		//TODO gros refactoring à faire pour virer ça
-		float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
+	//	float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
+	float a = 1f;
 
 		if(tracer){
 			/* *****************

@@ -55,8 +55,8 @@ public class Button3D implements MouseListener,MouseMotionListener{
 
 	private void traceBonus(GL2 gl, int activeview){
 		getTextBonus();
-		float a = System.getProperty("os.name").equals("Mac OS X") ? 45f:1f;
-		float b = System.getProperty("os.name").equals("Mac OS X") ? 120f:1f;
+		float	a= 0.704125f;
+		float	b= 0.9375f;
 		if(activeview<4){
 			if(instance.isBonemode()){
 				if(bonus==1){
@@ -89,14 +89,14 @@ public class Button3D implements MouseListener,MouseMotionListener{
 
 
 	private void tracePrefs(GL2 gl){
-		//TODO gros refactoring à faire pour virer ça
-		float a = System.getProperty("os.name").equals("Mac OS X") ? 45f:1f;
-		float b = System.getProperty("os.name").equals("Mac OS X") ? 120f:1f;
+		float	a= 0.704125f;
+		float	b= 0.9375f;
 		if(instance.isBonemode()){
 			instance.getTextures().bind(gl,202);
 		}else{
 			instance.getTextures().bind(gl,203);
 		}
+
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(1f,1f,1f,1f);
 		gl.glTexCoord2f(0f,0f);
@@ -115,8 +115,7 @@ public class Button3D implements MouseListener,MouseMotionListener{
 	private void traceMe(GL2 gl,int n, int activeview){
 		float c = 0;
 		float pos = n*h;
-		//TODO gros refactoring à faire pour virer ça
-		float a = System.getProperty("os.name").equals("Mac OS X") ? 140f:1f;
+		float a = 0.546875f;
 		if(instance.isBonemode()){
 			instance.getTextures().bind(gl,207 + 2*n );
 			c = (n==activeview)?  1f:0.3f;

@@ -163,13 +163,13 @@ public class SphereEdge implements Piece{
 		gl.glTexCoord1f(0f);
 		defineTopLeft(0.005f);
 		vect3ToVertex(gl,topleft);
-		gl.glTexCoord1f(105f);
+		gl.glTexCoord1f(1f);
 		defineBottomLeft(0.005f);
 		vect3ToVertex(gl,bottomleft);
 		gl.glTexCoord1f(0f);
 		defineTopRight(0.005f);
 		vect3ToVertex(gl,topright);
-		gl.glTexCoord1f(105f);
+		gl.glTexCoord1f(1f);
 		defineBottomRight(0.005f);
 		vect3ToVertex(gl,bottomright);
 		gl.glEnd();

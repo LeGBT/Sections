@@ -205,7 +205,8 @@ public class Disc implements Piece,Bordered {
 
 	public void traceBorders(GL2 gl,float red,float off){
 		//TODO gros refactoring à faire pour virer ça
-		float a = System.getProperty("os.name").equals("Mac OS X") ? 105f:1f;
+	//	float a = System.getProperty("os.name").equals("Mac OS X") ? 105f:1f;
+	float a = 1f;
 
 		gl.glBegin(GL2.GL_LINE_STRIP);
 		gl.glColor4f(red,red,red,red);

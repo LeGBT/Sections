@@ -20,7 +20,6 @@
 package fr.legbt.sections;
 
 import java.awt.Frame;
-import java.awt.Font;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
