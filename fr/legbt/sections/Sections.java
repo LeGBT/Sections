@@ -20,13 +20,7 @@
 package fr.legbt.sections;
 
 import java.awt.Frame;
-import java.awt.Component;
 import java.awt.image.BufferedImage;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -34,24 +28,16 @@ import java.io.File;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.imageio.ImageIO;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.Screenshot;
 
-public class Sections implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
-	private int x = 0;
-	private int y = 0;
+public class Sections{ 
 	private int activeview = 1;
 	private boolean plantype;
 	private boolean bonemode = false;
-	private boolean up;
-	private boolean down;
-	private boolean left;
-	private boolean right;
-	private boolean shift;
 	private boolean shot = false;
 	private TextureLib textures;
 	private Button3D b;
@@ -66,6 +52,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	private GLCanvas canvas;
 	private Frame frame;
 	private FPSAnimator animator;
+	private ActionListener listener;
 
 	public Sections(){
 		prof = GLProfile.get(GLProfile.GL2);
@@ -85,10 +72,6 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		frame = new Frame("Sections");
 		animator = new FPSAnimator(canvas,60);
 		plantype = true;
-		up = false;
-		down = false;
-		left = false;
-		right = false;
 		cs = new CubeScene(this);
 		ps = new PaveScene(this);
 		cys = new CylinderScene(this);
@@ -96,11 +79,9 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		sps = new SphereScene(this);
 		b = new Button3D(this);
 		activescene = cs;
-		canvas.addGLEventListener(this);
-		canvas.addMouseListener(this);
-		canvas.addMouseListener(b);
-		canvas.addMouseMotionListener(b);
-		canvas.addMouseMotionListener(this);
+		listener = new ActionListener(this);
+
+		listener.listen(canvas,b);
 		textures = new TextureLib();
 	}
 
@@ -127,10 +108,7 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 	}
 
 	public void update(){
-		if(up){activescene.sectionDragged(0,-2);}
-		if(down){activescene.sectionDragged(0,2);}
-		if(left){activescene.sectionDragged(-2,0);}
-		if(right){activescene.sectionDragged(2,0);}
+       listener.update();
 	}
 
 
@@ -168,99 +146,6 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		System.exit(0);
 	}	
 
-	public void dispose(GLAutoDrawable drawable){
-		GL2 gl = drawable.getGL().getGL2();	
-		textures.dispose(gl);
-	}
-
-	public void init(GLAutoDrawable drawable) {
-		GL2 gl = drawable.getGL().getGL2();
-		gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
-		gl.glClearDepth(1.0f);
-		if(!isBonemode()){
-			gl.glEnable(GL2.GL_FOG);
-		}
-		gl.glEnable(GL2.GL_BLEND);
-		gl.glLineWidth(2f);
-		gl.glBlendFunc(GL2.GL_SRC_ALPHA,GL2.GL_ONE_MINUS_SRC_ALPHA);
-		gl.glDepthFunc(GL2.GL_LESS);
-		textures.load(gl);
-		((Component) drawable).addKeyListener(this);
-	}
-
-
-	public void keyPressed(KeyEvent key) {
-		if(key.getKeyCode() == KeyEvent.VK_S){
-			shot = true;
-		}	
-		if(key.getKeyCode() == KeyEvent.VK_ESCAPE){
-			exit();
-		}	
-		if(key.getKeyCode() == KeyEvent.VK_UP){
-			up = true;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_DOWN){
-			down = true;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_SHIFT){
-			shift = true;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_LEFT){
-			left = true;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_RIGHT){
-			right = true;
-		}
-	}
-
-	public void keyReleased(KeyEvent key) {
-		if(key.getKeyCode() == KeyEvent.VK_UP){
-			up = false;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_DOWN){
-			down = false;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_SHIFT){
-			shift = false;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_LEFT){
-			left = false;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_RIGHT){
-			right = false;
-		}
-	}
-
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width,int height) {}
-	public void keyTyped(KeyEvent k){}
-	public void mouseMoved(MouseEvent arg0){}
-
-	public void mouseReleased(MouseEvent me){
-		this.x = 0;
-		this.y = 0;
-		activescene.released();
-	}
-
-	public void mouseDragged(MouseEvent me) {
-		if((this.x == 0)&&(this.y == 0)){
-			this.x = me.getX();
-			this.y = me.getX();
-		}else{
-			if((me.getButton()==3)||(shift)){
-				activescene.sectionDragged(me.getX()-this.x,me.getY()-this.y);
-			}else{
-				activescene.sceneDragged(me.getX()-this.x,me.getY()-this.y);
-			}
-		}
-		this.x = me.getX();
-		this.y = me.getY();
-	}
-
-	public void mouseClicked(MouseEvent me) {}
-	public void mouseEntered(MouseEvent e){}
-	public void mouseExited(MouseEvent e){}
-	public void mousePressed(MouseEvent e){}
-
 	public int getActiveview(){
 		return this.activeview;
 	}
@@ -286,9 +171,14 @@ public class Sections implements GLEventListener, KeyListener, MouseListener, Mo
 		bonemode =  !bonemode;
 	}
 
+	public boolean isShot(){return this.shot;}
+	public void setShot(boolean shot){this.shot = shot;}
+
 	public TextureLib getTextures(){
 		return this.textures;
 	}
+
+	public Scene getActivescene(){return this.activescene;}
 
 	public void changePlanType(){
 		this.plantype = !this.plantype;
