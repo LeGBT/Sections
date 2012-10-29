@@ -26,22 +26,19 @@ import java.awt.event.MouseMotionListener;
 import javax.media.opengl.GL2;
 
 public class Button3D implements MouseListener,MouseMotionListener{
-	private float scale = 1.81f;
-	private float h = scale*0.222f;
-	private float l = 0.125f;
-	private float le = scale*l;
-	private int size = Math.round(1280*scale/16);
+	private Sections sect;
+	private int size;
 	private int bonus;
-	private Sections instance;
 
-	public  Button3D(Sections instance){
-		this.instance = instance;
+	public  Button3D(Sections sect){
+		this.sect = sect;
 		getTextBonus();
+		size = Math.round((int)(sect.height*sect.format/9));
 	}
 
 
 	public void getTextBonus(){
-		bonus = (instance.isPlantype())? 1:0;
+		bonus = (sect.isPlantype())? 1:0;
 	}
 
 
@@ -54,111 +51,122 @@ public class Button3D implements MouseListener,MouseMotionListener{
 	}
 
 	private void traceBonus(GL2 gl, int activeview){
+		float tailleicone = (float) (0.1875f/sect.format*16/9);
+		float marge = (float) (0.05f/16*9/sect.format);
 		getTextBonus();
 		if(activeview<4){
-			if(instance.isBonemode()){
+			if(sect.isBonemode()){
 				if(bonus==1){
-					instance.getTextures().bind(gl,204);
+					sect.getTextures().bind(gl,204);
 				}else{
-					instance.getTextures().bind(gl,206);
+					sect.getTextures().bind(gl,206);
 				}
 			}else{
 				if(bonus==1){
-					instance.getTextures().bind(gl,205);
+					sect.getTextures().bind(gl,205);
 				}else{
-					instance.getTextures().bind(gl,207);
+					sect.getTextures().bind(gl,207);
 				}
 			}
+		// L=240 l=90 pour une res de 1280*720
 			gl.glBegin(GL2.GL_QUADS);
 			gl.glColor4f(1f,1f,1f,1f);
 			gl.glTexCoord2f(0f,0f);
-			gl.glVertex3f(0.575f,0.875f,0);
+			gl.glVertex3f(1f-2*tailleicone-marge,0.875f,0);
 			gl.glTexCoord2f(1f,0f);
-			gl.glVertex3f(0.7625f,0.875f,0);
+			gl.glVertex3f(1f-tailleicone-marge,0.875f,0);
 			gl.glTexCoord2f(1f,1f);
-			gl.glVertex3f(0.7625f,1f,0);
+			gl.glVertex3f(1f-tailleicone-marge,1f,0);
 			gl.glTexCoord2f(0f,1f);
-			gl.glVertex3f(0.575f,1f,0);
+			gl.glVertex3f(1-2*tailleicone-marge,1f,0);
 			gl.glEnd();
-			instance.getTextures().unbind(gl);
+			sect.getTextures().unbind(gl);
 		}
 		tracePrefs(gl);
 	}
 
 
 	private void tracePrefs(GL2 gl){
-		if(instance.isBonemode()){
-			instance.getTextures().bind(gl,202);
+		float tailleicone = (float) (0.1875f/sect.format*16/9);
+
+		if(sect.isBonemode()){
+			sect.getTextures().bind(gl,202);
 		}else{
-			instance.getTextures().bind(gl,203);
+			sect.getTextures().bind(gl,203);
 		}
 
+		// L=240 l=90 pour une res de 1280*720
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(1f,1f,1f,1f);
 		gl.glTexCoord2f(0f,0f);
-		gl.glVertex3f(0.8125f,0.875f,0);
+		gl.glVertex3f(1f-tailleicone,0.875f,0);
 		gl.glTexCoord2f(1f,0f);
 		gl.glVertex3f(1f,0.875f,0);
 		gl.glTexCoord2f(1f,1f);
 		gl.glVertex3f(1f,1f,0);
 		gl.glTexCoord2f(0f,1f);
-		gl.glVertex3f(0.8125f,1f,0);
+		gl.glVertex3f(1f-tailleicone,1f,0);
 		gl.glEnd();
-		instance.getTextures().unbind(gl);
+		sect.getTextures().unbind(gl);
 	}
 
 
 	private void traceMe(GL2 gl,int n, int activeview){
 		float c = 0;
-		float pos = n*h;
+		//	float pos = n*h;
+		float pos = 2*n/5.0f;
+		//a donne la coordonnée de la texture (donc dépend de sa résolution)
 		float a = 0.546875f;
-		if(instance.isBonemode()){
-			instance.getTextures().bind(gl,207 + 2*n );
+		if(sect.isBonemode()){
+			sect.getTextures().bind(gl,207 + 2*n );
 			c = (n==activeview)?  1f:0.3f;
 		}else{
-			instance.getTextures().bind(gl,206 + 2*n);
+			sect.getTextures().bind(gl,206 + 2*n);
 			c = (n==activeview)?  1f:0.5f;
 		}
 
-
+		// Coin haut gauche
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(1f,1f,1f,c);
 		gl.glTexCoord2f(0f,a);
-		gl.glVertex3f(-1,1-pos+h,0);
+		gl.glVertex3f(-1,1-pos+2/5f,0);
 
 
-		//gl.glColor4f(0.9f-c*8,0.9f,0.9f-c*8,0.9f-c);
+		// Coin haut droite
 		gl.glColor4f(1f,1f,1f,c);
 		gl.glTexCoord2f(a,a);
-		gl.glVertex3f(-1+le,1-pos+h,0);
+		gl.glVertex3f(-1+2/5f/(float)sect.format,1-pos+2/5f,0);
 
-		//gl.glColor4f(0.6f-c,0.6f+2*c,0.6f-5*c,0.9f-c);
+		// Coin bas droite
 		gl.glColor4f(1f,1f,1f,c);
 		gl.glTexCoord2f(a,0f);
-		gl.glVertex3f(-1+le,1-pos,0);
+		gl.glVertex3f(-1+2/5f/(float)sect.format,1-pos,0);
 
-		//gl.glColor4f(0.4f-3*c,0.4f+3*c,0.4f-3*c,0.9f-c);
+		// Coin bas gauche
 		gl.glColor4f(1f,1f,1f,c);
 		gl.glTexCoord2f(0f,0f);
 		gl.glVertex3f(-1,1f-pos,0);
 		gl.glEnd();
 
-		instance.getTextures().unbind(gl);
+		sect.getTextures().unbind(gl);
 	}
 
 
 	public void mouseClicked(MouseEvent me){
 		int button = 0;
-		if(me.getX()<size-3){
-			button = me.getY()*5/710+1;
-			this.instance.setActiveview(button);
+		if(me.getX()<0.2f*sect.height){
+			button = me.getY()*5/sect.height+1;
+			this.sect.setActiveview(button);
 		}
-		if((me.getX()>976)&&(me.getX()<1096)&&(me.getY()<45)){
-			instance.changePlanType();
-			instance.reset();
+		float width = (float)(sect.height*sect.format);
+		float buttonwidth = (float) (0.167*sect.height);
+		float margin = (float) (0.014*sect.height);
+		if((me.getX()>(width-2*buttonwidth-margin))&&(me.getX()<width-buttonwidth-margin)&&(me.getY()<0.0625f*sect.height)){
+			sect.changePlanType();
+			sect.reset();
 		}
-		if((me.getX()>1125)&&(me.getY()<45)){
-			instance.switchBonemode();
+		if((me.getX()>width-buttonwidth)&&(me.getY()<0.0625f*sect.height)){
+			sect.switchBonemode();
 		}
 	}
 
@@ -168,11 +176,12 @@ public class Button3D implements MouseListener,MouseMotionListener{
 	public void mouseReleased(MouseEvent arg0){}
 
 	public void mouseDragged(MouseEvent me) {
-		int button = 0;
-		if(me.getX()<size-3){
-			button = me.getY()*5/710+1;
-			this.instance.setActiveview(button);
-		}
+		// TODO drag sur les boutons
+	//	int button = 0;
+	//	if(me.getX()<size-3){
+	//		button = me.getY()*5/710+1;
+	//		this.sect.setActiveview(button);
+	//	}
 	}
 
 	public void mouseMoved(MouseEvent arg0){}

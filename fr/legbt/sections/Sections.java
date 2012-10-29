@@ -19,6 +19,7 @@
 
 package fr.legbt.sections;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.image.BufferedImage;
 import java.awt.event.WindowAdapter;
@@ -36,6 +37,8 @@ import com.jogamp.opengl.util.awt.Screenshot;
 
 public class Sections{ 
 	private int activeview = 1;
+	public  int height = 720; 
+	public  double format = 16/9.0; 
 	private boolean plantype;
 	private boolean bonemode = false;
 	private boolean shot = false;
@@ -77,10 +80,10 @@ public class Sections{
 		cys = new CylinderScene(this);
 		pys = new PyramideScene(this);
 		sps = new SphereScene(this);
-		b = new Button3D(this);
 		activescene = cs;
 		listener = new ActionListener(this);
 
+		b = new Button3D(this);
 		listener.listen(canvas,b);
 		textures = new TextureLib();
 	}
@@ -93,10 +96,14 @@ public class Sections{
 
 	public static void main(String[] args){
 		final Sections sect = new Sections();
-		sect.frame.add(sect.canvas);
-		sect.frame.setSize(1240,720);
+		//sect.panel.setSize((int)(sect.height*sect.format),sect.height);
 		sect.frame.setLocation(100,100);
-		sect.frame.setResizable(false);
+		//sect.canvas.setBounds(0,0,400,400);
+		sect.canvas.setBounds(0,0,(int)(sect.height*sect.format),sect.height);
+		sect.frame.add(sect.canvas);
+		sect.frame.setResizable(true);
+		sect.frame.pack();
+
 		sect.frame.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
 				sect.exit();	
@@ -117,12 +124,13 @@ public class Sections{
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 		gl.glClear(GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
-		int s = 2;
-		gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-3,3);
+		double s = 1.8d;
+	//	gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-3,3);
+		gl.glOrtho(-s*format,s*format,-s,s,-3,3);
 
 		this.activescene.render(gl);
 		if(shot){
-			BufferedImage tScreenshot = Screenshot.readToBufferedImage(150,0, 1050, 700, false); 
+			BufferedImage tScreenshot = Screenshot.readToBufferedImage(150,0, (int)(height*format*0.8468), (int)(height*0.9722), false); 
 			File tScreenCaptureImageFile = new File("shot.png"); 
 			try{
 				ImageIO.write(tScreenshot, "png", tScreenCaptureImageFile); 

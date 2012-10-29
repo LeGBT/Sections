@@ -84,7 +84,10 @@ public class ActionListener implements GLEventListener, KeyListener, MouseListen
 	public void mouseExited(MouseEvent e){}
 	public void mousePressed(MouseEvent e){}
 
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width,int height) {}
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,int height) {
+		section.height = height;
+		section.format = width/(height*1.0);
+	}
 	public void keyTyped(KeyEvent k){}
 	public void mouseMoved(MouseEvent arg0){}
 
