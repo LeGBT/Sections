@@ -19,21 +19,19 @@
 
 package fr.legbt.sections;
 
-import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.image.BufferedImage;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
-import javax.media.opengl.awt.GLCanvas;
 import javax.imageio.ImageIO;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.Screenshot;
+import com.jogamp.newt.event.WindowAdapter;
+import com.jogamp.newt.event.WindowEvent;
+import com.jogamp.newt.opengl.GLWindow;
 
 public class Sections{ 
 	private int activeview = 1;
@@ -52,8 +50,7 @@ public class Sections{
 	private Scene activescene;
 	private GLProfile prof;
 	private GLCapabilities caps;
-	private GLCanvas canvas;
-	private Frame frame;
+	private GLWindow window;
 	private FPSAnimator animator;
 	private ActionListener listener;
 
@@ -71,9 +68,8 @@ public class Sections{
 		caps.setSampleBuffers(true);
 		caps.setNumSamples(8);
 
-		canvas = new GLCanvas(caps);
-		frame = new Frame("Sections");
-		animator = new FPSAnimator(canvas,60);
+		window = GLWindow.create(caps);	
+		animator = new FPSAnimator(window,60);
 		plantype = true;
 		cs = new CubeScene(this);
 		ps = new PaveScene(this);
@@ -84,7 +80,7 @@ public class Sections{
 		listener = new ActionListener(this);
 
 		b = new Button3D(this);
-		listener.listen(canvas,b);
+		listener.listen(window,b);
 		textures = new TextureLib();
 	}
 
@@ -96,26 +92,25 @@ public class Sections{
 
 	public static void main(String[] args){
 		final Sections sect = new Sections();
-		//sect.panel.setSize((int)(sect.height*sect.format),sect.height);
-		sect.frame.setLocation(100,100);
-		//sect.canvas.setBounds(0,0,400,400);
-		sect.canvas.setBounds(0,0,(int)(sect.height*sect.format),sect.height);
-		sect.frame.add(sect.canvas);
-		sect.frame.setResizable(true);
-		sect.frame.pack();
-
-		sect.frame.addWindowListener(new WindowAdapter(){
-			public void windowClosing(WindowEvent e){
-				sect.exit();	
-			}
+		sect.window.addWindowListener(new WindowAdapter(){
+			public void windowDestroyNotify(WindowEvent e){
+				new Thread(){
+					public void run(){
+				sect.exit();
+					}
+			}.start();
+			};
 		});
-		sect.frame.setVisible(true);
+
+		sect.window.setSize((int)(sect.height*sect.format),sect.height);
+		sect.window.setVisible(true);
+		sect.window.setTitle("Sections");
 		sect.animator.start();
-		sect.canvas.requestFocus();
+		sect.window.requestFocus();
 	}
 
 	public void update(){
-       listener.update();
+		listener.update();
 	}
 
 
@@ -125,15 +120,14 @@ public class Sections{
 		gl.glClear(GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
 		double s = 1.8d;
-	//	gl.glOrtho(-s*1.6,s*1.6,-s*0.9,s*0.9,-3,3);
 		gl.glOrtho(-s*format,s*format,-s,s,-3,3);
 
 		this.activescene.render(gl);
 		if(shot){
-			BufferedImage tScreenshot = Screenshot.readToBufferedImage(150,0, (int)(height*format*0.8468), (int)(height*0.9722), false); 
+				BufferedImage tScreenshot = Screenshot.readToBufferedImage(150,0, (int)(height*format*0.8468), (int)(height*0.9722), false); 
 			File tScreenCaptureImageFile = new File("shot.png"); 
 			try{
-				ImageIO.write(tScreenshot, "png", tScreenCaptureImageFile); 
+						ImageIO.write(tScreenshot, "png", tScreenCaptureImageFile); 
 			}catch(Exception e){
 				System.out.println(e);
 			}
@@ -144,13 +138,13 @@ public class Sections{
 
 
 	public void display(GLAutoDrawable drawable) {
-		update();	
 		render(drawable);
+		update();	
 	}
 
 	public  void exit(){
 		this.animator.stop();
-		this.frame.dispose();
+		this.window.destroy();
 		System.exit(0);
 	}	
 

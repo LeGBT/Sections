@@ -19,21 +19,23 @@
 
 package fr.legbt.sections;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+//import java.awt.event.MouseEvent;
+//import java.awt.event.MouseListener;
+//import java.awt.event.MouseMotionListener;
+import com.jogamp.newt.event.MouseEvent;
+import com.jogamp.newt.event.MouseListener;
 
 import javax.media.opengl.GL2;
 
-public class Button3D implements MouseListener,MouseMotionListener{
+public class Button3D implements MouseListener{
 	private Sections sect;
-	private int size;
+//	private int size;
 	private int bonus;
 
 	public  Button3D(Sections sect){
 		this.sect = sect;
 		getTextBonus();
-		size = Math.round((int)(sect.height*sect.format/9));
+//		size = Math.round((int)(sect.height*sect.format/9));
 	}
 
 
@@ -185,4 +187,6 @@ public class Button3D implements MouseListener,MouseMotionListener{
 	}
 
 	public void mouseMoved(MouseEvent arg0){}
+	public void mouseWheelMoved(MouseEvent arg0) {}
+
 }

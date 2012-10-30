@@ -19,19 +19,16 @@
 
 package fr.legbt.sections;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseListener;
-import java.awt.event.KeyListener;
-import java.awt.Component;
-import java.awt.event.KeyEvent;
-
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.awt.GLCanvas;
+import com.jogamp.newt.opengl.GLWindow;
+import com.jogamp.newt.event.KeyListener;
+import com.jogamp.newt.event.MouseEvent;
+import com.jogamp.newt.event.MouseListener;
+import com.jogamp.newt.event.KeyEvent;
 
-public class ActionListener implements GLEventListener, KeyListener, MouseListener, MouseMotionListener{
+public class ActionListener implements GLEventListener, KeyListener, MouseListener{
 	private int x = 0;
 	private int y = 0;
 	private boolean shift;
@@ -61,7 +58,6 @@ public class ActionListener implements GLEventListener, KeyListener, MouseListen
 		gl.glBlendFunc(GL2.GL_SRC_ALPHA,GL2.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glDepthFunc(GL2.GL_LESS);
 		section.getTextures().load(gl);
-		((Component)drawable).addKeyListener(this);
 	}
 
 	public void update(){
@@ -71,24 +67,27 @@ public class ActionListener implements GLEventListener, KeyListener, MouseListen
 		if(right){section.getActivescene().sectionDragged(2,0);}
 	}
 
-	public void listen(GLCanvas canvas, Button3D b){
-		canvas.addGLEventListener(this);
-		canvas.addMouseListener(this);
-		canvas.addMouseListener(b);
-		canvas.addMouseMotionListener(b);
-		canvas.addMouseMotionListener(this);
+	public void listen(GLWindow window, Button3D b){
+		window.addGLEventListener(this);
+		window.addKeyListener(this);
+		window.addMouseListener(this);
+		window.addMouseListener(b);
+		//canvas.addGLEventListener(this);
+		//canvas.addMouseListener(this);
+		//canvas.addMouseListener(b);
+		//canvas.addMouseMotionListener(b);
+		//canvas.addMouseMotionListener(this);
 	}
 
-	public void mouseClicked(MouseEvent me) {}
-	public void mouseEntered(MouseEvent e){}
-	public void mouseExited(MouseEvent e){}
-	public void mousePressed(MouseEvent e){}
+//	public void mouseClicked(MouseEvent me) {}
+//	public void mouseEntered(MouseEvent e){}
+//	public void mouseExited(MouseEvent e){}
+//	public void mousePressed(MouseEvent e){}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,int height) {
 		section.height = height;
 		section.format = width/(height*1.0);
 	}
-	public void keyTyped(KeyEvent k){}
 	public void mouseMoved(MouseEvent arg0){}
 
 	public void mouseReleased(MouseEvent me){
@@ -163,4 +162,11 @@ public class ActionListener implements GLEventListener, KeyListener, MouseListen
 		GL2 gl = drawable.getGL().getGL2();	
 		section.getTextures().dispose(gl);
 	}
+
+	public void mouseClicked(MouseEvent arg0) {}
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {}
+	public void mouseWheelMoved(MouseEvent arg0) {}
+	public void keyTyped(KeyEvent arg0) {}
 }

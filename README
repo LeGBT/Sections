@@ -1,4 +1,4 @@
-Sections 3.0
+Sections 3.1
 
 
 Sections est un petit programme permettant le tracé de solides simples et d'en afficher des sections simples. Il a été conçu pour la présentation devant une classe.
@@ -17,3 +17,27 @@ Sections utilise de plus la bibliothèque "ejml" pour ses calculs matriciels.
 Les sources de Sections sont-elles disponibles via http://github.com/LeGBT/Sections
 
 La GNU General Public Licence est disponible dans le fichier gpl.
+
+
+Historique des versions :
+
+À venir :	3.2
+			Mode plein écran.
+		  
+Version 3.1
+Correction d'un bug d'affichage sur les faibles résolutions sous windows xp.
+
+Version 3.0
+Refonte totale de l'interface.
+
+Version 2.1
+Correction du changement de mode.
+
+Version 2.0
+Mode "fil de fer"
+
+Version 1.1
+Changement de comportement de la souris.
+
+Version 1.0
+Première version fonctionnelle.
