@@ -40,6 +40,7 @@ public class Sections{
 	private boolean plantype;
 	private boolean bonemode = false;
 	private boolean shot = false;
+	private boolean fullscreen = false;
 	private TextureLib textures;
 	private Button3D b;
 	private CubeScene cs;
@@ -96,9 +97,9 @@ public class Sections{
 			public void windowDestroyNotify(WindowEvent e){
 				new Thread(){
 					public void run(){
-				sect.exit();
+						sect.exit();
 					}
-			}.start();
+				}.start();
 			};
 		});
 
@@ -124,10 +125,10 @@ public class Sections{
 
 		this.activescene.render(gl);
 		if(shot){
-				BufferedImage tScreenshot = Screenshot.readToBufferedImage(150,0, (int)(height*format*0.8468), (int)(height*0.9722), false); 
+			BufferedImage tScreenshot = Screenshot.readToBufferedImage(150,0, (int)(height*format*0.8468), (int)(height*0.9722), false); 
 			File tScreenCaptureImageFile = new File("shot.png"); 
 			try{
-						ImageIO.write(tScreenshot, "png", tScreenCaptureImageFile); 
+				ImageIO.write(tScreenshot, "png", tScreenCaptureImageFile); 
 			}catch(Exception e){
 				System.out.println(e);
 			}
@@ -180,8 +181,13 @@ public class Sections{
 		return this.textures;
 	}
 
-	public Scene getActivescene(){return this.activescene;}
+	public void switchFullscreen(){
+		fullscreen = !fullscreen;
+		this.window.setFullscreen(fullscreen);
+	}
 
+	public Scene getActivescene(){return this.activescene;}
+	public GLWindow getWindow(){return this.window;}
 	public void changePlanType(){
 		this.plantype = !this.plantype;
 	}

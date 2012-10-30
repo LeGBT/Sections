@@ -79,10 +79,10 @@ public class ActionListener implements GLEventListener, KeyListener, MouseListen
 		//canvas.addMouseMotionListener(this);
 	}
 
-//	public void mouseClicked(MouseEvent me) {}
-//	public void mouseEntered(MouseEvent e){}
-//	public void mouseExited(MouseEvent e){}
-//	public void mousePressed(MouseEvent e){}
+	//	public void mouseClicked(MouseEvent me) {}
+	//	public void mouseEntered(MouseEvent e){}
+	//	public void mouseExited(MouseEvent e){}
+	//	public void mousePressed(MouseEvent e){}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,int height) {
 		section.height = height;
@@ -112,6 +112,9 @@ public class ActionListener implements GLEventListener, KeyListener, MouseListen
 	}
 
 	public void keyPressed(KeyEvent key) {
+		if(key.getKeyCode() == KeyEvent.VK_F){
+			section.switchFullscreen();
+		}	
 		if(key.getKeyCode() == KeyEvent.VK_S){
 			section.setShot(true);
 		}	
