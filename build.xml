@@ -1,4 +1,4 @@
-<project name="Sections" default="jar" basedir=".">
+<project name="Sections" default="run" basedir=".">
 	<description>
 		Sections build file.
 	</description>
