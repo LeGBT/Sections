@@ -1,0 +1,52 @@
+<project name="Sections" default="jar" basedir=".">
+	<description>
+		Sections build file.
+	</description>
+
+
+	<property name="src" location="."/>
+	<property name="output" location="bin"/>
+	<property name="build" location="build"/>
+	<property name="misc" location="misc"/>
+
+	<target name="compile" depends="create">
+		<javac destdir="build">
+			<src path="${src}"/>
+			<classpath refid="java"/>
+		</javac>
+	</target>
+
+	<target name="run" depends="compile">
+		<java classname="fr.legbt.sections.Sections" fork="true" spawn="true">
+			<classpath>
+				<path refid="java"/>
+				<path location="${build}"/>
+				<path location="."/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar jarfile="${output}/Sections.jar" manifest="MANIFEST.txt" >
+			<fileset dir="${build}"/>
+			<fileset dir="${misc}"/>
+			<fileset file="${src}/README"/>
+			<fileset file="${src}/gpl"/>
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}"/>
+	</target>
+
+	<target name="create" depends="clean">
+		<mkdir dir="${build}"/>
+	</target>
+
+	<path id="java">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+</project>
