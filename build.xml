@@ -4,13 +4,18 @@
 	</description>
 
 
-	<property name="src" location="."/>
+	<property name="src" location="src"/>
 	<property name="output" location="bin"/>
 	<property name="build" location="build"/>
 	<property name="misc" location="misc"/>
 
-	<target name="compile" depends="create">
-		<javac destdir="build">
+	<target name="clean">
+		<delete dir="${build}"/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="clean">
+		<javac destdir="${build}" includeantruntime="false">
 			<src path="${src}"/>
 			<classpath refid="java"/>
 		</javac>
@@ -35,13 +40,19 @@
 		</jar>
 	</target>
 
-	<target name="clean">
-		<delete dir="${build}"/>
-	</target>
-
-	<target name="create" depends="clean">
-		<mkdir dir="${build}"/>
-	</target>
+	<target name="test" depends="compile">
+		<junit failureProperty="test.failure">
+			<classpath>
+				<path refid="java"/>
+				<pathelement path="${build}"/>
+			</classpath>
+			<batchtest>
+				<fileset dir="test"/>
+			</batchtest>
+			<formatter type="plain" usefile="false"/>
+		</junit>
+		<fail message="test failed" if="test.failure"/>
+	</target> 
 
 	<path id="java">
 		<fileset dir="lib">
