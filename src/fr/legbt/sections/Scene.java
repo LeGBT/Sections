@@ -37,22 +37,11 @@ public abstract class  Scene{
 	static final Vecteur y = new Vecteur(0,1,0);
 	static final Vecteur z = new Vecteur(0,0,1);
 	static final Vecteur nul = new Vecteur(0,0,0);
+	static final Vecteur sect = new Vecteur(0,0,0.4f);
 
 	public Scene(float xscale, float yscale,Sections instance){
-		if(!instance.isPlantype()){
-			if(this instanceof CylinderScene){
-				angle = 90f;
-			}else{
-				angle = 30f;
-			}
-			plan = new Plan();
-			plan.angle = angle;
-			section = new RotatingSection(1,xscale,yscale,instance);
-			section.angle = angle;
-		}else{
-			plan = new Plan();
-			section = new RotatingSection(1,xscale,yscale,instance);
-		}
+		plan = new Plan();
+		section = new RotatingSection(1,xscale,yscale,instance);
 		firstrotation = true;
 		this.instance = instance;
 	}
@@ -65,20 +54,6 @@ public abstract class  Scene{
 	public Scene(String type, Sections instance){
 		this.instance = instance;
 		plan = new Plan();
-		if(type.equals("cyl")){
-			if(!instance.isPlantype()){
-				dsection = new Thales(z,x,y,new Vecteur(0,0,0.4f));
-			}else{
-				dsection = new Disc(x,y,new Vecteur(0,0,0.4f));
-			}
-			dsection.setBorder(true);
-		}else if(type.equals("spl")){
-			dsection = new Disc(x,y,new Vecteur(0,0,0.4f));
-			dsection.setBorder(true);
-			dsection.setSphere(true);
-		}else if(type.equals("pyl")){
-			psection = new Thales(new Vecteur(0.2f,0.1f,0.4f),new Vecteur(1.5f,0,0),y,new Vecteur(0.7f,0.35f,0.4f));
-		}
 		firstrotation = true;
 	}
 
@@ -95,7 +70,6 @@ public abstract class  Scene{
 				this.h = -4.2f;
 				((CylinderScene)this).cylinder = new Cylinder();
 				((CylinderScene)this).resetEdges();
-				//	this.dsection.reset(90);
 			}else{
 				this.section.reset(30);
 				this.plan.reset(30);
@@ -120,9 +94,9 @@ public abstract class  Scene{
 
 
 	public void released(){
+		this.angle = 0;
 		this.theta = 0;
 		this.phi = 0;
-		//		this.angle = 0;
 	}
 
 	public void sceneDragged(int xdelta,int ydelta){
@@ -133,13 +107,11 @@ public abstract class  Scene{
 	public void sectionDragged(int xdelta,int ydelta){
 		this.h = -ydelta/100f;
 		this.angle = -xdelta/8f;
-		if(instance!=null){
-			if(!(this instanceof CylinderScene)){
-				if(!instance.isPlantype()){
-					plan.angle += this.angle;
-					if((this instanceof CubeScene)||(this instanceof PaveScene)){
-						section.angle += this.angle;
-					}
+		if(!(this instanceof CylinderScene)){
+			if(!instance.isPlantype()){
+				plan.angle += this.angle;
+				if((this instanceof CubeScene)||(this instanceof PaveScene)){
+					section.angle += this.angle;
 				}
 			}
 		}

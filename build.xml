@@ -24,7 +24,7 @@
 	</target>
 
 	<target name="run" depends="compile">
-		<java classname="fr.legbt.sections.Sections" fork="true" spawn="true">
+		<java classname="fr.legbt.sections.Sections" fork="true" spawn="false">
 			<classpath>
 				<path refid="java"/>
 				<path location="${build}"/>

@@ -29,6 +29,9 @@ public class SphereScene extends Scene{
 
 	public SphereScene(Sections instance){
 		super("spl",instance);
+		dsection = new Disc(x,y,new Vecteur(0,0,0.4f));
+		dsection.setBorder(true);
+		dsection.setSphere(true);
 		sphere = new Sphere();
 		this.h = -4.2f;
 	}

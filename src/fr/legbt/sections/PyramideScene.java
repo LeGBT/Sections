@@ -28,6 +28,7 @@ public class PyramideScene extends Scene{
 
 	public PyramideScene(Sections instance){
 		super("pyl",instance);
+			psection = new Thales(new Vecteur(0.2f,0.1f,0.4f),new Vecteur(1.5f,0,0),y,new Vecteur(0.7f,0.35f,0.4f));
 		pyramide= new Pyramide();
 		this.h = -4f;
 	}
@@ -43,7 +44,6 @@ public class PyramideScene extends Scene{
 		gl.glDisable(GL.GL_DEPTH_TEST);
 		if((this.plan.getH()<0.5f)){
 			this.psection.traceMe(gl,0.3f,0.2f,0.4f,0.6f);
-		//	this.psection.drawBorders(gl,0.9f);
 			this.psection.drawBorders(gl,0);
 		}
 	}

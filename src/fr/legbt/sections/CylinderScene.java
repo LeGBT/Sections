@@ -19,20 +19,21 @@
 
 package fr.legbt.sections;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 
 public class CylinderScene extends Scene{
-	static final Vecteur x = new Vecteur(1,0,0);
-	static final Vecteur y = new Vecteur(0,1,0);
-	static final Vecteur z = new Vecteur(0,0,1);
-	static final Vecteur nul = new Vecteur(0,0,0);
 	protected Cylinder cylinder;
 	private CylinderEdge edge;
 
 	public CylinderScene(Sections instance){
 		super("cyl",instance);
+		if(!instance.isPlantype()){
+			dsection = new Thales(z,x,y,sect);
+		}else{
+			dsection = new Disc(x,y,sect);
+		}
+		dsection.setBorder(true);
 		cylinder = new Cylinder();
 		Vecteur xt = new Vecteur(x);
 		xt.scale(-1);
@@ -51,7 +52,7 @@ public class CylinderScene extends Scene{
 		this.cylinder.traceBorders(gl,0.9f);
 		this.cylinder.traceMe(gl);
 		this.plan.tracePlan(gl);
-		gl.glDisable(GL.GL_DEPTH_TEST);
+		gl.glDisable(GL2.GL_DEPTH_TEST);
 		if(instance.isPlantype()){
 			if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
 				this.dsection.traceMe(gl,0.3f,0.2f,0.4f,0.6f);
@@ -67,11 +68,11 @@ public class CylinderScene extends Scene{
 		// tracé à vide pour les tests
 		gl.glClearColor(1.0f,1.0f,1.0f,1.0f);
 		gl.glDisable(GL2.GL_FOG);
-		gl.glDepthFunc(GL.GL_LESS);
+		gl.glDepthFunc(GL2.GL_LESS);
 		gl.glColorMask(false,false,false,false);
 		this.cylinder.traceMe(gl);
 		//		this.plan.tracePlan(gl);
-		gl.glDepthFunc(GL.GL_GREATER);
+		gl.glDepthFunc(GL2.GL_GREATER);
 
 		//tracé des pointillés
 		gl.glColorMask(true,true,true,true);
@@ -88,7 +89,7 @@ public class CylinderScene extends Scene{
 		instance.getTextures().unbind(gl);
 
 		//tracé de la section
-		gl.glDepthFunc(GL.GL_LESS);
+		gl.glDepthFunc(GL2.GL_LESS);
 		gl.glLineWidth(3f);
 		gl.glDisable(GL2.GL_DEPTH_TEST);
 		instance.getTextures().bind(gl,201);
@@ -137,7 +138,7 @@ public class CylinderScene extends Scene{
 		this.dsection.xRotation((float)phi/2);
 		this.cylinder.sort();
 
-		gl.glEnable(GL.GL_DEPTH_TEST);
+		gl.glEnable(GL2.GL_DEPTH_TEST);
 		gl.glTranslatef(0.325f,0,0);
 
 		if(instance.isBonemode()){

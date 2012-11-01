@@ -193,8 +193,6 @@ public class Quad{
 	}
 
 	public void drawBorders(GL2 gl,float off){
-		//TODO gros refactoring à faire pour virer ça
-	//	float a = System.getProperty("os.name").equals("Mac OS X") ? 105f:1f;
 	 float a = 1f;
 
 		defineTopLeft(off);
