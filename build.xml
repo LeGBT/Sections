@@ -5,6 +5,7 @@
 
 
 	<property name="src" location="src"/>
+	<property name="test" location="test"/>
 	<property name="output" location="bin"/>
 	<property name="build" location="build"/>
 	<property name="misc" location="misc"/>
@@ -17,6 +18,7 @@
 	<target name="compile" depends="clean">
 		<javac destdir="${build}" includeantruntime="false">
 			<src path="${src}"/>
+			<src path="${test}"/>
 			<classpath refid="java"/>
 		</javac>
 	</target>
