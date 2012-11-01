@@ -19,69 +19,24 @@
 
 package fr.legbt.sections;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import javax.media.opengl.GL2;
 
 
-public class Cylinder {
+public class Cylinder extends Volume{
 	private Disc top;
 	private Disc bottom;
 	private CylinderPiece cypiece1;
-	private ArrayList<Piece> pieces;
 
 	public Cylinder(){
-		Vecteur u1 = new Vecteur(1,0,0);
-		Vecteur u2 = new Vecteur(0,1,0);
-		Vecteur u3 = new Vecteur(0,0,1);
-		Vecteur u4 = new Vecteur(-1,0,0);
-		Vecteur u5 = new Vecteur(0,-1,0);
-		Vecteur u6 = new Vecteur(0,0,-1);
-		pieces = new ArrayList<Piece>();
 		top = new Disc(u1,u2,u3);
 		bottom = new Disc(u4,u5,u6);
 		cypiece1 = new CylinderPiece(u1,u2,u3);
 		pieces.add(top);
 		pieces.add(bottom);
 		pieces.add(cypiece1);
-		Collections.sort(pieces);
+		sort();
 	}
 
-	public void resetRotation(){
-		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).resetRotation();
-		}
-	}
-
-
-	public void xRotation(float degree){
-		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).xRotation(degree);
-		}
-	}
-
-	public void yRotation(float degree){
-		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).yRotation(degree);
-		}
-	}
-
-	public void zRotation(float degree){
-		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).zRotation(degree);
-		}
-	}
-
-	public void sort(){
-		Collections.sort(pieces);
-	}
-
-	public void traceMe(GL2 gl){
-		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).traceMe(gl);
-		}
-	}
 
 	public void traceBorders(GL2 gl, float red,float off){
 		for(int i=0;i<pieces.size();i++){

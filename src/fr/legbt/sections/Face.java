@@ -38,7 +38,6 @@ public class Face extends Quad implements Piece{
 	}
 
 	public void traceMe(GL2 gl,float off){
-	//	System.out.println("Warning: no inflate suport for face.java");
 		traceMe(gl);
 	}
 
@@ -70,7 +69,6 @@ public class Face extends Quad implements Piece{
 		/* *******************
 		 * Tracé des arrêtes
 		 * ******************/
-		//	gl.glColor4f(0.1f,0.1f,0.1f,0.9f);
 		gl.glColor4f(red,green,blue,trans);
 		drawBorders(gl,off);
 

@@ -72,17 +72,7 @@ public class ActionListener implements GLEventListener, KeyListener, MouseListen
 		window.addKeyListener(this);
 		window.addMouseListener(this);
 		window.addMouseListener(b);
-		//canvas.addGLEventListener(this);
-		//canvas.addMouseListener(this);
-		//canvas.addMouseListener(b);
-		//canvas.addMouseMotionListener(b);
-		//canvas.addMouseMotionListener(this);
 	}
-
-	//	public void mouseClicked(MouseEvent me) {}
-	//	public void mouseEntered(MouseEvent e){}
-	//	public void mouseExited(MouseEvent e){}
-	//	public void mousePressed(MouseEvent e){}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,int height) {
 		section.height = height;

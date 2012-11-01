@@ -19,38 +19,19 @@
 
 package fr.legbt.sections;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import javax.media.opengl.GL2;
 
-public class Sphere {
+public class Sphere extends Volume{
 	private SpherePiece sp;
 	private Disc border;
-	private ArrayList<Piece> pieces;
 
 	public Sphere(){
-		Vecteur u1 = new Vecteur(1,0,0);
-		Vecteur u2 = new Vecteur(0,1,0);
-		Vecteur u3 = new Vecteur(0,0,1);
-		Vecteur nul = new Vecteur(0,0,0);
-		pieces = new ArrayList<Piece>();
 		sp = new SpherePiece(u1,u2,u3);
 		border = new Disc(u2,u1,nul);
 		pieces.add(sp);
 		pieces.add(border);
-		Collections.sort(pieces);
+		super.sort();
 	}
-
-
-	public void resetRotation(){
-		for(int i=0;i<pieces.size();i++){
-			if (!(pieces.get(i) instanceof Disc)){
-				pieces.get(i).resetRotation();
-			}
-		}
-	}
-
 
 	public void xRotation(float degree){
 		for(int i=0;i<pieces.size();i++){
@@ -76,9 +57,6 @@ public class Sphere {
 		}
 	}
 
-	public void sort(){
-		Collections.sort(pieces);
-	}
 
 	public void traceBorders(GL2 gl, float red){
 		for(int i=0;i<pieces.size();i++){
@@ -94,5 +72,7 @@ public class Sphere {
 			pieces.get(i).traceMe(gl);
 		}
 	}
+
+	public void traceBorders(GL2 gl, float red, float off) {}
 
 }
