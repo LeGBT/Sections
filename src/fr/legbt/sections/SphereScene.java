@@ -86,17 +86,19 @@ public class SphereScene extends Scene{
 	}
 
 	public void render(GL2 gl) {
+		preRender();
+
 		this.sphere.resetRotation();
-		this.sphere.zRotation((float)theta/2);
-		this.sphere.xRotation((float)phi/2);
+		this.sphere.zRotation((float)thetatot);
+		this.sphere.xRotation((float)phitot);
 		this.plan.resetRotation();
 		this.plan.setH(h);
-		this.plan.zRotation((float)theta/2);
-		this.plan.xRotation((float)phi/2);
+		this.plan.zRotation((float)thetatot);
+		this.plan.xRotation((float)phitot);
 		this.dsection.resetRotation();
 		this.dsection.setH(h);
-		this.dsection.zRotation((float)theta/2);
-		this.dsection.xRotation((float)phi/2);
+		this.dsection.zRotation((float)thetatot);
+		this.dsection.xRotation((float)phitot);
 		this.sphere.sort();
 
 		gl.glEnable(GL.GL_DEPTH_TEST);

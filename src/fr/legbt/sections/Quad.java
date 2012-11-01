@@ -36,14 +36,14 @@ public class Quad{
 	protected Vecteur np;
 	protected Vecteur uoff;
 	protected float angle;
-	private Vecteur topleft;
-	private Vecteur topright;
-	private Vecteur bottomleft;
-	private Vecteur bottomright;
+	protected Vecteur topleft;
+	protected Vecteur topright;
+	protected Vecteur bottomleft;
+	protected Vecteur bottomright;
 	private float cote;
-	private float xrot;
-	private float yrot;
-	private float zrot;
+	protected double xrot;
+	protected double yrot;
+	protected double zrot;
 	static Vecteur x = new Vecteur(1,0,0);
 	static Vecteur y = new Vecteur(0,1,0);
 	static Vecteur z = new Vecteur(0,0,1);
@@ -79,7 +79,7 @@ public class Quad{
 	}
 
 
-	static private float radian(float degree){
+	static private double radian(double degree){
 		return degree*0.017453292519943295769236907684f;
 	}
 
@@ -106,22 +106,22 @@ public class Quad{
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void xRotation(float degree){
+	public void xRotation(float rad){
 		Matrice matrix = new Matrice();
-		xrot += radian(degree);
-		matrix.rotX(xrot);
+		xrot = rad;
+		matrix.rotX((float)xrot);
 		rotation(matrix);
 	}
-	public void yRotation(float degree){
+	public void yRotation(float rad){
 		Matrice matrix = new Matrice();
-		yrot += radian(degree);
-		matrix.rotY(yrot+radian(angle));
+		yrot = rad;
+		matrix.rotY((float)(yrot+radian(angle)));
 		rotation(matrix);
 	}
-	public void zRotation(float degree){
+	public void zRotation(float rad){
 		Matrice matrix = new Matrice();
-		zrot += radian(degree);
-		matrix.rotZ(zrot);
+		zrot = rad;
+		matrix.rotZ((float)zrot);
 		rotation(matrix);
 	}
 
@@ -143,7 +143,7 @@ public class Quad{
 	public float getCote(){return this.cote;}
 	public void setCote(float cote){this.cote = cote;}
 
-	private void defineTopLeft(float off){
+	protected void defineTopLeft(float off){
 		topleft = new Vecteur(this.nr);
 		topleft.sub(this.ur);
 		topleft.add(this.uoff);
@@ -151,7 +151,7 @@ public class Quad{
 		topleft.scale(cote);
 		topleft.scale(1+off);
 	}
-	private void defineTopRight(float off){
+	protected void defineTopRight(float off){
 		topright = new Vecteur(this.nr);
 		topright.add(this.ur);
 		topright.add(this.uoff);
@@ -159,7 +159,7 @@ public class Quad{
 		topright.scale(cote);
 		topright.scale(1+off);
 	}
-	private void defineBottomLeft(float off){
+	protected void defineBottomLeft(float off){
 		bottomleft = new Vecteur(this.nr);
 		bottomleft.sub(this.ur);
 		bottomleft.add(this.uoff);
@@ -167,7 +167,7 @@ public class Quad{
 		bottomleft.scale(cote);
 		bottomleft.scale(1+off);
 	}
-	private void defineBottomRight(float off){
+	protected void defineBottomRight(float off){
 		bottomright = new Vecteur(this.nr);
 		bottomright.add(this.ur);
 		bottomright.add(this.uoff);

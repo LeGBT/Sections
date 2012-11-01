@@ -76,20 +76,27 @@ public class CubeScene extends Scene{
 		instance.getTextures().unbind(gl);
 	}
 
+
 	public void render(GL2 gl){
+		preRender();
+
 		this.cube.resetRotation();
-		this.cube.zRotation((float)theta/2);
-		this.cube.xRotation((float)phi/2);
 		this.plan.resetRotation();
-		this.plan.setH(h);
-		this.plan.yRotation(0);
-		this.plan.zRotation((float)theta/2);
-		this.plan.xRotation((float)phi/2);
 		this.section.resetRotation();
+		this.plan.setH(h);
 		this.section.setH(h);
+
+		this.plan.yRotation(0);
 		this.section.yRotation(0);
-		this.section.zRotation((float)theta/2);
-		this.section.xRotation((float)phi/2);
+
+		this.cube.zRotation((float)thetatot);
+		this.plan.zRotation((float)thetatot);
+		this.section.zRotation((float)thetatot);
+
+		this.cube.xRotation(phitot);
+		this.plan.xRotation((float)phitot);
+		this.section.xRotation((float)phitot);
+
 		this.cube.sort();
 
 		gl.glEnable(GL2.GL_DEPTH_TEST);

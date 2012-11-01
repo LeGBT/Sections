@@ -152,21 +152,21 @@ public class Disc implements Piece,Bordered {
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void xRotation(float degree){
+	public void xRotation(float rad){
 		Matrice matrix = new Matrice();
-		xrot += radian(degree);
+		xrot = rad;
 		matrix.rotX(xrot);
 		rotation(matrix);
 	}
-	public void yRotation(float degree){
+	public void yRotation(float rad){
 		Matrice matrix = new Matrice();
-		yrot += radian(degree);
+		yrot = rad;
 		matrix.rotY(yrot+radian(angle));
 		rotation(matrix);
 	}
-	public void zRotation(float degree){
+	public void zRotation(float rad){
 		Matrice matrix = new Matrice();
-		zrot += radian(degree);
+		zrot = rad;
 		matrix.rotZ(zrot);
 		rotation(matrix);
 	}
@@ -204,8 +204,6 @@ public class Disc implements Piece,Bordered {
 	}
 
 	public void traceBorders(GL2 gl,float red,float off){
-		//TODO gros refactoring à faire pour virer ça
-	//	float a = System.getProperty("os.name").equals("Mac OS X") ? 105f:1f;
 	float a = 1f;
 
 		gl.glBegin(GL2.GL_LINE_STRIP);

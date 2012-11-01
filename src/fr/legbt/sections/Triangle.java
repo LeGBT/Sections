@@ -66,10 +66,6 @@ public class Triangle implements Piece{
 		this.cote = c;
 	}
 
-	static private float radian(float degree){
-		return degree*0.017453292519943295769236907684f;
-	}
-
 	private void rotation(Matrice matrix){
 		matrix.transform(ur);
 		matrix.transform(vr);
@@ -82,21 +78,21 @@ public class Triangle implements Piece{
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void xRotation(float degree){
+	public void xRotation(float rad){
 		Matrice matrix = new Matrice();
-		xrot += radian(degree);
+		xrot = rad;
 		matrix.rotX(xrot);
 		rotation(matrix);
 	}
-	public void yRotation(float degree){
+	public void yRotation(float rad){
 		Matrice matrix = new Matrice();
-		yrot += radian(degree);
+		yrot = rad;
 		matrix.rotY(yrot);
 		rotation(matrix);
 	}
-	public void zRotation(float degree){
+	public void zRotation(float rad){
 		Matrice matrix = new Matrice();
-		zrot += radian(degree);
+		zrot = rad;
 		matrix.rotZ(zrot);
 		rotation(matrix);
 	}

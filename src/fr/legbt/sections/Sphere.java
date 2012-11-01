@@ -33,26 +33,26 @@ public class Sphere extends Volume{
 		super.sort();
 	}
 
-	public void xRotation(float degree){
+	public void xRotation(float rad){
 		for(int i=0;i<pieces.size();i++){
 			if (!(pieces.get(i) instanceof Disc)){
-				pieces.get(i).xRotation(degree);
+				pieces.get(i).xRotation(rad);
 			}
 		}
 	}
 
-	public void yRotation(float degree){
+	public void yRotation(float rad){
 		for(int i=0;i<pieces.size();i++){
 			if (!(pieces.get(i) instanceof Disc)){
-				pieces.get(i).yRotation(degree);
+				pieces.get(i).yRotation(rad);
 			}
 		}
 	}
 
-	public void zRotation(float degree){
+	public void zRotation(float rad){
 		for(int i=0;i<pieces.size();i++){
 			if (!(pieces.get(i) instanceof Disc)){
-				pieces.get(i).zRotation(degree);
+				pieces.get(i).zRotation(rad);
 			}
 		}
 	}

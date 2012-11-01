@@ -57,19 +57,19 @@ public abstract class Volume {
 		}
 	}
 
-	public void xRotation(float degree){
+	public void xRotation(double degree){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).xRotation(degree);
+			pieces.get(i).xRotation((float)degree);
 		}
 	}
-	public void yRotation(float degree){
+	public void yRotation(double degree){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).yRotation(degree);
+			pieces.get(i).yRotation((float)degree);
 		}
 	}
-	public void zRotation(float degree){
+	public void zRotation(double degree){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).zRotation(degree);
+			pieces.get(i).zRotation((float)degree);
 		}
 	}
 
