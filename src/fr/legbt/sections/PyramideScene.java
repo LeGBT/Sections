@@ -28,7 +28,7 @@ public class PyramideScene extends Scene{
 
 	public PyramideScene(Sections instance){
 		super("pyl",instance);
-			psection = new Thales(new Vecteur(0.2f,0.1f,0.4f),new Vecteur(1.5f,0,0),y,new Vecteur(0.7f,0.35f,0.4f));
+		psection = new Thales(new Vecteur(0.2f,0.1f,0.4f),new Vecteur(1.5f,0,0),y,new Vecteur(0.7f,0.35f,0.4f));
 		pyramide= new Pyramide();
 		this.h = -4f;
 	}
@@ -91,17 +91,19 @@ public class PyramideScene extends Scene{
 	}
 
 	public void render(GL2 gl) {
+		preRender();
+
 		this.pyramide.resetRotation();
-		this.pyramide.zRotation((float)theta/2);
-		this.pyramide.xRotation((float)phi/2);
+		this.pyramide.zRotation((float)thetatot);
+		this.pyramide.xRotation((float)phitot);
 		this.plan.resetRotation();
 		this.plan.setH(h);
-		this.plan.zRotation((float)theta/2);
-		this.plan.xRotation((float)phi/2);
+		this.plan.zRotation((float)thetatot);
+		this.plan.xRotation((float)phitot);
 		this.psection.resetRotation();
 		this.psection.setH(h);
-		this.psection.zRotation((float)theta/2);
-		this.psection.xRotation((float)phi/2);
+		this.psection.zRotation((float)thetatot);
+		this.psection.xRotation((float)phitot);
 		this.pyramide.sort();
 
 		gl.glEnable(GL.GL_DEPTH_TEST);

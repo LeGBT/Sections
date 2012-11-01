@@ -27,8 +27,10 @@ public abstract class  Scene{
 	protected RotatingSection section;
 	protected Bordered dsection;
 	protected Thales psection;
-	protected float theta = 10;
-	protected float phi = -160;
+	protected double theta = 10;
+	protected double phi = -160;
+	protected double phitot;
+	protected double thetatot;
 	protected float h; 
 	protected float angle;
 	protected boolean firstrotation;
@@ -92,6 +94,15 @@ public abstract class  Scene{
 		}
 	}
 
+	static private double radian(double degree){
+		return degree*0.017453292519943295769236907684f;
+	}
+
+	protected void preRender(){
+		thetatot += radian(theta/2.0);
+		phitot += radian(phi/2.0);
+	}
+
 
 	public void released(){
 		this.angle = 0;
@@ -105,8 +116,8 @@ public abstract class  Scene{
 	}
 
 	public void sectionDragged(int xdelta,int ydelta){
-		this.h = -ydelta/100f;
-		this.angle = -xdelta/8f;
+		this.h = (float)( -ydelta/100.0);
+		this.angle =(float)( -xdelta/8.0);
 		if(!(this instanceof CylinderScene)){
 			if(!instance.isPlantype()){
 				plan.angle += this.angle;

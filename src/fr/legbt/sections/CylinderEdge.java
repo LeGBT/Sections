@@ -21,42 +21,15 @@ package fr.legbt.sections;
 
 import javax.media.opengl.GL2;
 
-
-public class CylinderEdge implements Piece{
-	protected Vecteur u;
-	protected Vecteur v;
-	protected Vecteur n;
-	protected Vecteur ur;
-	protected Vecteur vr;
-	protected Vecteur nr;
-	protected Vecteur up;
-	protected Vecteur vp;
-	protected Vecteur np;
+public class CylinderEdge extends Quad implements Piece{
 	protected float angle;
 	private Vecteur topleft;
 	private Vecteur topright;
 	private Vecteur bottomleft;
 	private Vecteur bottomright;
-	private float xrot;
-	private float yrot;
-	private float zrot;
-	static final Vecteur x = new Vecteur(1,0,0);
-	static final Vecteur y = new Vecteur(0,1,0);
-	static final Vecteur z = new Vecteur(0,0,1);
 
 	public CylinderEdge(Vecteur u, Vecteur v, Vecteur n){
-		this.u = new Vecteur(u);
-		this.v = new Vecteur(v);
-		this.n = new Vecteur(n);
-		this.ur = new Vecteur(u);
-		this.vr = new Vecteur(v);
-		this.nr = new Vecteur(n);
-		this.up = new Vecteur(u);
-		this.vp = new Vecteur(v);
-		this.np = new Vecteur(n);
-		this.xrot = 0;
-		this.yrot = 0;
-		this.zrot = 0;
+		super(u,v,n);
 	}
 
 	public void reset(){
@@ -71,10 +44,6 @@ public class CylinderEdge implements Piece{
 		return this.np.length();
 	}
 
-	static private float radian(float degree){
-		return degree*0.017453292519943295769236907684f;
-	}
-
 	public int compareTo(Piece arg0){
 		return 0;
 	}
@@ -83,11 +52,6 @@ public class CylinderEdge implements Piece{
 		return 0;
 	}
 
-	public void resetRotation(){
-		this.ur = new Vecteur(this.up);
-		this.vr = new Vecteur(this.vp);
-		this.nr = new Vecteur(this.np);
-	}
 
 	public void rotation(Matrice matrix){
 		matrix.transform(ur);
@@ -95,54 +59,26 @@ public class CylinderEdge implements Piece{
 		matrix.transform(nr);
 	}
 
-	public void xRotation(float degree) {
-		Matrice matrix = new Matrice();
-		xrot += radian(degree);
-		matrix.rotX(xrot);
-		rotation(matrix);
-	}
-
-	public void yRotation(float degree) {
-		Matrice matrix = new Matrice();
-		yrot += radian(degree);
-		matrix.rotY(yrot+radian(angle));
-		rotation(matrix);
-	}
-
-	public void zRotation(float degree) {
-		Matrice matrix = new Matrice();
-		zrot += radian(degree);
-		matrix.rotZ(zrot);
-		rotation(matrix);
-	}
-
-	public void vect3ToVertex(GL2 gl, Vecteur b){
-		float px = b.getX();
-		float py = b.getY();
-		float pz = b.getZ();
-		gl.glVertex3f(px,py,pz);
-	}
-
-	private void defineTopLeft(float off){
+	protected void defineTopLeft(float off){
 		topleft = new Vecteur(this.nr);
 		topleft.sub(this.ur);
 		topleft.add(this.vr);
 		topleft.scale(1+off);
 	}
 
-	private void defineTopRight(float off){
+	protected void defineTopRight(float off){
 		topright = new Vecteur(this.nr);
 		topright.add(this.ur);
 		topright.add(this.vr);
 		topright.scale(1+off);
 	}
-	private void defineBottomLeft(float off){
+	protected void defineBottomLeft(float off){
 		bottomleft = new Vecteur(this.nr);
 		bottomleft.sub(this.ur);
 		bottomleft.sub(this.vr);
 		bottomleft.scale(1+off);
 	}
-	private void defineBottomRight(float off){
+	protected void defineBottomRight(float off){
 		bottomright = new Vecteur(this.nr);
 		bottomright.add(this.ur);
 		bottomright.sub(this.vr);
