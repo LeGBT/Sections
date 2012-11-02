@@ -8,7 +8,7 @@
 	<property name="test" location="test"/>
 	<property name="output" location="bin"/>
 	<property name="build" location="build"/>
-	<property name="misc" location="misc"/>
+	<property name="all" location="."/>
 
 	<target name="clean">
 		<delete dir="${build}"/>
@@ -36,7 +36,9 @@
 	<target name="jar" depends="compile">
 		<jar jarfile="${output}/Sections.jar" manifest="MANIFEST.txt" >
 			<fileset dir="${build}"/>
-			<fileset dir="${misc}"/>
+			<fileset dir="${all}">
+				<include name="resources/*"/>
+			</fileset>
 			<fileset file="${src}/README"/>
 			<fileset file="${src}/gpl"/>
 		</jar>

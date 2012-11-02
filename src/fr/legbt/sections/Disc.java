@@ -31,6 +31,7 @@ public class Disc implements Piece,Bordered {
 	protected Vecteur up;
 	protected Vecteur vp;
 	protected Vecteur np;
+	protected Vecteur np0;
 	private float xrot;
 	private float yrot;
 	private float zrot;
@@ -55,6 +56,7 @@ public class Disc implements Piece,Bordered {
 		this.up = new Vecteur(u);
 		this.vp = new Vecteur(v);
 		this.np = new Vecteur(n);
+		this.np0 = new Vecteur(n);
 		this.xrot = 0;
 		this.yrot = 0;
 		this.zrot = 0;
@@ -179,9 +181,11 @@ public class Disc implements Piece,Bordered {
 	}
 
 	public void setH(float ph){
-		this.np.scaleAdd(ph,n,this.np);
+		np.set(n);
+		np.scale(ph);
+		np.add(np0);
 		if(sphere){
-			hr -= ph;
+			hr = 1.5f - ph;
 			Vecteur temp = new Vecteur(u);
 			temp.scale((float)Math.sqrt(1/4f-(hr/5f-1f/2f)*(hr/5f-1f/2f))*2f);	
 			up.set(temp);

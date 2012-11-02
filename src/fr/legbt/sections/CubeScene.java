@@ -83,8 +83,8 @@ public class CubeScene extends Scene{
 		this.cube.resetRotation();
 		this.plan.resetRotation();
 		this.section.resetRotation();
-		this.plan.setH(h);
-		this.section.setH(h);
+		this.plan.setH(htot);
+		this.section.setH(htot);
 
 		this.plan.yRotation(0);
 		this.section.yRotation(0);

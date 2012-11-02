@@ -42,7 +42,8 @@ public class Plan extends Quad{
 	}
 
 	public void setH(float ph){
-		this.np.scaleAdd(ph,n,this.np);
+		np.set(n);	
+		np.scale(ph+1f);		
 	}
 
 	public float getAngle(){
@@ -54,8 +55,6 @@ public class Plan extends Quad{
 	}
 
 	public void tracePlan(GL2 gl){
-		//TODO gros refactoring à faire pour virer ça
-	//	float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
 		float a = 1f;
 
 		gl.glBegin(GL2.GL_QUADS);
@@ -81,9 +80,7 @@ public class Plan extends Quad{
 	}
 
 	public void tracePlan(GL2 gl,float l){
-		//TODO gros refactoring à faire pour virer ça
-	//	float a = System.getProperty("os.name").equals("Mac OS X") ? 20f:1f;
-	float a = 1f;
+		float a = 1f;
 
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(l,l,l,l);

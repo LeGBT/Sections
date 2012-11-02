@@ -129,12 +129,12 @@ public class CylinderScene extends Scene{
 		this.edge.resetRotation();
 		this.edge.xRotation((float)phitot);
 		this.plan.resetRotation();
-		this.plan.setH(h);
+		this.plan.setH(htot);
 		this.plan.yRotation(0);
 		this.plan.zRotation((float)thetatot);
 		this.plan.xRotation((float)phitot);
 		this.dsection.resetRotation();
-		this.dsection.setH(h);
+		this.dsection.setH(htot);
 		this.dsection.yRotation(0);
 		this.dsection.zRotation((float)thetatot);
 		this.dsection.xRotation((float)phitot);

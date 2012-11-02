@@ -27,139 +27,184 @@ import com.jogamp.newt.event.KeyListener;
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
 import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.WindowEvent;
+import com.jogamp.newt.event.WindowListener;
+import com.jogamp.newt.event.WindowUpdateEvent;
 
-public class ActionListener implements GLEventListener, KeyListener, MouseListener{
-	private int x = 0;
-	private int y = 0;
-	private boolean shift;
-	private Sections section;
-	private boolean up;
-	private boolean down;
-	private boolean left;
-	private boolean right;
+public class ActionListener implements GLEventListener, KeyListener,
+	   MouseListener, WindowListener {
+		   private int x = 0;
+		   private int y = 0;
+		   private boolean shift;
+		   private Sections section;
+		   private boolean up;
+		   private boolean down;
+		   private boolean left;
+		   private boolean right;
 
-	public ActionListener(Sections section){
-		this.section = section;
-		this.up = false;
-		this.down = false;
-		this.left = false;
-		this.right = false;
-	}
+		   public ActionListener(Sections section) {
+			   this.section = section;
+			   this.up = false;
+			   this.down = false;
+			   this.left = false;
+			   this.right = false;
+		   }
 
-	public void init(GLAutoDrawable drawable) {
-		GL2 gl = drawable.getGL().getGL2();
-		gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
-		gl.glClearDepth(1.0f);
-		if(!section.isBonemode()){
-			gl.glEnable(GL2.GL_FOG);
-		}
-		gl.glEnable(GL2.GL_BLEND);
-		gl.glLineWidth(2f);
-		gl.glBlendFunc(GL2.GL_SRC_ALPHA,GL2.GL_ONE_MINUS_SRC_ALPHA);
-		gl.glDepthFunc(GL2.GL_LESS);
-		section.getTextures().load(gl);
-	}
+		   public void init(GLAutoDrawable drawable) {
+			   GL2 gl = drawable.getGL().getGL2();
+			   gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			   gl.glClearDepth(1.0f);
+			 //  drawable.setAutoSwapBufferMode(true);
+			   if (!section.isBonemode()) {
+				   gl.glEnable(GL2.GL_FOG);
+			   }
+			   gl.glEnable(GL2.GL_BLEND);
+			   gl.glLineWidth(2f);
+			   gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+			   gl.glDepthFunc(GL2.GL_LESS);
+			   section.getTextures().load(gl);
+		   }
 
-	public void update(){
-		if(up){section.getActivescene().sectionDragged(0,-2);}
-		if(down){section.getActivescene().sectionDragged(0,2);}
-		if(left){section.getActivescene().sectionDragged(-2,0);}
-		if(right){section.getActivescene().sectionDragged(2,0);}
-	}
+		   public void update() {
+			   if (up) {
+				   section.getActivescene().sectionDragged(0, -2);
+			   }
+			   if (down) {
+				   section.getActivescene().sectionDragged(0, 2);
+			   }
+			   if (left) {
+				   section.getActivescene().sectionDragged(-2, 0);
+			   }
+			   if (right) {
+				   section.getActivescene().sectionDragged(2, 0);
+			   }
+		   }
 
-	public void listen(GLWindow window, Button3D b){
-		window.addGLEventListener(this);
-		window.addKeyListener(this);
-		window.addMouseListener(this);
-		window.addMouseListener(b);
-	}
+		   public void listen(GLWindow window, Button3D b) {
+			   window.addGLEventListener(this);
+			   window.addKeyListener(this);
+			   window.addMouseListener(this);
+			   window.addWindowListener(this);
+			   window.addMouseListener(b);
+		   }
 
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width,int height) {
-		section.height = height;
-		section.format = width/(height*1.0);
-	}
-	public void mouseMoved(MouseEvent arg0){}
+		   public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+				   int height) {
+			   section.animator.pause();
+			   int minheight = 600;
+			   int minwidth = 800;
 
-	public void mouseReleased(MouseEvent me){
-		this.x = 0;
-		this.y = 0;
-		section.getActivescene().released();
-	}
+			   GLWindow win = section.getWindow();
+			   if(height<minheight){
+				   win.setSize(width,minheight);
+				   height = minheight;
+			   }
 
-	public void mouseDragged(MouseEvent me) {
-		if((this.x == 0)&&(this.y == 0)){
-			this.x = me.getX();
-			this.y = me.getX();
-		}else{
-			if((me.getButton()==3)||(shift)){
-				section.getActivescene().sectionDragged(me.getX()-this.x,me.getY()-this.y);
-			}else{
-				section.getActivescene().sceneDragged(me.getX()-this.x,me.getY()-this.y);
-			}
-		}
-		this.x = me.getX();
-		this.y = me.getY();
-	}
+			   if(width<minwidth){
+				   win.setSize(minwidth,height);
+				   width = minwidth;
+			   }
 
-	public void keyPressed(KeyEvent key) {
-		if(key.getKeyCode() == KeyEvent.VK_F){
-			section.switchFullscreen();
-		}	
-		if(key.getKeyCode() == KeyEvent.VK_S){
-			section.setShot(true);
-		}	
-		if(key.getKeyCode() == KeyEvent.VK_ESCAPE){
-			section.exit();
-		}	
-		if(key.getKeyCode() == KeyEvent.VK_UP){
-			up = true;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_DOWN){
-			down = true;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_SHIFT){
-			shift = true;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_LEFT){
-			left = true;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_RIGHT){
-			right = true;
-		}
-	}
+			   section.height = height;
+			   section.format = width / (height * 1.0);
+		   }
 
-	public void keyReleased(KeyEvent key) {
-		if(key.getKeyCode() == KeyEvent.VK_UP){
-			up = false;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_DOWN){
-			down = false;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_SHIFT){
-			shift = false;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_LEFT){
-			left = false;
-		}
-		if(key.getKeyCode() == KeyEvent.VK_RIGHT){
-			right = false;
-		}
-	}
+		   public void mouseMoved(MouseEvent arg0) {
+		   }
 
-	public void display(GLAutoDrawable drawable) {
-		section.update();	
-		section.render(drawable);
-	}
+		   public void mouseReleased(MouseEvent me) {
+			   this.x = 0;
+			   this.y = 0;
+			   section.getActivescene().released();
+		   }
 
-	public void dispose(GLAutoDrawable drawable){
-		GL2 gl = drawable.getGL().getGL2();	
-		section.getTextures().dispose(gl);
-	}
+		   public void mouseDragged(MouseEvent me) {
+			   section.animator.resume();
+			   if ((this.x == 0) && (this.y == 0)) {
+				   this.x = me.getX();
+				   this.y = me.getX();
+			   } else {
+				   if ((me.getButton() == 3) || (shift)) {
+					   section.getActivescene().sectionDragged(me.getX() - this.x,
+							   me.getY() - this.y);
+				   } else {
+					   section.getActivescene().sceneDragged(me.getX() - this.x,
+							   me.getY() - this.y);
+				   }
+			   }
+			   this.x = me.getX();
+			   this.y = me.getY();
+		   }
 
-	public void mouseClicked(MouseEvent arg0) {}
-	public void mouseEntered(MouseEvent arg0) {}
-	public void mouseExited(MouseEvent arg0) {}
-	public void mousePressed(MouseEvent arg0) {}
-	public void mouseWheelMoved(MouseEvent arg0) {}
-	public void keyTyped(KeyEvent arg0) {}
+		   public void keyPressed(KeyEvent key) {
+			   if (key.getKeyCode() == KeyEvent.VK_F) {
+				   section.switchFullscreen();
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_S) {
+				   section.setShot(true);
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				   section.exit();
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_UP) {
+				   up = true;
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_DOWN) {
+				   down = true;
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_SHIFT) {
+				   shift = true;
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_LEFT) {
+				   left = true;
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_RIGHT) {
+				   right = true;
+			   }
+		   }
+
+		   public void keyReleased(KeyEvent key) {
+			   if (key.getKeyCode() == KeyEvent.VK_UP) {
+				   up = false;
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_DOWN) {
+				   down = false;
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_SHIFT) {
+				   shift = false;
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_LEFT) {
+				   left = false;
+			   }
+			   if (key.getKeyCode() == KeyEvent.VK_RIGHT) {
+				   right = false;
+			   }
+		   }
+
+		   public void display(GLAutoDrawable drawable) {
+			   section.update();
+			   section.render(drawable);
+		   }
+
+		   public void dispose(GLAutoDrawable drawable) {
+			   GL2 gl = drawable.getGL().getGL2();
+			   section.getTextures().dispose(gl);
+		   }
+
+		   public void mouseClicked(MouseEvent arg0){
+			   section.animator.resume();
+		   }
+		   public void mouseEntered(MouseEvent arg0){}
+		   public void mouseExited(MouseEvent arg0){}
+		   public void mousePressed(MouseEvent arg0){}
+		   public void mouseWheelMoved(MouseEvent arg0){}
+		   public void keyTyped(KeyEvent arg0){}
+		   public void windowDestroyNotify(WindowEvent arg0){}
+		   public void windowDestroyed(WindowEvent arg0){}
+		   public void windowGainedFocus(WindowEvent arg0){}
+		   public void windowLostFocus(WindowEvent arg0) {}
+		   public void windowMoved(WindowEvent arg0){}
+		   public void windowRepaint(WindowUpdateEvent we){}
+		   public void windowResized(WindowEvent we){
+		   }
 }

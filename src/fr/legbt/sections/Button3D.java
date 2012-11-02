@@ -19,9 +19,6 @@
 
 package fr.legbt.sections;
 
-//import java.awt.event.MouseEvent;
-//import java.awt.event.MouseListener;
-//import java.awt.event.MouseMotionListener;
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
 
@@ -74,18 +71,19 @@ public class Button3D implements MouseListener{
 			gl.glBegin(GL2.GL_QUADS);
 			gl.glColor4f(1f,1f,1f,1f);
 			gl.glTexCoord2f(0f,0f);
-			gl.glVertex3f(1f-2*tailleicone-marge,0.875f,0);
+			gl.glVertex3f(1f-3*tailleicone-2*marge,0.875f,0);
 			gl.glTexCoord2f(1f,0f);
-			gl.glVertex3f(1f-tailleicone-marge,0.875f,0);
+			gl.glVertex3f(1f-2*tailleicone-2*marge,0.875f,0);
 			gl.glTexCoord2f(1f,1f);
-			gl.glVertex3f(1f-tailleicone-marge,1f,0);
+			gl.glVertex3f(1f-2*tailleicone-2*marge,1f,0);
 			gl.glTexCoord2f(0f,1f);
-			gl.glVertex3f(1-2*tailleicone-marge,1f,0);
+			gl.glVertex3f(1-3*tailleicone-2*marge,1f,0);
 			gl.glEnd();
 			sect.getTextures().unbind(gl);
 		}
 		traceButtonMode(gl);
 		traceButtonFullscreen(gl);
+		traceButtonAide(gl);
 	}
 
 	private void traceButtonFullscreen(GL2 gl){
@@ -112,13 +110,37 @@ public class Button3D implements MouseListener{
 		sect.getTextures().unbind(gl);
 	}
 
-	private void traceButtonMode(GL2 gl){
+	private void traceButtonAide(GL2 gl){
 		float tailleicone = (float) (0.1875f/sect.format*16/9);
+		float marge = (float) (0.05f/16*9/sect.format);
 
 		if(sect.isBonemode()){
 			sect.getTextures().bind(gl,202);
 		}else{
 			sect.getTextures().bind(gl,203);
+		}
+
+		// L=240 l=90 pour une res de 1280*720
+		gl.glBegin(GL2.GL_QUADS);
+		gl.glColor4f(1f,1f,1f,1f);
+		gl.glTexCoord2f(0f,0f);
+		gl.glVertex3f(1f-2*tailleicone-marge,0.875f,0);
+		gl.glTexCoord2f(1f,0f);
+		gl.glVertex3f(1f-tailleicone-marge,0.875f,0);
+		gl.glTexCoord2f(1f,1f);
+		gl.glVertex3f(1f-tailleicone-marge,1f,0);
+		gl.glTexCoord2f(0f,1f);
+		gl.glVertex3f(1-2*tailleicone-marge,1f,0);
+		gl.glEnd();
+		sect.getTextures().unbind(gl);
+	}
+
+	private void traceButtonMode(GL2 gl){
+		float tailleicone = (float) (0.1875f/sect.format*16/9);
+		if(sect.isBonemode()){
+			sect.getTextures().bind(gl,220);
+		}else{
+			sect.getTextures().bind(gl,221);
 		}
 
 		// L=240 l=90 pour une res de 1280*720
@@ -189,12 +211,15 @@ public class Button3D implements MouseListener{
 		float buttonwidth = (float) (0.167*sect.height);
 		float buttonfullscreenwidth = (float) (0.15/2*sect.height);
 		float margin = (float) (0.014*sect.height);
-		if((me.getX()>(width-2*buttonwidth-margin))&&(me.getX()<width-buttonwidth-margin)&&(me.getY()<0.0625f*sect.height)){
+		if((me.getX()>(width-3*buttonwidth-2*margin))&&(me.getX()<width-2*buttonwidth-2*margin)&&(me.getY()<0.0625f*sect.height)){
 			sect.changePlanType();
 			sect.reset();
 		}
-		if((me.getX()>width-buttonwidth)&&(me.getY()<0.0625f*sect.height)){
+		if((me.getX()>(width-2*buttonwidth-margin))&&(me.getX()<width-buttonwidth-margin)&&(me.getY()<0.0625f*sect.height)){
 			sect.switchBonemode();
+		}
+		if((me.getX()>width-buttonwidth)&&(me.getY()<0.0625f*sect.height)){
+			sect.setActiveview(6);
 		}
 		if((me.getX()>width-buttonfullscreenwidth)&&(me.getY()>sect.height-buttonfullscreenwidth)){
 			sect.switchFullscreen();

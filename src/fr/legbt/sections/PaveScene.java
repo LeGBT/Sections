@@ -81,12 +81,12 @@ public class PaveScene extends Scene{
 		this.pave.zRotation((float)thetatot);
 		this.pave.xRotation((float)phitot);
 		this.plan.resetRotation();
-		this.plan.setH(h);
+		this.plan.setH(htot);
 		this.plan.yRotation(0);
 		this.plan.zRotation((float)thetatot);
 		this.plan.xRotation((float)phitot);
 		this.section.resetRotation();
-		this.section.setH(h);
+		this.section.setH(htot);
 		this.section.yRotation(0);
 		this.section.zRotation((float)thetatot);
 		this.section.xRotation((float)phitot);
