@@ -184,6 +184,7 @@ public class Sections{
 	public void switchFullscreen(){
 		fullscreen = !fullscreen;
 		this.window.setFullscreen(fullscreen);
+		this.window.requestFocus();
 	}
 
 	public Scene getActivescene(){return this.activescene;}
