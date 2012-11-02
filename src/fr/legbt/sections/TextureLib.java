@@ -28,7 +28,7 @@ import com.jogamp.opengl.util.texture.TextureIO;
 
 
 public class TextureLib {
-	static int tex2size = 17;
+	static int tex2size = 19;
 	private Texture tex101 = null;
 	private Texture tex102 = null;
 	private Texture[] tex2 = new Texture[tex2size+1];
@@ -82,6 +82,10 @@ public class TextureLib {
 			this.tex2[16] = TextureIO.newTexture(input,false,"png");
 			input = this.getClass().getResourceAsStream("/resources/sphere_invert.png");
 			this.tex2[17] = TextureIO.newTexture(input,false,"png");
+			input = this.getClass().getResourceAsStream("/resources/fullscreen.png");
+			this.tex2[18] = TextureIO.newTexture(input,false,"png");
+			input = this.getClass().getResourceAsStream("/resources/fullscreen_invert.png");
+			this.tex2[19] = TextureIO.newTexture(input,false,"png");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

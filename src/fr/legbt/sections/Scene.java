@@ -66,6 +66,7 @@ public abstract class  Scene{
 				this.dsection = new Thales(new Vecteur(0.4f,0,0),y,z,new Vecteur(0.4f,0,0));
 				((Thales)this.dsection).setCylinderthales(true);
 				theta = 60;
+				phi = 0;
 				thetatot = 0;
 				phitot = 30;
 				this.plan = new Plan();
@@ -83,6 +84,8 @@ public abstract class  Scene{
 				this.dsection = new Disc(x,y,new Vecteur(0,0,0.4f));
 				this.dsection.reset();
 				this.dsection.setBorder(true);
+				theta = 60;
+				phi = 0;
 				thetatot = 0;
 				phitot = 30;
 				this.plan = new Plan();

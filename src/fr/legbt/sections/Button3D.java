@@ -29,13 +29,13 @@ import javax.media.opengl.GL2;
 
 public class Button3D implements MouseListener{
 	private Sections sect;
-//	private int size;
+	//	private int size;
 	private int bonus;
 
 	public  Button3D(Sections sect){
 		this.sect = sect;
 		getTextBonus();
-//		size = Math.round((int)(sect.height*sect.format/9));
+		//		size = Math.round((int)(sect.height*sect.format/9));
 	}
 
 
@@ -70,7 +70,7 @@ public class Button3D implements MouseListener{
 					sect.getTextures().bind(gl,207);
 				}
 			}
-		// L=240 l=90 pour une res de 1280*720
+			// L=240 l=90 pour une res de 1280*720
 			gl.glBegin(GL2.GL_QUADS);
 			gl.glColor4f(1f,1f,1f,1f);
 			gl.glTexCoord2f(0f,0f);
@@ -84,11 +84,35 @@ public class Button3D implements MouseListener{
 			gl.glEnd();
 			sect.getTextures().unbind(gl);
 		}
-		tracePrefs(gl);
+		traceButtonMode(gl);
+		traceButtonFullscreen(gl);
 	}
 
+	private void traceButtonFullscreen(GL2 gl){
+		float tailleicone = (float) (0.15f/sect.format);
 
-	private void tracePrefs(GL2 gl){
+		if(sect.isBonemode()){
+			sect.getTextures().bind(gl,219);
+		}else{
+			sect.getTextures().bind(gl,218);
+		}
+
+		// L=240 l=90 pour une res de 1280*720
+		gl.glBegin(GL2.GL_QUADS);
+		gl.glColor4f(1f,1f,1f,1f);
+		gl.glTexCoord2f(0f,0f);
+		gl.glVertex3f(1f-tailleicone,-1f,0);
+		gl.glTexCoord2f(1f,0f);
+		gl.glVertex3f(1f,-1f,0);
+		gl.glTexCoord2f(1f,1f);
+		gl.glVertex3f(1f,-0.85f,0);
+		gl.glTexCoord2f(0f,1f);
+		gl.glVertex3f(1f-tailleicone,-0.85f,0);
+		gl.glEnd();
+		sect.getTextures().unbind(gl);
+	}
+
+	private void traceButtonMode(GL2 gl){
 		float tailleicone = (float) (0.1875f/sect.format*16/9);
 
 		if(sect.isBonemode()){
@@ -161,7 +185,9 @@ public class Button3D implements MouseListener{
 			this.sect.setActiveview(button);
 		}
 		float width = (float)(sect.height*sect.format);
+		// .167~ 0.1875/2*16/9
 		float buttonwidth = (float) (0.167*sect.height);
+		float buttonfullscreenwidth = (float) (0.15/2*sect.height);
 		float margin = (float) (0.014*sect.height);
 		if((me.getX()>(width-2*buttonwidth-margin))&&(me.getX()<width-buttonwidth-margin)&&(me.getY()<0.0625f*sect.height)){
 			sect.changePlanType();
@@ -170,6 +196,9 @@ public class Button3D implements MouseListener{
 		if((me.getX()>width-buttonwidth)&&(me.getY()<0.0625f*sect.height)){
 			sect.switchBonemode();
 		}
+		if((me.getX()>width-buttonfullscreenwidth)&&(me.getY()>sect.height-buttonfullscreenwidth)){
+			sect.switchFullscreen();
+		}
 	}
 
 	public void mouseEntered(MouseEvent arg0){}
@@ -177,14 +206,7 @@ public class Button3D implements MouseListener{
 	public void mousePressed(MouseEvent arg0){}
 	public void mouseReleased(MouseEvent arg0){}
 
-	public void mouseDragged(MouseEvent me) {
-		// TODO drag sur les boutons
-	//	int button = 0;
-	//	if(me.getX()<size-3){
-	//		button = me.getY()*5/710+1;
-	//		this.sect.setActiveview(button);
-	//	}
-	}
+	public void mouseDragged(MouseEvent me){}
 
 	public void mouseMoved(MouseEvent arg0){}
 	public void mouseWheelMoved(MouseEvent arg0) {}
