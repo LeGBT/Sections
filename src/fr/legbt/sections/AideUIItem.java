@@ -46,8 +46,8 @@ public class AideUIItem implements MouseListener {
 		this.fposx = getFX();
 		this.fposy = getFY();
 		//		FIXME debug
-		System.out.println("fposx="+fposx);
-		System.out.println("fposy="+fposy);
+		//System.out.println("fposx="+fposx);
+		//System.out.println("fposy="+fposy);
 	}
 
 	public void traceUIItem(GL2 gl){
