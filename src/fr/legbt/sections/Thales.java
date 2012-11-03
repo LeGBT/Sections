@@ -34,8 +34,11 @@ public class Thales extends Quad implements Piece,Bordered {
 	}
 
 	public void setH(float ph){
-		this.np.scaleAdd(ph,this.direction,this.np);
-		hr -= ph;
+		//this.np.scaleAdd(ph,this.direction,this.np);
+		np.set(this.direction);
+		np.scale(ph);
+		np.add(np0);
+		hr = 1.5f - ph;
 		Vecteur temp = new Vecteur(u);
 		if(cylinderthales){
 			double dist = 0.5f - hr/5f;

@@ -32,7 +32,9 @@ public abstract class  Scene{
 	protected double phitot;
 	protected double thetatot;
 	protected float h; 
+	protected float htot; 
 	protected float angle;
+	protected float angletot;
 	protected boolean firstrotation;
 	protected Sections instance;
 	static final Vecteur x = new Vecteur(1,0,0);
@@ -72,6 +74,7 @@ public abstract class  Scene{
 				this.plan = new Plan();
 				this.plan.reset(90);
 				this.h = -4.2f;
+				this.htot = -4.2f;
 				((CylinderScene)this).cylinder = new Cylinder();
 				((CylinderScene)this).resetEdges();
 			}else{
@@ -90,6 +93,7 @@ public abstract class  Scene{
 				phitot = 30;
 				this.plan = new Plan();
 				this.h = -4.2f;
+				this.htot = -4.2f;
 				((CylinderScene)this).cylinder = new Cylinder();
 				((CylinderScene)this).resetEdges();
 			}else{
@@ -122,11 +126,13 @@ public abstract class  Scene{
 	public void sectionDragged(int xdelta,int ydelta){
 		this.h = (float)( -ydelta/100.0);
 		this.angle =(float)( -xdelta/8.0);
+		htot += h;
+		angletot += this.angle;
 		if(!(this instanceof CylinderScene)){
 			if(!instance.isPlantype()){
-				plan.angle += this.angle;
+				plan.angle = angletot;
 				if((this instanceof CubeScene)||(this instanceof PaveScene)){
-					section.angle += this.angle;
+					section.angle = angletot;
 				}
 			}
 		}
@@ -134,7 +140,7 @@ public abstract class  Scene{
 
 	public abstract void render(GL2 gl);
 
-	public float getAngle(){
-		return this.angle;
-	}
+//	public float getAngle(){
+//		return this.angle;
+//	}
 }

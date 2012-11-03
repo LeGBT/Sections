@@ -34,6 +34,7 @@ public class Quad{
 	protected Vecteur up;
 	protected Vecteur vp;
 	protected Vecteur np;
+	protected Vecteur np0;
 	protected Vecteur uoff;
 	protected float angle;
 	protected Vecteur topleft;
@@ -55,6 +56,7 @@ public class Quad{
 		this.u0 = new Vecteur(u);
 		this.v0 = new Vecteur(v);
 		this.n0 = new Vecteur(n);
+		this.np0 = new Vecteur(n);
 		this.ur = new Vecteur(u);
 		this.vr = new Vecteur(v);
 		this.nr = new Vecteur(n);

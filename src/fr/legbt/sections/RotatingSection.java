@@ -50,8 +50,10 @@ public class RotatingSection extends Plan{
 
 	@Override
 		public void setH(float ph){
-			this.np.scaleAdd(ph,n,this.np);
-			hr -= ph;
+			np.set(n);
+			np.scale(ph);		
+			np.add(np0);
+			hr = 1.5f-ph;
 			temp = new Vecteur(u);
 			temptrans = new Vecteur(u);
 			temp.scale(1/xscale);
@@ -173,7 +175,7 @@ public class RotatingSection extends Plan{
 	}
 
 	public void tracePlan(GL2 gl){
-	float a = 1f;
+		float a = 1f;
 
 		if(tracer){
 			/* *****************

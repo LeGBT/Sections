@@ -54,7 +54,7 @@ public class ActionListener implements GLEventListener, KeyListener,
 			   GL2 gl = drawable.getGL().getGL2();
 			   gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 			   gl.glClearDepth(1.0f);
-			 //  drawable.setAutoSwapBufferMode(true);
+			   //  drawable.setAutoSwapBufferMode(true);
 			   if (!section.isBonemode()) {
 				   gl.glEnable(GL2.GL_FOG);
 			   }
@@ -195,7 +195,10 @@ public class ActionListener implements GLEventListener, KeyListener,
 			   section.animator.resume();
 		   }
 		   public void mouseEntered(MouseEvent arg0){}
-		   public void mouseExited(MouseEvent arg0){}
+		   public void mouseExited(MouseEvent arg0){
+			   this.x = 0; 
+			   this.y = 0; 
+		   }
 		   public void mousePressed(MouseEvent arg0){}
 		   public void mouseWheelMoved(MouseEvent arg0){}
 		   public void keyTyped(KeyEvent arg0){}
@@ -205,6 +208,5 @@ public class ActionListener implements GLEventListener, KeyListener,
 		   public void windowLostFocus(WindowEvent arg0) {}
 		   public void windowMoved(WindowEvent arg0){}
 		   public void windowRepaint(WindowUpdateEvent we){}
-		   public void windowResized(WindowEvent we){
-		   }
+		   public void windowResized(WindowEvent we){}
 }

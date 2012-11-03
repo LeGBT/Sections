@@ -48,11 +48,12 @@ public class Sections{
 	private CylinderScene cys;
 	private PyramideScene pys;
 	private SphereScene sps;
+	private HelpScene hlp;
 	private Scene activescene;
 	private GLProfile prof;
 	private GLCapabilities caps;
 	private GLWindow window;
-	private FPSAnimator animator;
+	public FPSAnimator animator;
 	private ActionListener listener;
 
 	public Sections(){
@@ -77,6 +78,7 @@ public class Sections{
 		cys = new CylinderScene(this);
 		pys = new PyramideScene(this);
 		sps = new SphereScene(this);
+		hlp = new HelpScene(this);
 		activescene = cs;
 		listener = new ActionListener(this);
 
@@ -159,7 +161,8 @@ public class Sections{
 		}else if(activeview == 2){this.activescene = ps;
 		}else if(activeview == 3){this.activescene = cys;
 		}else if(activeview == 4){this.activescene = pys;
-		}else if(activeview == 5){this.activescene = sps;}
+		}else if(activeview == 5){this.activescene = sps;
+		}else if(activeview == 6){this.activescene = hlp;}
 	}
 
 	public boolean isPlantype(){
@@ -179,6 +182,10 @@ public class Sections{
 
 	public TextureLib getTextures(){
 		return this.textures;
+	}
+	
+	public boolean isFullscreen(){
+		return fullscreen;
 	}
 
 	public void switchFullscreen(){
