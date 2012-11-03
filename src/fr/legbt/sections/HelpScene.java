@@ -22,9 +22,12 @@ package fr.legbt.sections;
 import javax.media.opengl.GL2;
 
 public class HelpScene extends Scene{
+	private AideUIItem faitourner;
 
 	public HelpScene(Sections instance){
 		super(0,0,instance);
+		faitourner = new AideUIItem(instance,1280,720,3f,1f,223,222);
+
 	}
 
 	public void render(GL2 gl){
@@ -35,6 +38,7 @@ public class HelpScene extends Scene{
 			gl.glClearColor(0.0f,0.0f,0.0f,0.0f);
 			gl.glDisable(GL2.GL_FOG);
 		}
+		faitourner.traceUIItem(gl);
 	}
 
 }

@@ -92,11 +92,11 @@ public class SphereScene extends Scene{
 		this.sphere.zRotation((float)thetatot);
 		this.sphere.xRotation((float)phitot);
 		this.plan.resetRotation();
-		this.plan.setH(h);
+		this.plan.setH(htot);
 		this.plan.zRotation((float)thetatot);
 		this.plan.xRotation((float)phitot);
 		this.dsection.resetRotation();
-		this.dsection.setH(h);
+		this.dsection.setH(htot);
 		this.dsection.zRotation((float)thetatot);
 		this.dsection.xRotation((float)phitot);
 		this.sphere.sort();

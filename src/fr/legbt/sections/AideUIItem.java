@@ -33,7 +33,6 @@ public class AideUIItem implements MouseListener {
 	private int textureid_invert;
 	private float fposx;
 	private float fposy;
-
 	// posx et posx sont en px et height, width en proportion
 	public AideUIItem(Sections sect,int posx,int posy,float width,float height,int textureid,int textureid_invert) {
 		this.sect = sect;
@@ -46,8 +45,8 @@ public class AideUIItem implements MouseListener {
 		this.fposx = getFX();
 		this.fposy = getFY();
 		//		FIXME debug
-		System.out.println("fposx="+fposx);
-		System.out.println("fposy="+fposy);
+		//System.out.println("fposx="+fposx);
+		//System.out.println("fposy="+fposy);
 	}
 
 	public void traceUIItem(GL2 gl){

@@ -97,11 +97,11 @@ public class PyramideScene extends Scene{
 		this.pyramide.zRotation((float)thetatot);
 		this.pyramide.xRotation((float)phitot);
 		this.plan.resetRotation();
-		this.plan.setH(h);
+		this.plan.setH(htot);
 		this.plan.zRotation((float)thetatot);
 		this.plan.xRotation((float)phitot);
 		this.psection.resetRotation();
-		this.psection.setH(h);
+		this.psection.setH(htot);
 		this.psection.zRotation((float)thetatot);
 		this.psection.xRotation((float)phitot);
 		this.pyramide.sort();
