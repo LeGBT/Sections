@@ -25,32 +25,29 @@ import javax.media.opengl.GL2;
 
 public class AideUIItem implements MouseListener {
 	private Sections sect;
-	private int posx;
-	private int posy;
-	private float height;
-	private float width;
+	private int height;
+	private int width;
 	private int textureid;
 	private int textureid_invert;
-	private float fposx;
-	private float fposy;
+	private float xtexcoo;
+	private float ytexcoo;
 
 	// posx et posx sont en px et height, width en proportion
-	public AideUIItem(Sections sect,int posx,int posy,float width,float height,int textureid,int textureid_invert) {
+	public AideUIItem(Sections sect,int width,int height,float xtexcoo, float ytexcoo,int textureid,int textureid_invert) {
 		this.sect = sect;
-		this.posx = posx;
-		this.posy = posy;
 		this.height = height;
 		this.width = width;
 		this.textureid = textureid;
 		this.textureid_invert = textureid_invert;
-		this.fposx = getFX();
-		this.fposy = getFY();
-		//		FIXME debug
-		System.out.println("fposx="+fposx);
-		System.out.println("fposy="+fposy);
+		this.xtexcoo = xtexcoo;
+		this.ytexcoo = ytexcoo;
 	}
 
-	public void traceUIItem(GL2 gl){
+	public void traceUIItem(GL2 gl,int posx,int posy){
+		float fposx = getFX(posx);
+		float fposy = getFY(posy);
+		float fheight = getFHeight(height);
+		float fwidth = getFWidth(width);
 		if (sect.isBonemode()) {
 			sect.getTextures().bind(gl, textureid_invert);
 		} else {
@@ -61,52 +58,33 @@ public class AideUIItem implements MouseListener {
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glColor4f(1f, 1f, 1f, 1f);
 		gl.glTexCoord2f(0f, 0f);
-		//	gl.glVertex3f(fposx - width, fposy, 0);
-		gl.glVertex3f(1f - width, fposy, 0);
-		gl.glTexCoord2f(1f, 0f);
-		//gl.glVertex3f(fposx, fposy, 0);
-		gl.glVertex3f(1, fposy, 0);
-		gl.glTexCoord2f(1f, 1f);
-		//gl.glVertex3f(fposx, fposy - height, 0);
-		gl.glVertex3f(1, fposy - height, 0);
-		gl.glTexCoord2f(0f, 1f);
-		//	gl.glVertex3f(fposx - width, fposy - height, 0);
-		gl.glVertex3f(1 - width, fposy - height, 0);
+		gl.glVertex3f(fposx, fposy, 0);
+
+		gl.glTexCoord2f(xtexcoo, 0f);
+		gl.glVertex3f(fposx + 2*fwidth, fposy, 0);
+
+		gl.glTexCoord2f(xtexcoo, ytexcoo);
+		gl.glVertex3f(fposx + 2*fwidth, fposy + 2*fheight, 0);
+
+		gl.glTexCoord2f(0f, ytexcoo);
+		gl.glVertex3f(fposx, fposy + 2*fheight, 0);
+
 		gl.glEnd();
 		sect.getTextures().unbind(gl);
 	}
 
-	protected float getFX(){
-		return (2*posx)/((float)sect.format*sect.height) - 1f;
+	public  float getFX(float posx){
+		return (2*posx)/((float)sect.format*720f) - 1f;
 
 	}
-	protected float getFY(){
-		return (2*posy)/(sect.height) - 1f;
+	public float getFY(float posy){
+		return (2*posy)/(720f) - 1f;
 	}
-
-
-	private void traceButtonFullscreen(GL2 gl) {
-		float tailleicone = (float) (0.15f / sect.format);
-
-		if (sect.isBonemode()) {
-			sect.getTextures().bind(gl, 219);
-		} else {
-			sect.getTextures().bind(gl, 218);
-		}
-
-		// L=240 l=90 pour une res de 1280*720
-		gl.glBegin(GL2.GL_QUADS);
-		gl.glColor4f(1f, 1f, 1f, 1f);
-		gl.glTexCoord2f(0f, 0f);
-		gl.glVertex3f(1f - tailleicone, -1f, 0);
-		gl.glTexCoord2f(1f, 0f);
-		gl.glVertex3f(1f, -1f, 0);
-		gl.glTexCoord2f(1f, 1f);
-		gl.glVertex3f(1f, -0.85f, 0);
-		gl.glTexCoord2f(0f, 1f);
-		gl.glVertex3f(1f - tailleicone, -0.85f, 0);
-		gl.glEnd();
-		sect.getTextures().unbind(gl);
+	public float getFHeight(int height){
+		return height/720f;
+	}
+	public float getFWidth(int width){
+		return width/1280f/(float)sect.format*16f/9f;
 	}
 
 
