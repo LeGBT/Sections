@@ -19,11 +19,9 @@
 
 package fr.legbt.sections;
 
-import com.jogamp.newt.event.MouseEvent;
-import com.jogamp.newt.event.MouseListener;
 import javax.media.opengl.GL2;
 
-public class AideUIItem implements MouseListener {
+public class AideUIItem{
 	private Sections sect;
 	private int height;
 	private int width;
@@ -86,46 +84,11 @@ public class AideUIItem implements MouseListener {
 	public float getFWidth(int width){
 		return width/1280f/(float)sect.format*16f/9f;
 	}
-
-
-	public void mouseClicked(MouseEvent me) {
-		int button = 0;
-		if (me.getX() < 0.2f * sect.height) {
-			button = me.getY() * 5 / sect.height + 1;
-			this.sect.setActiveview(button);
-		}
-		float width = (float) (sect.height * sect.format);
-		// .167~ 0.1875/2*16/9
-		float buttonwidth = (float) (0.167 * sect.height);
-		float buttonfullscreenwidth = (float) (0.15 / 2 * sect.height);
-		float margin = (float) (0.014 * sect.height);
-		if ((me.getX() > (width - 3 * buttonwidth - 2 * margin))
-				&& (me.getX() < width - 2 * buttonwidth - 2 * margin)
-				&& (me.getY() < 0.0625f * sect.height)) {
-			sect.changePlanType();
-			sect.reset();
-				}
-		if ((me.getX() > (width - 2 * buttonwidth - margin))
-				&& (me.getX() < width - buttonwidth - margin)
-				&& (me.getY() < 0.0625f * sect.height)) {
-			sect.switchBonemode();
-				}
-		if ((me.getX() > width - buttonwidth)
-				&& (me.getY() < 0.0625f * sect.height)) {
-			sect.setActiveview(6);
-				}
-		if ((me.getX() > width - buttonfullscreenwidth)
-				&& (me.getY() > sect.height - buttonfullscreenwidth)) {
-			sect.switchFullscreen();
-				}
+	public void setTextureId(int id){
+		this.textureid = id;
 	}
-
-	public void mouseEntered(MouseEvent arg0){}
-	public void mouseExited(MouseEvent arg0){}
-	public void mousePressed(MouseEvent arg0){}
-	public void mouseReleased(MouseEvent arg0){}
-	public void mouseDragged(MouseEvent me){}
-	public void mouseMoved(MouseEvent arg0){}
-	public void mouseWheelMoved(MouseEvent arg0){}
+	public void setTextureIdInvert(int id){
+		this.textureid_invert = id;
+	}
 
 }

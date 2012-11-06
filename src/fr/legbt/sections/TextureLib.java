@@ -28,7 +28,7 @@ import com.jogamp.opengl.util.texture.TextureIO;
 
 
 public class TextureLib {
-	static int tex2size = 2*( 14 ) +1;
+	static int tex2size = 2*( 21 ) +1;
 	private Texture tex101 = null;
 	private Texture tex102 = null;
 	private Texture[] tex2 = new Texture[tex2size+1];
@@ -64,6 +64,13 @@ public class TextureLib {
 			setT(12,"souris");
 			setT(13,"cube_souris");
 			setT(14,"fleche");
+			setT(15,"suivant");
+			setT(16,"tourner_plan");
+			setT(17,"deplacer_plan");
+			setT(18,"fleche_ro");
+			setT(19,"suivant_ro");
+			setT(20,"translation");
+			setT(21,"rotation");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
