@@ -80,6 +80,7 @@ public abstract class  Scene{
 			}else{
 				this.section.reset(30);
 				this.plan.reset(30);
+				this.angletot = 30;
 			}
 		}else{
 			this.plan.reset();
@@ -140,7 +141,4 @@ public abstract class  Scene{
 
 	public abstract void render(GL2 gl);
 
-//	public float getAngle(){
-//		return this.angle;
-//	}
 }
