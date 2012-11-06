@@ -143,6 +143,9 @@ public class ActionListener implements GLEventListener, KeyListener,
 			   if (key.getKeyCode() == KeyEvent.VK_S) {
 				   section.setShot(true);
 			   }
+			   if (key.getKeyCode() == KeyEvent.VK_Q) {
+				   section.exit();
+			   }
 			   if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				   section.exit();
 			   }

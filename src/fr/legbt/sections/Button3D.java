@@ -219,8 +219,8 @@ public class Button3D implements MouseListener{
 			sect.switchBonemode();
 		}
 		if((me.getX()>width-buttonwidth)&&(me.getY()<0.0625f*sect.height)){
-			//TODO FIXME désactivation de l'aide
-	//		sect.setActiveview(6);
+			sect.window.addMouseListener(sect.hlp);
+			sect.setActiveview(6);
 		}
 		if((me.getX()>width-buttonfullscreenwidth)&&(me.getY()>sect.height-buttonfullscreenwidth)){
 			sect.switchFullscreen();

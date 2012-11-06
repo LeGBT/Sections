@@ -48,11 +48,11 @@ public class Sections{
 	private CylinderScene cys;
 	private PyramideScene pys;
 	private SphereScene sps;
-	private HelpScene hlp;
+	protected HelpScene hlp;
 	private Scene activescene;
 	private GLProfile prof;
 	private GLCapabilities caps;
-	private GLWindow window;
+	protected GLWindow window;
 	public FPSAnimator animator;
 	private ActionListener listener;
 

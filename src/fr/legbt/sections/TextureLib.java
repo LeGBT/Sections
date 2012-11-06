@@ -28,7 +28,7 @@ import com.jogamp.opengl.util.texture.TextureIO;
 
 
 public class TextureLib {
-	static int tex2size = 23;
+	static int tex2size = 2*( 23 ) +1;
 	private Texture tex101 = null;
 	private Texture tex102 = null;
 	private Texture[] tex2 = new Texture[tex2size+1];
@@ -50,56 +50,35 @@ public class TextureLib {
 			this.tex102 = TextureIO.newTexture(input,false,"png");
 			input = this.getClass().getResourceAsStream("/resources/plan.png");
 			this.tex2[1] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/button_mode.png");
-			this.tex2[2] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/button_mode_revert.png");
-			this.tex2[3] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/button_face.png");
-			this.tex2[4] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/button_face_invert.png");
-			this.tex2[5] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/button_arete.png");
-			this.tex2[6] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/button_arete_invert.png");
-			this.tex2[7] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/cube.png");
-			this.tex2[8] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/cube_invert.png");
-			this.tex2[9] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/pave.png");
-			this.tex2[10] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/pave_invert.png");
-			this.tex2[11] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/cylindre.png");
-			this.tex2[12] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/cylindre_invert.png");
-			this.tex2[13] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/pyramide.png");
-			this.tex2[14] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/pyramide_invert.png");
-			this.tex2[15] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/sphere.png");
-			this.tex2[16] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/sphere_invert.png");
-			this.tex2[17] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/fullscreen.png");
-			this.tex2[18] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/fullscreen_invert.png");
-			this.tex2[19] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/button_aide.png");
-			this.tex2[20] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/button_aide_invert.png");
-			this.tex2[21] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/tourner_figure.png");
-			this.tex2[22] = TextureIO.newTexture(input,false,"png");
-			input = this.getClass().getResourceAsStream("/resources/tourner_figure_invert.png");
-			this.tex2[23] = TextureIO.newTexture(input,false,"png");
+			setT(1,"button_mode");
+			setT(2,"button_face");
+			setT(3,"button_arete");
+			setT(4,"cube");
+			setT(5,"pave");
+			setT(6,"cylindre");
+			setT(7,"pyramide");
+			setT(8,"sphere");
+			setT(9,"fullscreen");
+			setT(10,"button_aide");
+			setT(11,"tourner_figure");
+			setT(12,"souris");
+			setT(13,"cube_souris");
+			setT(14,"fleche");
+			setT(15,"suivant");
+			setT(16,"tourner_plan");
+			setT(17,"deplacer_plan");
+			setT(18,"fleche_ro");
+			setT(19,"suivant_ro");
+			setT(20,"translation");
+			setT(21,"rotation");
+			setT(22,"imprim_ecran");
+			setT(23,"shot");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	public void bind(GL2 gl,int i){
-		gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
+		//gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
 		this.activetexture = i;
 		//	gl.glTexEnvi( GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_BLEND);
 		if(i<200){ 
@@ -113,23 +92,30 @@ public class TextureLib {
 			}
 		}else{
 			gl.glEnable(GL2.GL_TEXTURE_2D);       
-				this.tex2[i-200].enable(gl);
-				this.tex2[i-200].bind(gl);
-			}
-		}
-		public void unbind(GL2 gl){
-			if(activetexture<200){ 
-				if(activetexture==101){
-					this.tex101.disable(gl);
-				}else{
-					this.tex102.disable(gl);
-				}
-				gl.glDisable(GL2.GL_TEXTURE_1D);       
-			}else{
-				this.tex2[activetexture-200].disable(gl);
-				gl.glDisable(GL2.GL_TEXTURE_1D);       
-			}
-			this.activetexture = 0;
+			this.tex2[i-200].enable(gl);
+			this.tex2[i-200].bind(gl);
 		}
 	}
+	public void unbind(GL2 gl){
+		if(activetexture<200){ 
+			if(activetexture==101){
+				this.tex101.disable(gl);
+			}else{
+				this.tex102.disable(gl);
+			}
+			gl.glDisable(GL2.GL_TEXTURE_1D);       
+		}else{
+			this.tex2[activetexture-200].disable(gl);
+			gl.glDisable(GL2.GL_TEXTURE_1D);       
+		}
+		this.activetexture = 0;
+	}
 
+	private void setT(int i,String name) throws Exception{
+		InputStream input = this.getClass().getResourceAsStream("/resources/"+name+".png");
+		this.tex2[2*i] = TextureIO.newTexture(input,false,"png");
+		input = this.getClass().getResourceAsStream("/resources/"+name+"_invert.png");
+		this.tex2[2*i+1] = TextureIO.newTexture(input,false,"png");
+	}
+
+}
