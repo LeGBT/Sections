@@ -28,7 +28,7 @@ import com.jogamp.opengl.util.texture.TextureIO;
 
 
 public class TextureLib {
-	static int tex2size = 2*( 21 ) +1;
+	static int tex2size = 2*( 23 ) +1;
 	private Texture tex101 = null;
 	private Texture tex102 = null;
 	private Texture[] tex2 = new Texture[tex2size+1];
@@ -71,6 +71,8 @@ public class TextureLib {
 			setT(19,"suivant_ro");
 			setT(20,"translation");
 			setT(21,"rotation");
+			setT(22,"imprim_ecran");
+			setT(23,"shot");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

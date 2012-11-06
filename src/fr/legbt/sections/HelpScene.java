@@ -29,6 +29,8 @@ public class HelpScene extends Scene implements MouseListener {
 	private AideUIItem faitourner;
 	private AideUIItem translate;
 	private AideUIItem rotate;
+	private AideUIItem imprim;
+	private AideUIItem shot;
 	private AideUIItem souris;
 	private AideUIItem translateplan;
 	private AideUIItem rotateplan;
@@ -46,9 +48,11 @@ public class HelpScene extends Scene implements MouseListener {
 		faitourner = new AideUIItem(sect, 310, 32, 0.625f, 1f, 223, 222);
 		translate = new AideUIItem(sect, 206, 32, 0.805f, 1f, 235, 234);
 		rotate = new AideUIItem(sect, 265, 32, 0.517f, 1f, 233, 232);
+		imprim = new AideUIItem(sect, 459, 96, 0.597f, 1f, 245, 244);
 		suivant = new AideUIItem(sect, 132, 32, 1f, 1f, 231, 230);
 		fleche = new AideUIItem(sect, 64, 32, 1f, 1f, 229, 228);
 		souris = new AideUIItem(sect, 384, 279, 1, 0.726f, 225, 224);
+		shot = new AideUIItem(sect, 660, 384, 0.858f, 1f, 247, 246);
 		translateplan = new AideUIItem(sect,472,512,0.922f,1f, 241, 240);
 		rotateplan = new AideUIItem(sect,472,491,0.961f,1f, 243, 242);
 		cube = new MiniCube(sect, 9.8f, 14.5f, 1.2f);
@@ -85,6 +89,10 @@ public class HelpScene extends Scene implements MouseListener {
 			case 2:
 				rotate.traceUIItem(gl,465,620);
 				rotateplan.traceUIItem(gl, 440, 100);break;
+			case 3:
+				imprim.traceUIItem(gl,425,120);
+				shot.traceUIItem(gl, 300, 250);
+				break;
 		}
 	}
 
@@ -96,7 +104,7 @@ public class HelpScene extends Scene implements MouseListener {
 		}
 		if((me.getX()>0.43*w)&&(me.getX()<0.6*w)&&(me.getY()>0.928f*h)&&(me.getY()<0.965f*h)){
 			scene++;
-			scene %= 3;
+			scene %= 4;
 		}
 	}
 	public void mouseDragged(MouseEvent arg0){}
