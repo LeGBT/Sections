@@ -19,70 +19,91 @@
 
 package fr.legbt.sections;
 
-import org.ejml.simple.SimpleMatrix;
-
-
-public class Vecteur extends SimpleMatrix implements Vecteur3f{
+public class Vecteur implements Vecteur3d{
+	private double x;
+	private double y;
+	private double z;
 
 	public Vecteur(){
-		super(3,1);
+		x=1;
+		y=1;
+		z=1;
 	}
 
-	public Vecteur(Vecteur vect){
-		super(vect);
+	public Vecteur(Vecteur3d vect){
+		x=vect.X();
+		y=vect.Y();
+		z=vect.Z();
 	}
 
-	public Vecteur(SimpleMatrix vect){
-		super(vect);
+	public Vecteur(double x, double y ,double z){
+		this.x=x;
+		this.y=y;
+		this.z=z;
 	}
 
-	public Vecteur(float x, float y ,float z){
-		super(3,1,true,x,y,z);
+	public Vecteur rotate(Quaternion h){
+		//TODO
+		return new Vecteur();
 	}
 
-	public float dot(Vecteur3f vect){
-		return (float) this.dot(vect);	
+	public double dot(Vecteur3d vect){
+		return (double) this.dot(vect);	
 	}
 
 	public void set(Vecteur vect){
-		((SimpleMatrix)this).set(vect);
+		x = vect.X();
+		y = vect.Y();
+		z = vect.Z();
 	}
 
-	public float getX(){
-		return (float) this.get(0,0);
+	public double X(){
+		return x;
 	}
 
-	public float getY(){
-		return (float) this.get(1,0);
+	public double Y(){
+		return y;
 	}
 
-	public float getZ(){
-		return (float) this.get(2,0);
+	public double Z(){
+		return z;
 	}
 
-	public float length() {
-		return (float) this.normF();
+	public double norm(){
+		return Math.sqrt(x*x + y*y + z*z);
 	}
 
-	public void set(SimpleMatrix v){
-		super.set(v);
+	public double length() {
+		return this.norm();
 	}
 
-	public void add(Vecteur3f vect){
-		this.set(this.plus((Vecteur)vect));
+	public void add(Vecteur3d vect){
+		x += vect.X();
+		y += vect.Y();
+		z += vect.Z();
 	}
 
-	public void sub(Vecteur3f vect){
-		this.set(this.minus((Vecteur)vect));
+	public void sub(Vecteur3d vect){
+		x -= vect.X();
+		y -= vect.Y();
+		z -= vect.Z();
 	}
 
-	public void scale(float k){
-		this.set(((SimpleMatrix)this).scale(k));
+	public void scale(double k){
+		x *= k; 
+		y *= k; 
+		z *= k; 
 	}
 
-	public void scaleAdd(float k, Vecteur3f v1, Vecteur3f v2){
-		Vecteur temp = new Vecteur(((SimpleMatrix)v1).scale(k));
+	public void scaleAdd(double k, Vecteur3d v1, Vecteur3d v2){
+		Vecteur temp = new Vecteur(v1);
+		temp.scale(k);
 		v2.add(temp);
 	}
-}
 
+	public void normalize(){
+		if(this.norm()!=0){
+			this.scale(1./this.norm());
+		}
+	}
+}

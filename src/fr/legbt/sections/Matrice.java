@@ -40,6 +40,8 @@ public class Matrice extends SimpleMatrix implements Matrice3f{
 		super.set(temp);
 	}
 
+
+
 	public void rotX(float angle){
 		float   sinAngle, cosAngle;
 		sinAngle = (float) Math.sin((double) angle);

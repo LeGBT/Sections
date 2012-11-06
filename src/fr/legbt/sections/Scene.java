@@ -31,6 +31,7 @@ public abstract class  Scene{
 	protected double phi = -160;
 	protected double phitot;
 	protected double thetatot;
+	protected Quaternion r;
 	protected float h; 
 	protected float htot; 
 	protected float angle;
@@ -69,8 +70,9 @@ public abstract class  Scene{
 				((Thales)this.dsection).setCylinderthales(true);
 				theta = 60;
 				phi = 0;
-				thetatot = 0;
-				phitot = 30;
+				//	thetatot = 0;
+				//	phitot = 30;
+				r = new Quaternion(30f,0,1,0);
 				this.plan = new Plan();
 				this.plan.reset(90);
 				this.h = -4.2f;
@@ -90,8 +92,8 @@ public abstract class  Scene{
 				this.dsection.setBorder(true);
 				theta = 60;
 				phi = 0;
-				thetatot = 0;
-				phitot = 30;
+				//	thetatot = 0;
+				//	phitot = 30;
 				this.plan = new Plan();
 				this.h = -4.2f;
 				this.htot = -4.2f;
@@ -108,8 +110,10 @@ public abstract class  Scene{
 	}
 
 	protected void preRender(){
-		thetatot += radian(theta/2.0);
-		phitot += radian(phi/2.0);
+		//thetatot += radian(theta/2.0);
+		//phitot += radian(phi/2.0);
+		r.mult(new Quaternion(theta/2.,0,0,1));
+		r.mult(new Quaternion(phi/2.,1,0,0));
 	}
 
 
