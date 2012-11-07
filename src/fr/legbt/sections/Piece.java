@@ -23,13 +23,11 @@ import javax.media.opengl.GL2;
 
 public interface  Piece extends Comparable<Piece>{
 
-	public  float getProf();
+	public  double getProf();
 	public  void resetRotation();
-	public  void xRotation(float degree);
-	public  void yRotation(float degree);
-	public  void zRotation(float degree);
+	public  void rotation(Quaternion quat);
 	public  void traceMe(GL2 gl);
-	public  void traceMe(GL2 gl,float off);
-	public  void traceMe(GL2 gl,float red,float green,float blue,float trans);
+	public  void traceMe(GL2 gl,double off);
+	public  void traceMe(GL2 gl,double red,double green,double blue,double trans);
 }
 

@@ -25,9 +25,9 @@ public class Vecteur implements Vecteur3d{
 	private double z;
 
 	public Vecteur(){
-		x=1;
-		y=1;
-		z=1;
+		x=0;
+		y=0;
+		z=0;
 	}
 
 	public Vecteur(Vecteur3d vect){
@@ -42,13 +42,18 @@ public class Vecteur implements Vecteur3d{
 		this.z=z;
 	}
 
-	public Vecteur rotate(Quaternion h){
-		//TODO
-		return new Vecteur();
+	public void rotate(Quaternion h){
+		h.rotate(this);
 	}
 
 	public double dot(Vecteur3d vect){
-		return (double) this.dot(vect);	
+		return x*vect.X() + y*vect.Y() + z*vect.Z(); 
+	}
+
+	public void set(double tx, double ty, double tz){
+		x = tx;
+		y = ty;
+		z = tz;
 	}
 
 	public void set(Vecteur vect){

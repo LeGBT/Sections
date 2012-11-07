@@ -19,12 +19,17 @@
 
 package fr.legbt.sections;
 
-public interface Matrice3f{
+import org.junit.*;
+import static org.junit.Assert.*;
 
-	public void rotX(float radian);
-	public void rotY(float radian);
-	public void rotZ(float radian);
-	public void transform(Vecteur3f vect);
+public class QuadTest {
+
+	@Before
+		public void setUp(){
+		}
+
+	@Test
+		public void test_equals(){
+		}
 
 }
-

@@ -23,7 +23,7 @@ import javax.media.opengl.GL2;
 
 public class Thales extends Quad implements Piece,Bordered {
 	private Vecteur direction;
-	private float hr = 1.5f;
+	private double hr = 1.5f;
 	private boolean cylinderthales;
 
 
@@ -33,7 +33,7 @@ public class Thales extends Quad implements Piece,Bordered {
 		this.cylinderthales = false;
 	}
 
-	public void setH(float ph){
+	public void setH(double ph){
 		//this.np.scaleAdd(ph,this.direction,this.np);
 		np.set(this.direction);
 		np.scale(ph);
@@ -42,7 +42,7 @@ public class Thales extends Quad implements Piece,Bordered {
 		Vecteur temp = new Vecteur(u);
 		if(cylinderthales){
 			double dist = 0.5f - hr/5f;
-			float rayon = (float) Math.sqrt(-dist*dist+0.25f);
+			double rayon = (double) Math.sqrt(-dist*dist+0.25f);
 			temp.scale(rayon*2f);	
 			up.set(temp);
 		}else{
@@ -58,38 +58,38 @@ public class Thales extends Quad implements Piece,Bordered {
 		traceMe(gl,0.4f,0.4f,0.4f,0.4f);
 	}
 
-	public void traceMe(GL2 gl,float off){
+	public void traceMe(GL2 gl,double off){
 		traceMe(gl,0.4f,0.4f,0.4f,0.4f);
 	}
 
 
-	public void traceMe(GL2 gl,float red,float blue,float green,float trans){
+	public void traceMe(GL2 gl,double red,double blue,double green,double trans){
 		/* *****************
 		 * Tracé de la face
 		 * ******************/
 		gl.glBegin(GL2.GL_QUADS);
-		gl.glColor4f(red,blue,green,trans);
-		gl.glTexCoord2f(0f,0f);
+		gl.glColor4d(red,blue,green,trans);
+		gl.glTexCoord2d(0,0);
 		drawTopLeft(gl);
-		gl.glTexCoord2f(1f,0f);
+		gl.glTexCoord2d(1,0);
 		drawBottomLeft(gl);
-		gl.glTexCoord2f(1f,1f);
+		gl.glTexCoord2d(1,1);
 		drawBottomRight(gl);
-		gl.glTexCoord2f(0f,1f);
+		gl.glTexCoord2d(0,1);
 		drawTopRight(gl);
 		gl.glEnd();
 		gl.glColor4f(0.9f,0.99f,0.9f,0.9f);
 	}
 
-	public void traceBorders(GL2 gl, float red){
+	public void traceBorders(GL2 gl, double red){
 		traceBorders(gl,red,0.005f);
 	}
 
-	public void traceBorders(GL2 gl, float red, float off){
+	public void traceBorders(GL2 gl, double red, double off){
 		/* *******************
 		 * Tracé des arrêtes
 		 * ******************/
-		gl.glColor4f(red,red,red,red);
+		gl.glColor4d(red,red,red,red);
 		drawBorders(gl,off);
 	}
 
@@ -97,7 +97,7 @@ public class Thales extends Quad implements Piece,Bordered {
 		return 0;
 	}
 
-	public float getProf() {
+	public double getProf() {
 		return 0;
 	}
 

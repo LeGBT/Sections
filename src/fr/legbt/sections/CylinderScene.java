@@ -124,20 +124,18 @@ public class CylinderScene extends Scene{
 		preRender();
 
 		this.cylinder.resetRotation();
-		this.cylinder.zRotation((float)thetatot);
-		this.cylinder.xRotation((float)phitot);
-		this.edge.resetRotation();
-		this.edge.xRotation((float)phitot);
 		this.plan.resetRotation();
-		this.plan.setH(htot);
-		this.plan.yRotation(0);
-		this.plan.zRotation((float)thetatot);
-		this.plan.xRotation((float)phitot);
+		this.edge.resetRotation();
 		this.dsection.resetRotation();
+
+		this.plan.setH(htot);
 		this.dsection.setH(htot);
-		this.dsection.yRotation(0);
-		this.dsection.zRotation((float)thetatot);
-		this.dsection.xRotation((float)phitot);
+
+		this.cylinder.rotation(rquat);
+		this.edge.rotation(rquat);
+		this.plan.rotation(rquat);
+		this.dsection.rotation(rquat);
+
 		this.cylinder.sort();
 
 		gl.glEnable(GL2.GL_DEPTH_TEST);

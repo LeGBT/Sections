@@ -57,22 +57,11 @@ public abstract class Volume {
 		}
 	}
 
-	public void xRotation(double degree){
+	public void rotation(Quaternion quat){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).xRotation((float)degree);
+			pieces.get(i).rotation(quat);
 		}
 	}
-	public void yRotation(double degree){
-		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).yRotation((float)degree);
-		}
-	}
-	public void zRotation(double degree){
-		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).zRotation((float)degree);
-		}
-	}
-
 
 	public void sort(){
 		Collections.sort(pieces);

@@ -25,17 +25,15 @@ public interface Bordered {
 
 	public void setBorder(boolean b);
 	public void setSphere(boolean b);
-	public void reset(float angle);
+	public void reset(double angle);
 	public void reset();
 	public void resetRotation();
-	public void setH(float h);
-	public float getH();
-	public void xRotation(float angle);
-	public void yRotation(float angle);
-	public void zRotation(float angle);
+	public void setH(double h);
+	public double getH();
+	public void rotation(Quaternion quat);
 	public void traceMe(GL2 gl);
-	public void traceMe(GL2 gl,float red,float green,float blue,float trans);
-	public void traceBorders(GL2 gl, float red);
-	public void traceBorders(GL2 gl, float red, float off);
+	public void traceMe(GL2 gl,double red,double green,double blue,double trans);
+	public void traceBorders(GL2 gl, double red);
+	public void traceBorders(GL2 gl, double red, double off);
 
 }

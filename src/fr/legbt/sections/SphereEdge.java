@@ -31,14 +31,11 @@ public class SphereEdge implements Piece{
 	protected Vecteur up;
 	protected Vecteur vp;
 	protected Vecteur np;
-	protected float angle;
+	protected double angle;
 	private Vecteur topleft;
 	private Vecteur topright;
 	private Vecteur bottomleft;
 	private Vecteur bottomright;
-	private float xrot;
-	private float yrot;
-	private float zrot;
 	static final Vecteur x = new Vecteur(1,0,0);
 	static final Vecteur y = new Vecteur(0,1,0);
 	static final Vecteur z = new Vecteur(0,0,1);
@@ -54,32 +51,25 @@ public class SphereEdge implements Piece{
 		this.up = new Vecteur(u);
 		this.vp = new Vecteur(v);
 		this.np = new Vecteur(n);
-		this.xrot = 0;
-		this.yrot = 0;
-		this.zrot = 0;
 	}
 
 	public void reset(){
 		this.angle = 0;
 	}
 
-	public void reset(float angle){
+	public void reset(double angle){
 		this.angle = angle;
 	}
 
-	public float getH(){
+	public double getH(){
 		return this.np.length();
-	}
-
-	static private float radian(float degree){
-		return degree*0.017453292519943295769236907684f;
 	}
 
 	public int compareTo(Piece arg0){
 		return 0;
 	}
 
-	public float getProf() {
+	public double getProf() {
 		return 0;
 	}
 
@@ -89,60 +79,39 @@ public class SphereEdge implements Piece{
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void rotation(Matrice matrix){
-		matrix.transform(ur);
-		matrix.transform(vr);
-		matrix.transform(nr);
-	}
-
-	public void xRotation(float degree) {
-		Matrice matrix = new Matrice();
-		xrot += radian(degree);
-		matrix.rotX(xrot);
-		rotation(matrix);
-	}
-
-	public void yRotation(float degree) {
-		Matrice matrix = new Matrice();
-		yrot += radian(degree);
-		matrix.rotY(yrot+radian(angle));
-		rotation(matrix);
-	}
-
-	public void zRotation(float degree) {
-		Matrice matrix = new Matrice();
-		zrot += radian(degree);
-		matrix.rotZ(zrot);
-		rotation(matrix);
+	public void rotation(Quaternion quat){
+		ur.rotate(quat);	
+		vr.rotate(quat);	
+		nr.rotate(quat);	
 	}
 
 	public void vect3ToVertex(GL2 gl, Vecteur b){
-		float px = b.getX();
-		float py = b.getY();
-		float pz = b.getZ();
-		gl.glVertex3f(px,py,pz);
+		double px = b.X();
+		double py = b.Y();
+		double pz = b.Z();
+		gl.glVertex3d(px,py,pz);
 	}
 
-	private void defineTopLeft(float off){
+	private void defineTopLeft(double off){
 		topleft = new Vecteur(this.nr);
 		topleft.sub(this.ur);
 		topleft.add(this.vr);
 		topleft.scale(1+off);
 	}
 
-	private void defineTopRight(float off){
+	private void defineTopRight(double off){
 		topright = new Vecteur(this.nr);
 		topright.add(this.ur);
 		topright.add(this.vr);
 		topright.scale(1+off);
 	}
-	private void defineBottomLeft(float off){
+	private void defineBottomLeft(double off){
 		bottomleft = new Vecteur(this.nr);
 		bottomleft.sub(this.ur);
 		bottomleft.sub(this.vr);
 		bottomleft.scale(1+off);
 	}
-	private void defineBottomRight(float off){
+	private void defineBottomRight(double off){
 		bottomright = new Vecteur(this.nr);
 		bottomright.add(this.ur);
 		bottomright.sub(this.vr);
@@ -153,13 +122,13 @@ public class SphereEdge implements Piece{
 		traceMe(gl,0.9f,0.9f,0.9f,0.9f);
 	}
 
-	public void traceMe(GL2 gl,float off) {
+	public void traceMe(GL2 gl,double off) {
 		traceMe(gl,0.9f,0.9f,0.9f,0.9f);
 	}
 
-	public void traceMe(GL2 gl,float red,float green,float blue,float trans){
+	public void traceMe(GL2 gl,double red,double green,double blue,double trans){
 		gl.glBegin(GL2.GL_LINES);
-		gl.glColor4f(red,green,blue,trans);
+		gl.glColor4d(red,green,blue,trans);
 		gl.glTexCoord1f(0f);
 		defineTopLeft(0.005f);
 		vect3ToVertex(gl,topleft);

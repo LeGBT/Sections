@@ -22,7 +22,7 @@ package fr.legbt.sections;
 import javax.media.opengl.GL2;
 
 public class CylinderEdge extends Quad implements Piece{
-	protected float angle;
+	protected double angle;
 	private Vecteur topleft;
 	private Vecteur topright;
 	private Vecteur bottomleft;
@@ -36,11 +36,11 @@ public class CylinderEdge extends Quad implements Piece{
 		this.angle = 0;
 	}
 
-	public void reset(float angle){
+	public void reset(double angle){
 		this.angle = angle;
 	}
 
-	public float getH(){
+	public double getH(){
 		return this.np.length();
 	}
 
@@ -48,37 +48,31 @@ public class CylinderEdge extends Quad implements Piece{
 		return 0;
 	}
 
-	public float getProf() {
+	public double getProf() {
 		return 0;
 	}
 
 
-	public void rotation(Matrice matrix){
-		matrix.transform(ur);
-		matrix.transform(vr);
-		matrix.transform(nr);
-	}
-
-	protected void defineTopLeft(float off){
+	protected void defineTopLeft(double off){
 		topleft = new Vecteur(this.nr);
 		topleft.sub(this.ur);
 		topleft.add(this.vr);
 		topleft.scale(1+off);
 	}
 
-	protected void defineTopRight(float off){
+	protected void defineTopRight(double off){
 		topright = new Vecteur(this.nr);
 		topright.add(this.ur);
 		topright.add(this.vr);
 		topright.scale(1+off);
 	}
-	protected void defineBottomLeft(float off){
+	protected void defineBottomLeft(double off){
 		bottomleft = new Vecteur(this.nr);
 		bottomleft.sub(this.ur);
 		bottomleft.sub(this.vr);
 		bottomleft.scale(1+off);
 	}
-	protected void defineBottomRight(float off){
+	protected void defineBottomRight(double off){
 		bottomright = new Vecteur(this.nr);
 		bottomright.add(this.ur);
 		bottomright.sub(this.vr);
@@ -89,23 +83,23 @@ public class CylinderEdge extends Quad implements Piece{
 		traceMe(gl,0.9f,0.9f,0.9f,0.9f);
 	}
 
-	public void traceMe(GL2 gl,float off){
+	public void traceMe(GL2 gl,double off){
 		traceMe(gl,0.9f,0.9f,0.9f,0.9f);
 	}
 
-	public void traceMe(GL2 gl,float red,float green,float blue,float trans) {
+	public void traceMe(GL2 gl,double red,double green,double blue,double trans) {
 		gl.glBegin(GL2.GL_LINES);
-		gl.glColor4f(red,green,blue,trans);
+		gl.glColor4d(red,green,blue,trans);
 		gl.glTexCoord1f(0f);
 		defineTopLeft(0.005f);
 		vect3ToVertex(gl,topleft);
-		gl.glTexCoord1f(1f);
+		gl.glTexCoord1d(1);
 		defineBottomLeft(0.005f);
 		vect3ToVertex(gl,bottomleft);
-		gl.glTexCoord1f(0f);
+		gl.glTexCoord1d(0);
 		defineTopRight(0.005f);
 		vect3ToVertex(gl,topright);
-		gl.glTexCoord1f(1f);
+		gl.glTexCoord1d(1);
 		defineBottomRight(0.005f);
 		vect3ToVertex(gl,bottomright);
 		gl.glEnd();

@@ -25,8 +25,9 @@ public class Quaternion  {
 	private double i;
 	private double j;
 	private double k;
+	public static final Quaternion NUL = new Quaternion(0,0,0,0);
 
-	public  Quaternion(double r,double i,double j,double k , boolean classic){
+	public  Quaternion(double r,double i,double j,double k ){
 		this.r = r;
 		this.i = i;
 		this.j = j;
@@ -38,29 +39,48 @@ public class Quaternion  {
 				h.R(),
 				h.I(),
 				h.J(),
-				h.K(),
-				true
+				h.K()
 			);
 	}
 
 	public Quaternion(){
-		this(0,0,0,0,true);
+		this(1,0,0,0);
 	}
 
-	public Quaternion(double alpha,double i,double j,double k){
+
+	//le vecteur v DOIT être de norme 1 !!
+	public Quaternion(double alpha,Vecteur v){
 		this(
 				Math.cos(Math.PI*alpha/360.),
-				i,
-				j,
-				k,
-				true);
+				v.X()*Math.sin(Math.PI*alpha/360.),
+				v.Y()*Math.sin(Math.PI*alpha/360.),
+				v.Z()*Math.sin(Math.PI*alpha/360.)
+			);
 	}
 
-	public void mult(Vecteur v){
+	// attention le résultat est remis dans v !!!
+	protected void rotate(Vecteur v){
+		Vecteur t = new Vecteur(v);
+		double norme = v.norm();
+		t.normalize();
+		Quaternion hv = new Quaternion(0,t.X(),t.Y(),t.Z());
+		Quaternion hconj = new Quaternion(this);
+		Quaternion htemp = new Quaternion(this);
+		hconj.conj();
+		htemp.mult(hv);
+		htemp.mult(hconj);
+		v.set(
+				htemp.I()*norme,
+				htemp.J()*norme,
+				htemp.K()*norme
+			 );
+	}
 
-
-
-
+	public void identity(){
+		r = 1;
+		i = 0;
+		j = 0;
+		k = 0;
 	}
 
 
@@ -83,6 +103,13 @@ public class Quaternion  {
 		i*=-1.;
 		j*=-1.;
 		k*=-1.;
+	}
+
+	public void set(Quaternion b){
+		r = b.R();
+		i = b.I();
+		j = b.J();
+		k = b.K();
 	}
 
 	public void add(Quaternion b){

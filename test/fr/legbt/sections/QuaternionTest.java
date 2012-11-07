@@ -23,42 +23,30 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class QuaternionTest {
-	private Quaternion a;
-	private Quaternion b;
-	private Quaternion c;
-	private Quaternion d;
-	private Quaternion r;
-	private Quaternion i;
-	private Quaternion j;
-	private Quaternion k;
-	private Quaternion mi;
-	private Quaternion mj;
-	private Quaternion mk;
-	private Quaternion ti;
-	private Quaternion tj;
-	private Quaternion tk;
-	private Quaternion nul;
-	private Quaternion apb;
-	private Quaternion rpd;
-	private Quaternion rot;
+	private Quaternion a,b,c,d,r,i,j,k;
+	private Quaternion mi,mj,mk,ti,tj,tk;
+	private Quaternion nul,apb,rpd,rot;
+	private Vecteur x,y;
 
 	@Before
 		public void setUp(){
-			nul = new Quaternion();
-			r = new Quaternion(1,0,0,0,true);
-			i = new Quaternion(0,1,0,0,true);
-			j = new Quaternion(0,0,1,0,true);
-			k = new Quaternion(0,0,0,1,true);
-			mi = new Quaternion(0,-1,0,0,true);
-			mj = new Quaternion(0,0,-1,0,true);
-			mk = new Quaternion(0,0,0,-1,true);
-			a = new Quaternion(1,1,1,1,true);
-			b = new Quaternion(0,2,0,0,true);
-			c = new Quaternion(0,0,3,0,true);
-			d = new Quaternion(0,0,0,4,true);
-			apb = new Quaternion(1,3,1,1,true);
-			rpd = new Quaternion(1,0,0,4,true);
-			rot = new Quaternion(30f,1,0,0);
+			nul = Quaternion.NUL;
+			r = new Quaternion(1,0,0,0);
+			i = new Quaternion(0,1,0,0);
+			j = new Quaternion(0,0,1,0);
+			k = new Quaternion(0,0,0,1);
+			mi = new Quaternion(0,-1,0,0);
+			mj = new Quaternion(0,0,-1,0);
+			mk = new Quaternion(0,0,0,-1);
+			a = new Quaternion(1,1,1,1);
+			b = new Quaternion(0,2,0,0);
+			c = new Quaternion(0,0,3,0);
+			d = new Quaternion(0,0,0,4);
+			apb = new Quaternion(1,3,1,1);
+			rpd = new Quaternion(1,0,0,4);
+			x = new Vecteur(1,0,0);
+			y = new Vecteur(0,1,0);
+			rot = new Quaternion(30f,x);
 		}
 
 	@Test
@@ -126,12 +114,12 @@ public class QuaternionTest {
 
 	@Test
 		public void test_add(){
-		Quaternion	ta = new Quaternion(a);
-		Quaternion	ta2 = new Quaternion(a);
-		Quaternion	tr = new Quaternion(r);
-		ta.add(nul);
-		ta2.add(b);
-		tr.add(d);
+			Quaternion	ta = new Quaternion(a);
+			Quaternion	ta2 = new Quaternion(a);
+			Quaternion	tr = new Quaternion(r);
+			ta.add(nul);
+			ta2.add(b);
+			tr.add(d);
 
 			assertTrue(ta.equals(a));
 			assertTrue(ta2.equals(apb));
@@ -152,5 +140,30 @@ public class QuaternionTest {
 
 			ct.scale(2.1);
 			assertEquals(ct.J(),6.3,0.00000001);
+		}
+	@Test
+		public void test_Quaternion(){
+			assertEquals(1.,rot.norm(),0.00000001);
+		}
+
+	@Test
+		public void test_rotate(){
+			y.rotate(new Quaternion());
+			assertEquals(0,y.X(),1e-8);
+			assertEquals(1,y.Y(),1e-8);
+			assertEquals(0,y.Z(),1e-8);
+			y.rotate(rot);
+			assertEquals(0.86602540,y.Y(),1e-8);
+			assertEquals(0.5,y.Z(),1e-8);
+		}
+
+	@Test 
+		public void test_rotate_2(){
+			k.mult(new Quaternion(0,x));	
+			k.mult(new Quaternion(0,y));	
+			assertEquals(0,k.R(),1e-8);
+			assertEquals(0,k.I(),1e-8);
+			assertEquals(0,k.J(),1e-8);
+			assertEquals(1,k.K(),1e-8);
 		}
 }

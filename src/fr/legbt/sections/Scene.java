@@ -31,11 +31,13 @@ public abstract class  Scene{
 	protected double phi = -160;
 	protected double phitot;
 	protected double thetatot;
-	protected Quaternion r;
-	protected float h; 
-	protected float htot; 
-	protected float angle;
-	protected float angletot;
+	protected Quaternion xquat;
+	protected Quaternion yquat;
+	protected Quaternion rquat;
+	protected double h; 
+	protected double htot; 
+	protected double angle;
+	protected double angletot;
 	protected boolean firstrotation;
 	protected Sections instance;
 	static final Vecteur x = new Vecteur(1,0,0);
@@ -43,23 +45,33 @@ public abstract class  Scene{
 	static final Vecteur z = new Vecteur(0,0,1);
 	static final Vecteur nul = new Vecteur(0,0,0);
 	static final Vecteur sect = new Vecteur(0,0,0.4f);
+	private Vecteur buffer;
 
 	public Scene(float xscale, float yscale,Sections instance){
 		plan = new Plan();
 		section = new RotatingSection(1,xscale,yscale,instance);
 		firstrotation = true;
 		this.instance = instance;
+		buffer = new Vecteur();
+		xquat = new Quaternion();
+		yquat = new Quaternion();
+		rquat = new Quaternion();
 	}
 
-	protected boolean getMode(){
-		return instance.isBonemode();
-	}
 
 
 	public Scene(String type, Sections instance){
 		this.instance = instance;
 		plan = new Plan();
 		firstrotation = true;
+		buffer = new Vecteur();
+		xquat = new Quaternion();
+		yquat = new Quaternion();
+		rquat = new Quaternion();
+	}
+
+	protected boolean getMode(){
+		return instance.isBonemode();
 	}
 
 	public void reset(){
@@ -72,7 +84,7 @@ public abstract class  Scene{
 				phi = 0;
 				//	thetatot = 0;
 				//	phitot = 30;
-				r = new Quaternion(30f,0,1,0);
+				yquat = new Quaternion(30f,y);
 				this.plan = new Plan();
 				this.plan.reset(90);
 				this.h = -4.2f;
@@ -94,6 +106,7 @@ public abstract class  Scene{
 				phi = 0;
 				//	thetatot = 0;
 				//	phitot = 30;
+				yquat = new Quaternion(30f,y);
 				this.plan = new Plan();
 				this.h = -4.2f;
 				this.htot = -4.2f;
@@ -105,15 +118,24 @@ public abstract class  Scene{
 		}
 	}
 
-	static private double radian(double degree){
-		return degree*0.017453292519943295769236907684f;
-	}
-
 	protected void preRender(){
-		//thetatot += radian(theta/2.0);
-		//phitot += radian(phi/2.0);
-		r.mult(new Quaternion(theta/2.,0,0,1));
-		r.mult(new Quaternion(phi/2.,1,0,0));
+
+		buffer.set(0,1,0);
+		yquat.identity();
+		yquat.mult(new Quaternion(theta/2.,buffer));
+		buffer.set(1,0,0);
+		buffer.rotate(yquat);
+		xquat.identity();
+		xquat.mult(new Quaternion(phi/2.,buffer));
+
+		// on multiplie rquat par x et y à GAUCHE ce qui revient 
+		// à conjuger les rotations par la rotation commulée 
+		// et donc à appliquer nos rotations celon les vecteurs 
+		// correctement corrigés dans notre rotation		
+
+		yquat.mult(xquat);
+		yquat.mult(rquat);
+		rquat.set(yquat);
 	}
 
 
@@ -129,8 +151,8 @@ public abstract class  Scene{
 	}
 
 	public void sectionDragged(int xdelta,int ydelta){
-		this.h = (float)( -ydelta/100.0);
-		this.angle =(float)( -xdelta/8.0);
+		this.h =  -ydelta/100.0;
+		this.angle = -xdelta/8.0;
 		htot += h;
 		angletot += this.angle;
 		if(!(this instanceof CylinderScene)){

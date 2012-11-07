@@ -32,19 +32,15 @@ public class Disc implements Piece,Bordered {
 	protected Vecteur vp;
 	protected Vecteur np;
 	protected Vecteur np0;
-	private float xrot;
-	private float yrot;
-	private float zrot;
-	private float hr = 1.5f;
-	private float angle;
+	private double hr = 1.5f;
 	private boolean border;
 	private boolean sphere;
 	static final Vecteur x = new Vecteur(1,0,0);
 	static final Vecteur y = new Vecteur(0,1,0);
 	static final Vecteur z = new Vecteur(0,0,1);
 	static final int res = 256;
-	static final float radian = 6.28318531f/res;
-	static final float PI = 3.1415926535898f;
+	static final double radian = 6.28318531f/res;
+	static final double PI = 3.1415926535898f;
 
 	public Disc(Vecteur u, Vecteur v, Vecteur n){
 		this.u = new Vecteur(u);
@@ -57,25 +53,17 @@ public class Disc implements Piece,Bordered {
 		this.vp = new Vecteur(v);
 		this.np = new Vecteur(n);
 		this.np0 = new Vecteur(n);
-		this.xrot = 0;
-		this.yrot = 0;
-		this.zrot = 0;
 		this.border = false;
 		this.sphere = false;
 	}
 
-	public void reset(){
-		this.angle = 0;
-	}
+	public void reset(){}
+	public void reset(double angle){}
 
-	public void reset(float angle){
-		this.angle = angle;
-	}
-
-	public Disc(float c,Vecteur u,Vecteur v,Vecteur n){
+	public Disc(double c,Vecteur u,Vecteur v,Vecteur n){
 		this(u,v,n);
 	}
-	public Disc(float c,float xscale,float yscale, Vecteur n){
+	public Disc(double c,double xscale,double yscale, Vecteur n){
 		this(new Vecteur(xscale,0,0),new Vecteur(0,yscale,0),n);
 	}
 
@@ -83,11 +71,11 @@ public class Disc implements Piece,Bordered {
 		traceMe(gl,0.3f);
 	}
 
-	public void traceMe(GL2 gl,float red){
+	public void traceMe(GL2 gl,double red){
 		traceMe(gl,red,red,red,red);
 	}
 
-	public void traceMe(GL2 gl,float red,float green,float blue,float trans){
+	public void traceMe(GL2 gl,double red,double green,double blue,double trans){
 		Vecteur center = new Vecteur(this.nr);
 		Vecteur tempx = new Vecteur(ur);
 		Vecteur tempy = new Vecteur(vr);
@@ -96,8 +84,8 @@ public class Disc implements Piece,Bordered {
 
 		tempx.set(ur);
 		tempy.set(vr);
-		tempx.scale((float)Math.cos((double)radian));
-		tempy.scale((float)Math.sin((double)radian));
+		tempx.scale((double)Math.cos((double)radian));
+		tempy.scale((double)Math.sin((double)radian));
 		Vecteur second = new Vecteur();
 		second.add(tempx);
 		second.add(tempy);
@@ -105,11 +93,11 @@ public class Disc implements Piece,Bordered {
 
 		gl.glBegin(GL2.GL_TRIANGLE_FAN);
 
-		float para = 0;
+		double para = 0;
 		if(border){
-			gl.glColor4f(red,green,blue,trans);
+			gl.glColor4d(red,green,blue,trans);
 		}else{
-			gl.glColor4f(para,0.8f,0.2f,0.7f);
+			gl.glColor4d(para,0.8f,0.2f,0.7f);
 		}
 
 		vect3ToVertex(gl,center);
@@ -118,16 +106,16 @@ public class Disc implements Piece,Bordered {
 		for(int i=0;i<res;i++){
 			if(border){
 			}else{
-				if(i<res/2){para = 2*i/(float)res;}else{para = 2*(1-i/(float)res);}
-				gl.glColor4f(para,0.8f,0.2f,0.7f);
+				if(i<res/2){para = 2*i/(double)res;}else{para = 2*(1-i/(double)res);}
+				gl.glColor4d(para,0.8,0.2,0.7);
 			}
 
 			vect3ToVertex(gl,second);
 
 			tempx.set(ur);
 			tempy.set(vr);
-			tempx.scale((float)Math.cos((double)radian*(i+2)));
-			tempy.scale((float)Math.sin((double)radian*(i+2)));
+			tempx.scale((double)Math.cos((double)radian*(i+2)));
+			tempy.scale((double)Math.sin((double)radian*(i+2)));
 			second = new Vecteur();
 			second.add(tempx);
 			second.add(tempy);
@@ -138,14 +126,11 @@ public class Disc implements Piece,Bordered {
 	}
 
 
-	static private float radian(float degree){
-		return degree*0.017453292519943295769236907684f;
-	}
 
-	private void rotation(Matrice matrix){
-		matrix.transform(ur);
-		matrix.transform(vr);
-		matrix.transform(nr);
+	public void rotation(Quaternion quat){
+		ur.rotate(quat);	
+		vr.rotate(quat);	
+		nr.rotate(quat);	
 	}
 
 	public void resetRotation(){
@@ -154,64 +139,49 @@ public class Disc implements Piece,Bordered {
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void xRotation(float rad){
-		Matrice matrix = new Matrice();
-		xrot = rad;
-		matrix.rotX(xrot);
-		rotation(matrix);
-	}
-	public void yRotation(float rad){
-		Matrice matrix = new Matrice();
-		yrot = rad;
-		matrix.rotY(yrot+radian(angle));
-		rotation(matrix);
-	}
-	public void zRotation(float rad){
-		Matrice matrix = new Matrice();
-		zrot = rad;
-		matrix.rotZ(zrot);
-		rotation(matrix);
+	public void Rotation(Quaternion quat){
+		rotation(quat);
 	}
 
 	public void vect3ToVertex(GL2 gl, Vecteur b){
-		float px = b.getX();
-		float py = b.getY();
-		float pz = b.getZ();
-		gl.glVertex3f(px,py,pz);
+		double px = b.X();
+		double py = b.Y();
+		double pz = b.Z();
+		gl.glVertex3d(px,py,pz);
 	}
 
-	public void setH(float ph){
+	public void setH(double ph){
 		np.set(n);
 		np.scale(ph);
 		np.add(np0);
 		if(sphere){
 			hr = 1.5f - ph;
 			Vecteur temp = new Vecteur(u);
-			temp.scale((float)Math.sqrt(1/4f-(hr/5f-1f/2f)*(hr/5f-1f/2f))*2f);	
+			temp.scale((double)Math.sqrt(1/4f-(hr/5f-1f/2f)*(hr/5f-1f/2f))*2f);	
 			up.set(temp);
 			temp.set(v);
-			temp.scale((float)Math.sqrt(1/4f-(hr/5f-1f/2f)*(hr/5f-1f/2f))*2f);	
+			temp.scale((double)Math.sqrt(1/4f-(hr/5f-1f/2f)*(hr/5f-1f/2f))*2f);	
 			vp.set(temp);
 		}
 	}
 
-	public float getH(){
+	public double getH(){
 		return this.np.length();
 	}
 
-	public float getProf(){
-		return this.nr.getZ();
+	public double getProf(){
+		return this.nr.Z();
 	}
 
-	public void traceBorders(GL2 gl,float red){
+	public void traceBorders(GL2 gl,double red){
 		traceBorders(gl,red,0.005f);
 	}
 
-	public void traceBorders(GL2 gl,float red,float off){
-	float a = 1f;
+	public void traceBorders(GL2 gl,double red,double off){
+		double a = 1f;
 
 		gl.glBegin(GL2.GL_LINE_STRIP);
-		gl.glColor4f(red,red,red,red);
+		gl.glColor4d(red,red,red,red);
 		Vecteur tempx = new Vecteur(ur);
 		Vecteur tempy = new Vecteur(vr);
 		Vecteur first = new Vecteur(ur);
@@ -220,8 +190,8 @@ public class Disc implements Piece,Bordered {
 
 		tempx.set(ur);
 		tempy.set(vr);
-		tempx.scale((float)Math.cos((double)radian));
-		tempy.scale((float)Math.sin((double)radian));
+		tempx.scale((double)Math.cos((double)radian));
+		tempy.scale((double)Math.sin((double)radian));
 		Vecteur second = new Vecteur();
 		second.add(tempx);
 		second.add(tempy);
@@ -231,7 +201,7 @@ public class Disc implements Piece,Bordered {
 		vect3ToVertex(gl,first);
 
 		for(int i=0;i<res;i++){
-			gl.glTexCoord1f(a*i/res);
+			gl.glTexCoord1d(a*i/res);
 
 			//test inflate
 			second.scale(1+off);	
@@ -239,8 +209,8 @@ public class Disc implements Piece,Bordered {
 			vect3ToVertex(gl,second);
 			tempx.set(ur);
 			tempy.set(vr);
-			tempx.scale((float)Math.cos((double)radian*(i+2)));
-			tempy.scale((float)Math.sin((double)radian*(i+2)));
+			tempx.scale((double)Math.cos((double)radian*(i+2)));
+			tempy.scale((double)Math.sin((double)radian*(i+2)));
 			second = new Vecteur();
 			second.add(tempx);
 			second.add(tempy);
@@ -251,7 +221,7 @@ public class Disc implements Piece,Bordered {
 
 	public int compareTo(Piece d) {
 		//le 100 évite un "threathold effect" à cause de la conversion en int
-		float pc =	100*(this.getProf() - d.getProf());
+		double pc =	100*(this.getProf() - d.getProf());
 		return (int) pc;
 	}
 
