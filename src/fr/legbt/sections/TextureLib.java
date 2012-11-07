@@ -28,16 +28,16 @@ import com.jogamp.opengl.util.texture.TextureIO;
 
 
 public class TextureLib {
-	static int tex2size = 2*( 23 ) +1;
+	private static final int TEX2SIZE = 2*( 23 ) +1;
 	private Texture tex101 = null;
 	private Texture tex102 = null;
-	private Texture[] tex2 = new Texture[tex2size+1];
+	private Texture[] tex2 = new Texture[TEX2SIZE+1];
 	private int activetexture = 0;
 
 	public  void dispose(GL2 gl){
 		tex101.destroy(gl);
 		tex102.destroy(gl);
-		for(int i=1;i<tex2size+1;i++){
+		for(int i=1;i<TEX2SIZE+1;i++){
 			tex2[i].destroy(gl);
 		}
 	}

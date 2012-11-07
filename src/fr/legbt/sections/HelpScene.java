@@ -61,7 +61,7 @@ public class HelpScene extends Scene implements MouseListener {
 	public void render(GL2 gl) {
 		i += 4;
 		i %= 720;
-		c = Math.cos(i / 360.0 * 3.1416);
+		c = Math.cos(i / 360.0 * Math.PI);
 		t = (int) Math.round(30 * c);
 
 		preRender();
