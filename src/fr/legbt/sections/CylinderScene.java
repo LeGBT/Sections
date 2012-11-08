@@ -65,6 +65,8 @@ public class CylinderScene extends Scene{
 	}
 
 	private void renderVoid(GL2 gl){
+		//gl.glCullFace(GL2.GL_FRONT);
+		
 		// tracé à vide pour les tests
 		gl.glClearColor(1.0f,1.0f,1.0f,1.0f);
 		gl.glDisable(GL2.GL_FOG);
@@ -77,6 +79,8 @@ public class CylinderScene extends Scene{
 		//tracé des pointillés
 		gl.glColorMask(true,true,true,true);
 		gl.glLineWidth(2f);
+		
+
 		instance.getTextures().bind(gl,101);
 		if(instance.isPlantype()){
 			if((this.dsection.getH()<1)&&(this.dsection.getH()>-1)){
@@ -102,6 +106,7 @@ public class CylinderScene extends Scene{
 		}
 		instance.getTextures().unbind(gl);
 
+
 		//tracé du plan
 		instance.getTextures().bind(gl,102);
 		this.plan.tracePlan(gl,0.3f);
@@ -115,9 +120,14 @@ public class CylinderScene extends Scene{
 		}else{
 			this.dsection.traceBorders(gl,0.99f);
 		}
-		this.edge.traceMe(gl);
 		this.cylinder.traceBorders(gl,0.9f,0.005f);
 		instance.getTextures().unbind(gl);
+
+		gl.glEnable(GL2.GL_CULL_FACE);
+		gl.glCullFace(GL2.GL_FRONT);
+		this.cylinder.traceMe(gl,true,false);
+		gl.glDisable(GL2.GL_CULL_FACE);
+		gl.glCullFace(GL2.GL_BACK);
 	}
 
 	public void render(GL2 gl) {
@@ -132,7 +142,12 @@ public class CylinderScene extends Scene{
 		this.dsection.setH(htot);
 
 		this.cylinder.rotation(rquat);
-		this.edge.rotation(rquat);
+
+		//Quaternion edgequat = new Quaternion(rquat.R(),rquat.I(),rquat.J(),rquat.K());
+		//edgequat.normalize();
+
+		//this.edge.rotation(edgequat);
+
 		this.plan.rotation(rquat);
 		this.dsection.rotation(rquat);
 

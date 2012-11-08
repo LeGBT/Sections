@@ -27,6 +27,7 @@ public class Sphere extends Volume{
 
 	public Sphere(){
 		sp = new SpherePiece(u1,u2,u3);
+	//	border = new Disc(u2,u1,nul);
 		border = new Disc(u2,u1,nul);
 		pieces.add(sp);
 		pieces.add(border);

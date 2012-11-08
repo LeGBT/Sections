@@ -34,6 +34,7 @@ public abstract class  Scene{
 	protected Quaternion xquat;
 	protected Quaternion yquat;
 	protected Quaternion rquat;
+	protected Quaternion edgequat;
 	protected double h; 
 	protected double htot; 
 	protected double angle;
@@ -56,6 +57,7 @@ public abstract class  Scene{
 		xquat = new Quaternion();
 		yquat = new Quaternion();
 		rquat = new Quaternion();
+		edgequat = new Quaternion();
 	}
 
 
@@ -68,6 +70,7 @@ public abstract class  Scene{
 		xquat = new Quaternion();
 		yquat = new Quaternion();
 		rquat = new Quaternion();
+		edgequat = new Quaternion();
 	}
 
 	protected boolean getMode(){
@@ -120,22 +123,37 @@ public abstract class  Scene{
 
 	protected void preRender(){
 
-		buffer.set(0,1,0);
-		yquat.identity();
-		yquat.mult(new Quaternion(theta/2.,buffer));
-		buffer.set(1,0,0);
-		buffer.rotate(yquat);
-		xquat.identity();
-		xquat.mult(new Quaternion(phi/2.,buffer));
+		if(this instanceof SphereScene){
+			buffer.set(1,0,0);
+			xquat.mult(new Quaternion(phi/2.,buffer));
 
-		// on multiplie rquat par x et y à GAUCHE ce qui revient 
-		// à conjuger les rotations par la rotation commulée 
-		// et donc à appliquer nos rotations celon les vecteurs 
-		// correctement corrigés dans notre rotation		
+			buffer.set(0,0,1);
+			yquat.mult(new Quaternion(theta/2.,buffer));
 
-		yquat.mult(xquat);
-		yquat.mult(rquat);
-		rquat.set(yquat);
+			rquat.identity();
+			rquat.mult(xquat);
+			rquat.mult(yquat);
+		}else{
+			buffer.set(0,1,0);
+			yquat.identity();
+			yquat.mult(new Quaternion(theta/2.,buffer));
+			buffer.set(1,0,0);
+			buffer.rotate(yquat);
+			xquat.identity();
+			xquat.mult(new Quaternion(phi/2.,buffer));
+
+			// on multiplie rquat par x et y à GAUCHE ce qui revient 
+			// à conjuger les rotations par la rotation commulée 
+			// et donc à appliquer nos rotations celon les vecteurs 
+			// correctement corrigés dans notre rotation		
+
+			yquat.mult(xquat);
+			yquat.mult(rquat);
+			rquat.set(yquat);
+			edgequat.set(yquat);
+
+
+		}
 	}
 
 

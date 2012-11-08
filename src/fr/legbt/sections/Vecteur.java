@@ -100,6 +100,19 @@ public class Vecteur implements Vecteur3d{
 		z *= k; 
 	}
 
+
+	public void vect(Vecteur3d v){
+		double xt,yt,zt;
+		xt = x;
+		yt = y;
+		zt = z;
+		x = yt*v.Z() - zt*v.Y();
+		x = zt*v.X() - xt*v.Z();
+		x = xt*v.Y() - yt*v.X();
+	}
+
+
+
 	public void scaleAdd(double k, Vecteur3d v1, Vecteur3d v2){
 		Vecteur temp = new Vecteur(v1);
 		temp.scale(k);

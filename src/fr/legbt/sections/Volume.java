@@ -59,7 +59,13 @@ public abstract class Volume {
 
 	public void rotation(Quaternion quat){
 		for(int i=0;i<pieces.size();i++){
-			pieces.get(i).rotation(quat);
+			if (this instanceof Sphere){
+			if( !(pieces.get(i) instanceof Disc)){
+				pieces.get(i).rotation(quat);
+			}
+			}else{
+				pieces.get(i).rotation(quat);
+			}
 		}
 	}
 
