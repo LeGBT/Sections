@@ -29,19 +29,19 @@ public class Face extends Quad implements Piece{
 
 	public int compareTo(Piece f){
 		//le 100 évite un "threathold effect" à cause de la conversion en int
-		float pc =	100*(this.getProf() - f.getProf());
+		double pc =	100*(this.getProf() - f.getProf());
 		return (int) pc;
 	}
 
-	public float getProf(){
-		return this.getN().getZ();
+	public double getProf(){
+		return this.getN().Z();
 	}
 
-	public void traceMe(GL2 gl,float off){
+	public void traceMe(GL2 gl,double off){
 		traceMe(gl);
 	}
 
-	public void traceMe(GL2 gl,float a,float b,float c,float d){
+	public void traceMe(GL2 gl,double a,double b,double c,double d){
 		System.out.println("Warning: no color suport for face.java");
 		traceMe(gl);
 	}
@@ -65,15 +65,15 @@ public class Face extends Quad implements Piece{
 		gl.glEnd();
 	}
 
-	public void traceBorders(GL2 gl,float red,float green,float blue,float trans,float off){
+	public void traceBorders(GL2 gl,double red,double green,double blue,double trans,double off){
 		/* *******************
 		 * Tracé des arrêtes
 		 * ******************/
-		gl.glColor4f(red,green,blue,trans);
+		gl.glColor4d(red,green,blue,trans);
 		drawBorders(gl,off);
 
 	}
-	public void traceBorders(GL2 gl,float red){
+	public void traceBorders(GL2 gl,double red){
 		traceBorders(gl,red,red,red,red,0.005f);
 	}
 }

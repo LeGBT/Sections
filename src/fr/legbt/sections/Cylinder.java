@@ -50,4 +50,8 @@ public class Cylinder extends Volume{
 	public void traceBorders(GL2 gl, float red){
 		traceBorders(gl,red,0);
 	}
+
+	public void traceMe(GL2 gl, boolean black, boolean classic){
+		cypiece1.traceMe(gl,black,classic);
+	}
 }

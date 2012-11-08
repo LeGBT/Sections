@@ -29,9 +29,6 @@ public class CylinderPiece implements Piece{
 	protected Vecteur vr;
 	protected Vecteur nr;
 	protected Vecteur np;
-	private float xrot;
-	private float yrot;
-	private float zrot;
 	static final Vecteur x = new Vecteur(1,0,0);
 	static final Vecteur y = new Vecteur(0,1,0);
 	static final Vecteur z = new Vecteur(0,0,1);
@@ -44,49 +41,87 @@ public class CylinderPiece implements Piece{
 		this.vr = new Vecteur(v);
 		this.nr = new Vecteur(n);
 		this.np = new Vecteur(n);
-		this.xrot = 0;
-		this.yrot = 0;
-		this.zrot = 0;
 	}
 
-	public CylinderPiece(float c,Vecteur u,Vecteur v,Vecteur n){
+	public CylinderPiece(double c,Vecteur u,Vecteur v,Vecteur n){
 		this(u,v,n);
 	}
-	public CylinderPiece(float c,float xscale,float yscale, Vecteur n){
+	public CylinderPiece(double c,double xscale,double yscale, Vecteur n){
 		this(new Vecteur(xscale,0,0),new Vecteur(0,yscale,0),n);
 	}
 
-	public void traceMe(GL2 gl,float a,float b,float c,float d){
-		System.out.println("Warning: no color suport for face.java");
-		traceMe(gl);
+	public void traceMe(GL2 gl,double a,double b,double c,double d){
+		System.out.println("color cylinder not supported");
 	}
 
-	public void traceMe(GL2 gl,float off){
+	public void traceMe(GL2 gl,double off){
 		System.out.println("Warning: no inflate suport for face.java");
 		traceMe(gl);
 	}
 
 	public void traceMe(GL2 gl){
+		traceMe(gl,false,true);
+	}
+
+	public void traceMe(GL2 gl,boolean black,boolean classic){
 		final int res = 256; 
-		float radian = 6.28318531f/res;
-		//	float radian = 3.1415926536f/res;
+		double radian = 6.28318531f/res;
+		//	double radian = 3.1415926536f/res;
+
+		double off = ((!classic)&&black)? 0.008:0.;
+		ur.scale(1+off);
+		vr.scale(1+off);
 
 
 		Vecteur tempx = new Vecteur(ur);
 		Vecteur tempy = new Vecteur(vr);
 
-		int fix = (int) Math.floor(nr.getY())*2 + 1;
-		int fiy = (int) Math.floor(ur.getY())*2 + 1;
-		int fiz = (int) Math.floor(nr.getZ())*2 + 1;
-		int firstposition = (int) Math.round(Math.acos(-fiz*fiy*ur.getX())/radian);
+		//int fix = (int) Math.floor(nr.Y())*2 + 1;
+		//int fiy = (int) Math.floor(ur.Y())*2 + 1;
+		//int fiz = (int) Math.floor(nr.Z())*2 + 1;
+		//
+
+
+
+		//gram-schmidt  sur nr pour garder trace de la rotation selon Z
+		Vecteur gsn = new Vecteur(x);
+		Vecteur gstemp = new Vecteur(y);
+		gsn.scale(nr.X());
+		gstemp.scale(nr.Y());
+		gsn.add(gstemp);
+		gsn.normalize();
+		// gsn ok	
+		Vecteur gsx = new Vecteur(x);	
+		gstemp.set(gsn);
+		gstemp.scale(gsn.dot(x));
+		gsx.sub(gstemp);
+		gsx.normalize();
+		//gsx ok
+		Vecteur gsy = new Vecteur(gsx);
+		gsy.vect(gsn);
+		//gsy ok
+
+		int fiz = (int) Math.floor(vr.dot(gsx))*2 + 1;
+		int fiy = (int) Math.floor(nr.Y())*2 + 1;
+
 		// wtf bug !
-		if(fix==3){fix=1;}
+		if(fiy==3){fiy=1;}
+		if(fiy==-3){fiy=-1;}
+		if(fiz==3){fiz=1;}
+		if(fiz==-3){fiz=-1;}
+
+
+
+
+
+
+		int firstposition = (int) Math.round(Math.acos(  fiz*ur.dot(gsx)  )  /radian);
 
 
 		tempx.set(ur);
 		tempy.set(vr);
-		tempx.scale((float)Math.cos((double)radian*firstposition));
-		tempy.scale((float)Math.sin((double)radian*firstposition));
+		tempx.scale((double)Math.cos((double)radian*firstposition));
+		tempy.scale((double)Math.sin((double)radian*firstposition));
 		Vecteur top = new Vecteur();
 		Vecteur bottom = new Vecteur();
 		top.add(tempx);
@@ -98,28 +133,40 @@ public class CylinderPiece implements Piece{
 
 		gl.glBegin(GL2.GL_QUAD_STRIP);
 
-		float para = 3f*(((float)firstposition)/((float)res) - ((float)(firstposition)*(firstposition))/((float)(res*res)));
+		double para = 3f*(((double)firstposition)/((double)res) - ((double)(firstposition)*(firstposition))/((double)(res*res)));
 		para = firstposition/res;
-		gl.glColor4f(0,0.8f,0.2f,0.4f);
+		if(black){
+			gl.glColor4f(0,0,0,1);
+		}else{
+			gl.glColor4f(0,0.8f,0.2f,0.4f);
+		}
 		vect3ToVertex(gl,top);
 		vect3ToVertex(gl,bottom);
 		int j;
 
 		for(int i=0;i<res;i++){
-			j = (-fix*fiy*fiz*i+firstposition);
+			j = (fiy*fiz*i+firstposition);
 			if(j>res){j-=res;}
 			if(j<0){j+=res;}
 
-			if(j<res/2){para = 2*j/(float)res;}else{para = 2*(1-j/(float)res);}
-			gl.glColor4f(para,0.8f,0.2f,para/8f+0.4f);
+			if(j<res/2){para = 2*j/(double)res;}else{para = 2*(1-j/(double)res);}
+			if(black){
+				if(i>res/1.89 || firstposition == 0){
+					gl.glColor4f(1,1,1,0);
+				}else{
+					gl.glColor4f(0,0,0,1);
+				}
+			}else{
+				gl.glColor4d(para,0.8,0.2,para/8+0.4);
+			}
 
 			vect3ToVertex(gl,top);
 			vect3ToVertex(gl,bottom);
 
 			tempx.set(ur);
 			tempy.set(vr);
-			tempx.scale((float)Math.cos((double)radian*(j+2)));
-			tempy.scale((float)Math.sin((double)radian*(j+2)));
+			tempx.scale((double)Math.cos((double)radian*(j+2)));
+			tempy.scale((double)Math.sin((double)radian*(j+2)));
 			top.scale(0);
 			bottom.scale(0);
 			top.add(tempx);
@@ -133,10 +180,10 @@ public class CylinderPiece implements Piece{
 	}
 
 
-	private void rotation(Matrice matrix){
-		matrix.transform(ur);
-		matrix.transform(vr);
-		matrix.transform(nr);
+	public void rotation(Quaternion quat){
+		ur.rotate(quat);
+		vr.rotate(quat);
+		nr.rotate(quat);
 	}
 
 	public void resetRotation(){
@@ -145,38 +192,23 @@ public class CylinderPiece implements Piece{
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void xRotation(float rad){
-		Matrice matrix = new Matrice();
-		xrot = rad;
-		matrix.rotX(xrot);
-		rotation(matrix);
-	}
-	public void yRotation(float rad){
-		Matrice matrix = new Matrice();
-		yrot = rad;
-		matrix.rotY(yrot);
-		rotation(matrix);
-	}
-	public void zRotation(float rad){
-		Matrice matrix = new Matrice();
-		zrot = rad;
-		matrix.rotZ(zrot);
-		rotation(matrix);
+	public void Rotation(Quaternion quat){
+		rotation(quat);
 	}
 
 	public void vect3ToVertex(GL2 gl, Vecteur b){
-		float px = b.getX();
-		float py = b.getY();
-		float pz = b.getZ();
-		gl.glVertex3f(px,py,pz);
+		double px = b.X();
+		double py = b.Y();
+		double pz = b.Z();
+		gl.glVertex3d(px,py,pz);
 	}
 
 
-	public float getH(){
+	public double getH(){
 		return this.np.length();
 	}
 
-	public float getProf(){
+	public double getProf(){
 		return 2f;
 	}
 
@@ -185,7 +217,7 @@ public class CylinderPiece implements Piece{
 
 	public int compareTo(Piece p) {
 		//le 100 évite un "threathold effect" à cause de la conversion en int
-		float pc =	1000*(this.getProf() - p.getProf());
+		double pc =	1000*(this.getProf() - p.getProf());
 		return (int) pc;
 	}
 }

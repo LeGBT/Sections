@@ -1,4 +1,4 @@
-Sections 3.3
+Sections 4.0 
 
 
 Sections est un petit programme permettant le tracé de solides simples et d'en afficher des sections simples. Il a été conçu pour la présentation devant une classe.
@@ -12,14 +12,15 @@ C'est un logiciel libre et peut donc être utilisé, copié et même modifié li
 
 Pour utiliser les sources, la bibliothèque JOGL doit être installée préalablement, les fichiers nécessaires sont disponibles via http://jogamp.org/deployment/jogamp-current/archive/
 
-Sections utilise de plus la bibliothèque "ejml" pour ses calculs matriciels.
-
 Les sources de Sections sont-elles disponibles via http://github.com/LeGBT/Sections
 
 La GNU General Public Licence est disponible dans le fichier gpl.
 
 
 Historique des versions :
+
+Version 4.0
+Rotations "intuitives", plus de blocage de cardan.
 
 Version	3.3
 Menu d'aide. Corrections des angles de départ pour le plan.

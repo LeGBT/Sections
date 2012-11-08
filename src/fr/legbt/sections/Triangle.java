@@ -33,16 +33,16 @@ public class Triangle implements Piece{
 	private Vecteur left;
 	private Vecteur right;
 	private Vecteur top;
-	private float cote;
-	private float xrot;
-	private float yrot;
-	private float zrot;
-	private float sommet;
+	private double cote;
+	private double xrot;
+	private double yrot;
+	private double zrot;
+	private double sommet;
 	static Vecteur x = new Vecteur(1,0,0);
 	static Vecteur y = new Vecteur(0,1,0);
 	static Vecteur z = new Vecteur(0,0,1);
 
-	public Triangle(float sommet, Vecteur u, Vecteur v, Vecteur n){
+	public Triangle(double sommet, Vecteur u, Vecteur v, Vecteur n){
 		this.u = new Vecteur(u);
 		this.v = new Vecteur(v);
 		this.n = new Vecteur(n);
@@ -57,19 +57,19 @@ public class Triangle implements Piece{
 		this.sommet = sommet;
 	}
 
-	public Triangle(float sommet, float c,Vecteur u, Vecteur v, Vecteur n){
+	public Triangle(double sommet, double c,Vecteur u, Vecteur v, Vecteur n){
 		this(sommet,u,v,n);
 		this.cote = c;
 	}
-	public Triangle(float sommet, float c,float xscale, float yscale, Vecteur n){
+	public Triangle(double sommet, double c,double xscale, double yscale, Vecteur n){
 		this(sommet,new Vecteur(xscale,0,0),new Vecteur(0,yscale,0),n);
 		this.cote = c;
 	}
 
-	private void rotation(Matrice matrix){
-		matrix.transform(ur);
-		matrix.transform(vr);
-		matrix.transform(nr);
+	public void rotation(Quaternion quat){
+		ur.rotate(quat);	
+		vr.rotate(quat);	
+		nr.rotate(quat);	
 	}
 
 	public void resetRotation(){
@@ -78,34 +78,19 @@ public class Triangle implements Piece{
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void xRotation(float rad){
-		Matrice matrix = new Matrice();
-		xrot = rad;
-		matrix.rotX(xrot);
-		rotation(matrix);
-	}
-	public void yRotation(float rad){
-		Matrice matrix = new Matrice();
-		yrot = rad;
-		matrix.rotY(yrot);
-		rotation(matrix);
-	}
-	public void zRotation(float rad){
-		Matrice matrix = new Matrice();
-		zrot = rad;
-		matrix.rotZ(zrot);
-		rotation(matrix);
+	public void Rotation(Quaternion quat){
+		rotation(quat);
 	}
 
 	public void vect3ToVertex(GL2 gl, Vecteur b){
-		float px = b.getX();
-		float py = b.getY();
-		float pz = b.getZ();
-		gl.glVertex3f(px,py,pz);
+		double px = b.X();
+		double py = b.Y();
+		double pz = b.Z();
+		gl.glVertex3d(px,py,pz);
 	}
 
 
-	public float getH(){
+	public double getH(){
 		return this.np.length();
 	}
 
@@ -119,38 +104,38 @@ public class Triangle implements Piece{
 		return this.nr;
 	}
 
-	private void defineLeft(float off){
+	private void defineLeft(double off){
 		left = new Vecteur(this.nr);
 		left.sub(this.ur);
 		left.sub(this.vr);
 		left.scale(cote+off);
 	}
-	private void defineRight(float off){
+	private void defineRight(double off){
 		right = new Vecteur(this.nr);
 		right.add(this.ur);
 		right.sub(this.vr);
 		right.scale(cote+off);
 	}
-	private void defineTop(float off){
+	private void defineTop(double off){
 		top = new Vecteur(this.ur);
 		top.scale(sommet);
 		top.add(this.nr);
 		top.add(this.vr);
 		top.scale(cote+off);
 	}
-	protected void drawLeft(GL2 gl,float off){
+	protected void drawLeft(GL2 gl,double off){
 		defineLeft(off);
 		vect3ToVertex(gl,left);
 	}
-	protected void drawRight(GL2 gl,float off){
+	protected void drawRight(GL2 gl,double off){
 		defineRight(off);
 		vect3ToVertex(gl,right);
 	}
-	protected void drawTop(GL2 gl,float off){
+	protected void drawTop(GL2 gl,double off){
 		defineTop(off);
 		vect3ToVertex(gl,top);
 	}
-	protected void traceBorders(GL2 gl,float off){
+	protected void traceBorders(GL2 gl,double off){
 		defineTop(off);
 		defineLeft(off);
 		defineRight(off);
@@ -167,19 +152,19 @@ public class Triangle implements Piece{
 	}
 
 	public int compareTo(Piece o) {
-		return  Math.round(100*(this.getProf()-o.getProf()));
+		return  (int)Math.round(100*(this.getProf()-o.getProf()));
 	}
 
-	public float getProf() {
-		return this.getN().getZ();
+	public double getProf() {
+		return this.getN().Z();
 	}
 
-	public void traceBorders(GL2 gl, float red,float green,float blue,float trans,float off){
-		gl.glColor4f(red,green,blue,trans);
+	public void traceBorders(GL2 gl, double red,double green,double blue,double trans,double off){
+		gl.glColor4d(red,green,blue,trans);
 		traceBorders(gl,off);
 	}
 
-	public void traceMe(GL2 gl,float a,float b,float c,float d){
+	public void traceMe(GL2 gl,double a,double b,double c,double d){
 		System.out.println("Warning: no color suport for face.java");
 		traceMe(gl);
 	}
@@ -188,7 +173,7 @@ public class Triangle implements Piece{
 		traceMe(gl,0f);
 	}
 
-	public void traceMe(GL2 gl,float off) {
+	public void traceMe(GL2 gl,double off) {
 		gl.glBegin(GL2.GL_TRIANGLES);
 		gl.glColor4f(1f,0.7f,0.1f,0.6f);
 		drawLeft(gl,off);
