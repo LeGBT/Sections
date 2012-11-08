@@ -19,17 +19,19 @@
 
 package fr.legbt.sections;
 
-public interface Vecteur3f{
+public interface Vecteur3d{
 
-	public float dot(Vecteur3f vect);
-	public float getX();
-	public float getY();
-	public float getZ();
-	public float length();
-	public void add(Vecteur3f vect);
-	public void sub(Vecteur3f vect);
-	public void scale(float k);
-	public void scaleAdd(float k, Vecteur3f v1, Vecteur3f v2);
+	public double dot(Vecteur3d vect);
+	public double X();
+	public double Y();
+	public double Z();
+	public double norm();
+	public double length();
+	public void normalize();
+	public void add(Vecteur3d vect);
+	public void sub(Vecteur3d vect);
+	public void scale(double k);
+	public void scaleAdd(double k, Vecteur3d v1, Vecteur3d v2);
 
 }
 

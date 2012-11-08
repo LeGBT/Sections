@@ -22,9 +22,9 @@ package fr.legbt.sections;
 import javax.media.opengl.GL2;
 
 public class RotatingSection extends Plan{
-	private float hr = 1.5f;
+	private double hr = 1.5;
 	private Sections instance;
-	private float xscale;
+	private double xscale;
 	private boolean tracer = true;
 	private double xa;
 	private double ya;
@@ -34,7 +34,7 @@ public class RotatingSection extends Plan{
 	private Vecteur temptransold = new Vecteur(u);
 	private Vecteur temp;
 
-	public RotatingSection(float s, float xscale, float yscale, Sections instance){
+	public RotatingSection(double s, double xscale, double yscale, Sections instance){
 		super(s,xscale,yscale);
 		this.instance = instance;
 		this.xscale = xscale;
@@ -45,22 +45,22 @@ public class RotatingSection extends Plan{
 			super.reset();
 			up.set(u);
 			vp.set(v);
-			uoff = new Vecteur();
+			uoff = new Vecteur(0,0,0);
 		}
 
 	@Override
-		public void setH(float ph){
+		public void setH(double ph){
 			np.set(n);
 			np.scale(ph);		
 			np.add(np0);
-			hr = 1.5f-ph;
+			hr = 1.5-ph;
 			temp = new Vecteur(u);
 			temptrans = new Vecteur(u);
 			temp.scale(1/xscale);
 			temptrans.scale(1/xscale);
 			ang = radian(angle);
-			float casangsupapisur2 = 1;
-			float thr = 1;
+			double casangsupapisur2 = 1;
+			double thr = 1;
 			if(hr>2.5){
 				thr =-1;
 			}
@@ -70,74 +70,74 @@ public class RotatingSection extends Plan{
 			while(ang<0){
 				ang += Math.PI;
 			}
-			if(ang>Math.PI/2f){
+			if(ang>Math.PI/2.){
 				casangsupapisur2 = -1;
 			}
-			double len = Math.abs(hr-2.5f)/2.5f;
-			ya = casangsupapisur2/2f;
-			yb = (len/Math.cos(ang)-xscale*Math.tan(ang))/2;
+			double len = Math.abs(hr-2.5)/2.5;
+			ya = casangsupapisur2/2.;
+			yb = (len/Math.cos(ang)-xscale*Math.tan(ang))/2.;
 			if(ang==0){
 				xa = -xscale;
 			}else{
-				xa = (len/Math.sin(ang)-casangsupapisur2/Math.tan(ang))/2;
+				xa = (len/Math.sin(ang)-casangsupapisur2/Math.tan(ang))/2.;
 			}
 
-			double xb = xscale/2f;
+			double xb = xscale/2.;
 
 			double dx = xb-xa;
 			double dy = yb-ya;
 
-			double xo = len*Math.sin(ang)/2f-dx/2f;
-			double yo = (len*Math.cos(ang))/2f-dy/2f;
+			double xo = len*Math.sin(ang)/2.-dx/2.;
+			double yo = (len*Math.cos(ang))/2.-dy/2.;
 
 			double lon = Math.sqrt(dx*dx+dy*dy);
 
 			double y2;
 			double x2;
-			double haut = (hr-2.5f)/2.5f;
+			double haut = (hr-2.5)/2.5;
 			boolean coins = true;
 			int vertical = 0;
 			this.tracer = true;
-			if(xa>xscale/2f-0.001f){
+			if(xa>xscale/2.-0.001){
 				this.tracer = false;
 			}
-			if(xa<-xscale/2){
+			if(xa<-xscale/2.){
 				coins = false;
-				ya = -casangsupapisur2*haut/Math.cos(ang)/2f-xscale*Math.tan(ang)/2f;
-				y2 = -casangsupapisur2*haut/Math.cos(ang)/2f+xscale*Math.tan(ang)/2f;
-				xa = xscale/2f;
+				ya = -casangsupapisur2*haut/Math.cos(ang)/2.-xscale*Math.tan(ang)/2.;
+				y2 = -casangsupapisur2*haut/Math.cos(ang)/2.+xscale*Math.tan(ang)/2.;
+				xa = xscale/2.;
 				dx = xscale;
 				if(ang==0){dy=0;}else{dy = (ya-y2);}
 				lon = Math.sqrt(dx*dx+dy*dy);
-				xo = -casangsupapisur2*haut*Math.sin(ang)/2f+dx/2f;
-				yo = (-casangsupapisur2*haut*Math.cos(ang)/2f+dy/2f);
+				xo = -casangsupapisur2*haut*Math.sin(ang)/2.+dx/2.;
+				yo = (-casangsupapisur2*haut*Math.cos(ang)/2.+dy/2.);
 			}
 			if(yb>0.5f){
 				coins = false;
 				vertical = 1;
 				xa = haut/Math.sin(ang)/2f-1/Math.tan(ang)/2f;
 				x2 = haut/Math.sin(ang)/2f+1/Math.tan(ang)/2f;
-				ya = 1/2f;
-				dy = 1f;
-				if(ang==Math.PI/2f){dx=0;}else{dx = (xa-x2);}
+				ya = 1/2.;
+				dy = 1.;
+				if(ang==Math.PI/2.){dx=0;}else{dx = (xa-x2);}
 				lon = Math.sqrt(dx*dx+dy*dy);
-				yo = haut*Math.cos(ang)/2f+dy/2f;
-				xo = haut*Math.sin(ang)/2f+dx/2f;
+				yo = haut*Math.cos(ang)/2.+dy/2.;
+				xo = haut*Math.sin(ang)/2.+dx/2.;
 			}
-			if(yb<-0.5f){
+			if(yb<-0.5){
 				coins = false;
 				vertical = -1;
-				xa = haut/Math.sin(ang)/2f-1/Math.tan(ang)/2f;
-				x2 = haut/Math.sin(ang)/2f+1/Math.tan(ang)/2f;
-				ya = 1/2f;
-				dy = 1f;
+				xa = haut/Math.sin(ang)/2.-1/Math.tan(ang)/2.;
+				x2 = haut/Math.sin(ang)/2.+1/Math.tan(ang)/2.;
+				ya = 1/2.;
+				dy = 1.;
 				if(ang==Math.PI/2f){dx=0;}else{dx = (xa-x2);}
 				lon = Math.sqrt(dx*dx+dy*dy);
 				yo = haut*Math.cos(ang)/2f+dy/2f;
 				xo = haut*Math.sin(ang)/2f+dx/2f;
 			}
 
-			float test = -1;
+			double test = -1;
 			if(yo>0.5f){
 				test = 1;
 			}else if((yo>-0.5)&&(yo<0)){
@@ -147,35 +147,35 @@ public class RotatingSection extends Plan{
 			double dox = (xo-xa);
 			double doy = (yo-ya);
 			if(coins){
-				temptrans.scale(2*(test)*thr*(float)(Math.sqrt(dox*dox+doy*doy)));
+				temptrans.scale(2.*(test)*thr*Math.sqrt(dox*dox+doy*doy));
 			}else{
 				if(vertical ==0){
-					temptrans.scale(2f*(float)(-casangsupapisur2*thr*Math.sqrt(dox*dox+doy*doy)));
+					temptrans.scale(2.*(-casangsupapisur2*thr*Math.sqrt(dox*dox+doy*doy)));
 				}else{
-					temptrans.scale(2f*(float)(-vertical*thr*Math.sqrt(dox*dox+doy*doy)));
+					temptrans.scale(2.*(double)(-vertical*thr*Math.sqrt(dox*dox+doy*doy)));
 				}
 			}
-			if(lon>1.81f){
+			if(lon>1.81){
 				lon = 0;
 			}
 
-			temp.scale((float)lon);
+			temp.scale((double)lon);
 
 			if(!instance.isPlantype()){
 				uoff.set(temptransold);
 				up.set(temp);
-			}else if((yb>0.5f)||(yb<-0.5f)){
+			}else if((yb>0.5)||(yb<-0.5)){
 				tracer = false;
 			}
 			this.temptransold = new Vecteur(temptrans);
 		}
 
 	static private double radian(double degree){
-		return degree*Math.PI/180;
+		return degree*Math.PI/180.;
 	}
 
 	public void tracePlan(GL2 gl){
-		float a = 1f;
+		double a = 1f;
 
 		if(tracer){
 			/* *****************
@@ -187,28 +187,28 @@ public class RotatingSection extends Plan{
 			}else{
 				gl.glColor4f(0.3f,0.2f,0.4f,0.6f);
 			}
-			gl.glTexCoord2f(0f,0f);
+			gl.glTexCoord2d(0,0);
 			drawTopLeft(gl);
-			gl.glTexCoord2f(a,0f);
+			gl.glTexCoord2d(a,0);
 			drawBottomLeft(gl);
-			gl.glTexCoord2f(a,a);
+			gl.glTexCoord2d(a,a);
 			drawBottomRight(gl);
-			gl.glTexCoord2f(0f,a);
+			gl.glTexCoord2d(0,a);
 			drawTopRight(gl);
 			gl.glEnd();
 			gl.glColor4f(0.1f,0.1f,0.1f,0.999f);
 		}
 	}
-	public void traceBorders(GL2 gl,float red,float green,float blue,float trans,float off){
+	public void traceBorders(GL2 gl,double red,double green,double blue,double trans,double off){
 		if(tracer){
 			/* *******************
 			 * Tracé des arrêtes
 			 * ******************/
-			gl.glColor4f(red,green,blue,trans);
+			gl.glColor4d(red,green,blue,trans);
 			drawBorders(gl,off);
 		}
 	}
-	public void traceBorders(GL2 gl,float red){
+	public void traceBorders(GL2 gl,double red){
 		traceBorders(gl,red,red,red,red,0.005f);
 	}
 }

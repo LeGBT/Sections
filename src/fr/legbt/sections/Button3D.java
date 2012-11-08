@@ -205,6 +205,10 @@ public class Button3D implements MouseListener{
 		if(me.getX()<0.2f*sect.height){
 			button = me.getY()*5/sect.height+1;
 			this.sect.setActiveview(button);
+			if(button>3 && !sect.isPlantype() ){
+				sect.changePlanType();
+				sect.reset();
+			}
 		}
 		float width = (float)(sect.height*sect.format);
 		// .167~ 0.1875/2*16/9

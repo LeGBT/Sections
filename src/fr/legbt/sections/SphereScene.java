@@ -89,16 +89,16 @@ public class SphereScene extends Scene{
 		preRender();
 
 		this.sphere.resetRotation();
-		this.sphere.zRotation((float)thetatot);
-		this.sphere.xRotation((float)phitot);
 		this.plan.resetRotation();
-		this.plan.setH(htot);
-		this.plan.zRotation((float)thetatot);
-		this.plan.xRotation((float)phitot);
 		this.dsection.resetRotation();
+
+		this.plan.setH(htot);
 		this.dsection.setH(htot);
-		this.dsection.zRotation((float)thetatot);
-		this.dsection.xRotation((float)phitot);
+
+		this.sphere.rotation(rquat);
+		this.plan.rotation(rquat);
+		this.dsection.rotation(rquat);
+
 		this.sphere.sort();
 
 		gl.glEnable(GL.GL_DEPTH_TEST);

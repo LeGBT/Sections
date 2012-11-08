@@ -94,16 +94,16 @@ public class PyramideScene extends Scene{
 		preRender();
 
 		this.pyramide.resetRotation();
-		this.pyramide.zRotation((float)thetatot);
-		this.pyramide.xRotation((float)phitot);
 		this.plan.resetRotation();
-		this.plan.setH(htot);
-		this.plan.zRotation((float)thetatot);
-		this.plan.xRotation((float)phitot);
 		this.psection.resetRotation();
+
+		this.plan.setH(htot);
 		this.psection.setH(htot);
-		this.psection.zRotation((float)thetatot);
-		this.psection.xRotation((float)phitot);
+
+		this.pyramide.rotation(rquat);
+		this.plan.rotation(rquat);
+		this.psection.rotation(rquat);
+
 		this.pyramide.sort();
 
 		gl.glEnable(GL.GL_DEPTH_TEST);

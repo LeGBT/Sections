@@ -36,18 +36,19 @@ public class Quad{
 	protected Vecteur np;
 	protected Vecteur np0;
 	protected Vecteur uoff;
-	protected float angle;
+	protected double angle;
 	protected Vecteur topleft;
 	protected Vecteur topright;
 	protected Vecteur bottomleft;
 	protected Vecteur bottomright;
-	private float cote;
+	private double cote;
 	protected double xrot;
 	protected double yrot;
 	protected double zrot;
-	static Vecteur x = new Vecteur(1,0,0);
-	static Vecteur y = new Vecteur(0,1,0);
-	static Vecteur z = new Vecteur(0,0,1);
+	protected static final Vecteur x = new Vecteur(1,0,0);
+	protected static final Vecteur y = new Vecteur(0,1,0);
+	protected static final Vecteur z = new Vecteur(0,0,1);
+	private Quaternion hangle;
 
 	public Quad(Vecteur u, Vecteur v, Vecteur n){
 		this.u = new Vecteur(u);
@@ -63,7 +64,8 @@ public class Quad{
 		this.up = new Vecteur(u);
 		this.vp = new Vecteur(v);
 		this.np = new Vecteur(n);
-		this.uoff = new Vecteur();
+		this.uoff = new Vecteur(0,0,0);
+		this.hangle = new Quaternion();
 		this.xrot = 0;
 		this.yrot = 0;
 		this.zrot = 0;
@@ -71,25 +73,28 @@ public class Quad{
 		this.angle = 0;
 	}
 
-	public Quad(float c,Vecteur u, Vecteur v, Vecteur n){
+	public Quad(double c,Vecteur u, Vecteur v, Vecteur n){
 		this(u,v,n);
 		this.cote = c;
 	}
-	public Quad(float c,float xscale, float yscale, Vecteur n){
+	public Quad(double c,double xscale, double yscale, Vecteur n){
 		this(new Vecteur(xscale,0,0),new Vecteur(0,yscale,0),n);
 		this.cote = c;
 	}
 
 
-	static private double radian(double degree){
-		return degree*0.017453292519943295769236907684f;
-	}
+	public void rotation(Quaternion quat){
+		//ici la multiplication est à droite puisque le vecteur "y" est celui dans la base de l'objet
+	
+		hangle.identity();
+		hangle.mult(new Quaternion(angle,y));
+		Quaternion quatbis = new Quaternion(quat);
+		quatbis.mult(hangle);
 
-	private void rotation(Matrice matrix){
-		matrix.transform(uoff);
-		matrix.transform(ur);
-		matrix.transform(vr);
-		matrix.transform(nr);
+		uoff.rotate(quatbis);	
+		ur.rotate(quatbis);	
+		vr.rotate(quatbis);	
+		nr.rotate(quatbis);	
 	}
 
 
@@ -97,7 +102,7 @@ public class Quad{
 		this.angle = 0;
 	}
 
-	public void reset(float angle){
+	public void reset(double angle){
 		this.angle = angle;
 	}
 
@@ -108,44 +113,26 @@ public class Quad{
 		this.nr = new Vecteur(this.np);
 	}
 
-	public void xRotation(float rad){
-		Matrice matrix = new Matrice();
-		xrot = rad;
-		matrix.rotX((float)xrot);
-		rotation(matrix);
-	}
-	public void yRotation(float rad){
-		Matrice matrix = new Matrice();
-		yrot = rad;
-		matrix.rotY((float)(yrot+radian(angle)));
-		rotation(matrix);
-	}
-	public void zRotation(float rad){
-		Matrice matrix = new Matrice();
-		zrot = rad;
-		matrix.rotZ((float)zrot);
-		rotation(matrix);
-	}
 
 	public void vect3ToVertex(GL2 gl, Vecteur b){
-		float px = b.getX();
-		float py = b.getY();
-		float pz = b.getZ();
-		gl.glVertex3f(px,py,pz);
+		double px = b.X();
+		double py = b.Y();
+		double pz = b.Z();
+		gl.glVertex3d(px,py,pz);
 	}
 
 
-	public float getH(){
+	public double getH(){
 		return this.np.length();
 	}
 
 	public Vecteur getN(){return this.nr;}
 	public Vecteur getUoff(){return this.uoff;}
 	public void setUoff(Vecteur uoff){this.uoff = uoff;}
-	public float getCote(){return this.cote;}
-	public void setCote(float cote){this.cote = cote;}
+	public double getCote(){return this.cote;}
+	public void setCote(double cote){this.cote = cote;}
 
-	protected void defineTopLeft(float off){
+	protected void defineTopLeft(double off){
 		topleft = new Vecteur(this.nr);
 		topleft.sub(this.ur);
 		topleft.add(this.uoff);
@@ -153,7 +140,7 @@ public class Quad{
 		topleft.scale(cote);
 		topleft.scale(1+off);
 	}
-	protected void defineTopRight(float off){
+	protected void defineTopRight(double off){
 		topright = new Vecteur(this.nr);
 		topright.add(this.ur);
 		topright.add(this.uoff);
@@ -161,7 +148,7 @@ public class Quad{
 		topright.scale(cote);
 		topright.scale(1+off);
 	}
-	protected void defineBottomLeft(float off){
+	protected void defineBottomLeft(double off){
 		bottomleft = new Vecteur(this.nr);
 		bottomleft.sub(this.ur);
 		bottomleft.add(this.uoff);
@@ -169,7 +156,7 @@ public class Quad{
 		bottomleft.scale(cote);
 		bottomleft.scale(1+off);
 	}
-	protected void defineBottomRight(float off){
+	protected void defineBottomRight(double off){
 		bottomright = new Vecteur(this.nr);
 		bottomright.add(this.ur);
 		bottomright.add(this.uoff);
@@ -194,8 +181,8 @@ public class Quad{
 		vect3ToVertex(gl,bottomright);
 	}
 
-	public void drawBorders(GL2 gl,float off){
-	 float a = 1f;
+	public void drawBorders(GL2 gl,double off){
+		double a = 1f;
 
 		defineTopLeft(off);
 		defineTopRight(off);
@@ -204,11 +191,11 @@ public class Quad{
 		gl.glBegin(GL2.GL_LINE_STRIP);
 		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,topleft);
-		gl.glTexCoord1f(a);
+		gl.glTexCoord1d(a);
 		vect3ToVertex(gl,bottomleft);
 		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,bottomright);
-		gl.glTexCoord1f(a);
+		gl.glTexCoord1d(a);
 		vect3ToVertex(gl,topright);
 		gl.glTexCoord1f(0f);
 		vect3ToVertex(gl,topleft);
