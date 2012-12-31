@@ -1,66 +1,70 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Sections by LeGBT</title>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<title>Sections</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Sections</h1>
-        <p>Section est un petit outils simple pour la visualisation des sections de solides dans l'espace.</p>
+		<link rel="stylesheet" href="stylesheets/styles.css">
+		<link rel="stylesheet" href="stylesheets/pygment_trac.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="wrapper">
+			<header>
+			<h1>Sections</h1>
+			<p>Sections est un petit outil simple pour la visualisation des sections de solides dans l'espace.</p>
 
-        <p class="view"><a href="https://github.com/LeGBT/Sections">View the Project on GitHub <small>LeGBT/Sections</small></a></p>
+			<p class="view"><a href="https://github.com/LeGBT/Sections">Voir le projet sur GitHub <small>LeGBT/Sections</small></a></p>
 
 
-        <ul>
-          <li><a href="https://github.com/LeGBT/Sections/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/LeGBT/Sections/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/LeGBT/Sections">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>Welcome to GitHub Pages.</h3>
+			<ul>
+				<li><a href="https://github.com/LeGBT/Sections">Voir Sur <strong>GitHub</strong></a></li>
+				<li><a href="https://github.com/LeGBT/Sections/tarball/master">Télécharger <strong>Les Sources</strong></a></li>
+				<li><a href="Sections_4.0.zip">Télécharger <strong>Le Logiciel</strong></a></li>
+			</ul>
+			<p><img src="black.jpg" alt="ScreenShot"></p>
+			</header>
+			<section>
+			<h3>Bienvenue sur la page de <i>Sections</i></h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+			<p><i>Sections</i> permet de rapidement visualiser les différentes sections des solides étudiés au collège. </p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+
+			<p>C'est un logiciel libre et fonctionnant sur n'importe quel système d'exploitation supportant Java.</p>
+			<p>Pour en télécharger un exécutable, il suffit de cliquer sur l'onglet « Télécharger Le Logiciel », de dézipper celui-ci et enfin de lancer Section.jar.</p>
+			<p>Si cela ne fonctionne pas c'est sans doute que vous n'avez pas java d'installé, vous pouvez par exemple le trouver <a href="http://www.java.com/fr/download/index.jsp">ici</a>.</p>
+
+			<h3>Les modes de vues</h3>
+
+			<p>Deux modes de vue sont disponibles : un mode <i>« classique »</i> avec un rendu en transparence et un mode fil de fer.</p>
+			<p><img src="white.jpg" alt="screenshot en mode fil de fer"></p>
+
+			<h3>Comment le faire marcher à partir des sources ?</h3>
+
+			<p>Si vous préférez récupérer les sources pour par exemple modifier quelque chose qui ne vous plait pas, la solution la plus simple est de cloner le projet grâce à la commande
+			<pre><code>$ git clone git://github.com/LeGBT/Sections.git</code></pre>
+			Ensuite, récupérer sur <a href"jogamp.org">Jogamp.org</a> les <code>.jar</code> de jogl et glugen et les ajouter au dossier <code>Sections/lib/</code>. Il faut aussi ajouter à ce dossier lib le jar de <a href="http://sourceforge.net/projects/junit/files/junit/4.10/">junit 4.10</a>.
+			<p>Il faut ensuite compiler le projet et le lancer avec :</p>
+			<pre><code>$ cd Sections
+$ ant compile
+$ ant run
 </code></pre>
+			Il faut donc avoir une version développeur de <a href="http://www.eclipse.org/">java</a> d'installée ainsi que l'outil <a href="http://ant.apache.org/">ant</a>.
+			</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+			<h3>Support et Contact</h3>
 
-<h3>Designer Templates</h3>
+			<p>Si vous avez la moindre question, vous pouvez les poser sur <a href="https://github.com/LeGBT/Sections/issues">le suivi de problèmes de <i> GitHub</i></a> ou bien sur ma boite mail académique (académie de Grenoble).</p>
+			<footer>
+			<p><small>Hebergé par GitHub Pages &mdash; Thème par <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+			</footer>
+			</section>
+		</div>
+		<script src="javascripts/scale.fix.js"></script>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/LeGBT">LeGBT</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
+	</body>
 </html>
